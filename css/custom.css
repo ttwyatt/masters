@@ -309,6 +309,7 @@ padding: 0px;
     fill: none;
     pointer-events: all;
   }
+  
   .focustext{
     fill: white;
     font-size: small;
@@ -317,5 +318,10 @@ padding: 0px;
   .focustextback{
     fill: black;
     fill-opacity: 0.8;
+  }
+
+    .calloutcircle{
+    stroke: black;
+    stroke-width: 2;
   }
 

@@ -3,6 +3,13 @@ $('body').scrollspy({ target: '.navbar' })
 function drawcontent(){
 	//set timing in MS of transitions
 	var timer = 750
+	var bisectDate = d3.bisector(function(d) { return d.Date; }).left;
+
+	//Comma formatter
+	var commaformat = d3.format(",");
+
+	var monthFormat = d3.time.format( "%b. %Y" )
+
 
 	function drawintromap() {
 		// set container dimensions
@@ -35,13 +42,10 @@ function drawcontent(){
 		var path = d3.geo.path()
 			.projection(projection);
 
-		//Comma formatter
-		var commaformat = d3.format(",");
-
 		//load data
 		d3.csv("data/mapdata.csv", function(data) {
 
-			d3.json("boroughsmpl.json", function(geo) {
+			d3.json("data/boroughsmpl.json", function(geo) {
 				
 				for (var i = 0; i < data.length; i++) {
 					
@@ -77,8 +81,6 @@ function drawcontent(){
 					}
 				};
 
-				console.log(geo);
-				console.log(data);
 
 				var boroughs = svg.selectAll("path")
 				   .data(geo.features)
@@ -190,9 +192,6 @@ function drawcontent(){
 		//create date formater
 		var dateFormat = d3.time.format("%x").parse;
 		var scaleFormat = d3.time.format("%Y");
-		var bisectDate = d3.bisector(function(d) { return d.Date; }).left;
-
-		var commaformat = d3.format("0,000");
 
 		//create scales
 		var widthscale = d3.time.scale()
@@ -333,8 +332,6 @@ function drawcontent(){
 					}
 				})
 				.slice(6)
-			console.log (dataset);
-
 
 			//Set scale domains
 			heightscale.domain([
@@ -348,7 +345,7 @@ function drawcontent(){
 			]);
 
 			//add recessions
-			var recession = svg.append("g")
+			svg.append("g")
 				.append("rect")
 				.attr("x", widthscale(recessionbegin))
 				.attr("y", 0)
@@ -356,7 +353,7 @@ function drawcontent(){
 				.attr("height", height)
 				.attr("class", "recession");
 
-			recession.append("text")
+			svg.append("text")
 				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) )
 				.attr("y", 10)
 				.text("Great Recession")
@@ -408,15 +405,14 @@ function drawcontent(){
 				.duration(timer)
 				.attr("d", line);
 
-
 			var focus = svg.append("g")
       			.attr("class", "focus")
       			.style("display", "none");
 
       		var focustextback = focus.append("rect")
       		    .attr('height', 30)
-      		    .attr('width', 50)
-                .attr('x', -25)
+      		    .attr('width', 110)
+                .attr('x', -55)
                 .attr('y', -40)
                 .attr("class", "focustextback");
 
@@ -428,7 +424,7 @@ function drawcontent(){
 
  			var focuscircle = focus.append("circle")
       			.attr("r", 6)
-      			.attr("class", "Citywide");
+      			.attr("class", "Citywide calloutcircle");
 
      		svg.append("rect")
       			.attr("class", "overlay")
@@ -445,9 +441,13 @@ function drawcontent(){
 			        d1 = data[i],
 			        d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
 			    
-			    if(widthscale(d.Date) > width-20) {
-		 				focustextback.attr("transform", "translate(-25,0)");
-		 				focustext.attr("transform", "translate(-25,0)");
+			    if(widthscale(d.Date) > width-55) {
+		 				focustextback.attr("transform", "translate(-55,0)");
+		 				focustext.attr("transform", "translate(-55,0)");
+		 			}
+			    else if(widthscale(d.Date) < 55) {
+		 				focustextback.attr("transform", "translate(55,0)");
+		 				focustext.attr("transform", "translate(55,0)");
 		 			}
 		 		else{
 		 				focustextback.attr("transform", "translate(0,0)");
@@ -457,37 +457,37 @@ function drawcontent(){
 			    if ($('#cityunemploybutton').hasClass("active")) {
 			     	focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Citywide) + ")");
 			    	focus.select("text")
-			    	.text( d3.round(d.Citywide,1) + "%")
+			    	.text(monthFormat(d.Date) + ": " + d3.round(d.Citywide,1) + "%")
    					};
    				
    				if ($('#manunemloybutton').hasClass("active")){
    			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Manhattan) + ")");
 			    	focus.select("text")
-			    	.text( d3.round(d.Manhattan,1) + "%")
+			    	.text(monthFormat(d.Date) + ": " + d3.round(d.Manhattan,1) + "%")
    					};
    				
    				if ($('#bkunemloybutton').hasClass("active")){
    			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Brooklyn) + ")");
 			    	focus.select("text")
-			    	.text( d3.round(d.Brooklyn,1) + "%")
+			    	.text(monthFormat(d.Date) + ": " + d3.round(d.Brooklyn,1) + "%")
    					};
    				
    				if ($('#bxunemloybutton').hasClass("active")){
    			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Bronx) + ")");
 			    	focus.select("text")
-			    	.text( d3.round(d.Bronx,1) + "%")
+			    	.text(monthFormat(d.Date) + ": " + d3.round(d.Bronx,1) + "%")
    					};
    				
    				if ($('#qnunemloybutton').hasClass("active")){
    			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Queens) + ")");
 			    	focus.select("text")
-			    	.text( d3.round(d.Queens,1) + "%")
+			    	.text(monthFormat(d.Date) + ": " + d3.round(d.Queens,1) + "%")
    					};
 
    				if ($('#siunemloybutton').hasClass("active")){
    			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Staten) + ")");
 			    	focus.select("text")
-			    	.text( d3.round(d.Staten,1) + "%")
+			    	.text(monthFormat(d.Date) + ": " + d3.round(d.Staten,1) + "%")
    					};
 			  };
 
@@ -515,7 +515,7 @@ function drawcontent(){
       			.on("mouseout", function() { focus.style("display", "none"); })
       			.on("mousemove", mousemove);
 
-      			focuscircle.attr("class","Citywide");
+      			focuscircle.attr("class","Citywide calloutcircle");
 
 				baselines.transition()
 				.duration(timer)
@@ -540,7 +540,7 @@ function drawcontent(){
 				.attr("d", manline)
 				.attr ("class", "ManhattanLn");
 
-      			focuscircle.attr("class","Manhattan");
+      			focuscircle.attr("class","Manhattan calloutcircle");
 
 				baselines.transition()
 				.duration(timer)
@@ -565,7 +565,7 @@ function drawcontent(){
 				.attr("d", bkline)
 				.attr ("class", "BrooklynLn");
 
-      			focuscircle.attr("class","Brooklyn");
+      			focuscircle.attr("class","Brooklyn calloutcircle");
 
 				baselines.transition()
 				.duration(timer)
@@ -590,7 +590,7 @@ function drawcontent(){
 				.attr("d", bxline)
 				.attr ("class", "BronxLn");
 
-				focuscircle.attr("class","Bronx");
+				focuscircle.attr("class","Bronx calloutcircle");
 
 				baselines.transition()
 				.duration(timer)
@@ -615,7 +615,7 @@ function drawcontent(){
 				.attr("d", qnline)
 				.attr ("class", "QueensLn");
 
-				focuscircle.attr("class","Queens");
+				focuscircle.attr("class","Queens calloutcircle");
 
 				baselines.transition()
 				.duration(timer)
@@ -640,7 +640,7 @@ function drawcontent(){
 				.attr("d", siline)
 				.attr ("class", "StatenLn");
 
-				focuscircle.attr("class","Staten");
+				focuscircle.attr("class","Staten calloutcircle");
 
 				baselines.transition()
 				.duration(timer)
@@ -678,7 +678,7 @@ function drawcontent(){
 
 
 		//set chart dimensions and margins
-		var chartmargins = { top: 2, right: 15, bottom: 20, left: 30 };
+		var chartmargins = { top: 2, right: 15, bottom: 20, left: 23 };
 		var width = containerwidth - chartmargins.left - chartmargins.right;
 		var height = containerheight - chartmargins.top - chartmargins.bottom;
 
@@ -769,8 +769,6 @@ function drawcontent(){
 						})
 					}
 				});
-
-			console.log(dataset);
 			
 			//Set scale domains
 			heightscale.domain([ 
@@ -850,6 +848,72 @@ function drawcontent(){
 				.attr("d", function(d) {
 		  			return line(d.cpiu)
 		  			});
+			//add line paths
+			var beforeline = linegroup.selectAll("path")
+				.data([ data ])
+				.enter()
+				.append("path")
+				.attr ("class", "CitywideLn")
+				.attr("d", linebefore)
+				.attr("fill", "none");
+
+			beforeline.transition()
+				.duration(timer)
+				.attr("d", line);
+
+			//add callouts
+			var focus = svg.append("g")
+      			.attr("class", "focus")
+      			.style("display", "none");
+
+      		var focustextback = focus.append("rect")
+      		    .attr('height', 30)
+      		    .attr('width', 120)
+                .attr('x', -60)
+                .attr('y', -40)
+                .attr("class", "focustextback");
+
+  			var focustext = focus.append("text")
+      			.attr("x", 0)
+     			.attr("dy", "-20")
+     			.attr("text-anchor","middle")
+     			.attr("class", "focustext");
+
+ 			var focuscircle = focus.append("circle")
+      			.attr("r", 6)
+      			.attr("class", "NewYork calloutcircle");
+
+     		svg.append("rect")
+      			.attr("class", "overlay")
+      			.attr("width", width)
+      			.attr("height", height)
+				.on("mouseover", function() { focus.style("display", null); })
+      			.on("mouseout", function() { focus.style("display", "none"); })
+      			.on("mousemove", mousemove);
+
+			function mousemove() {
+			    var x0 = widthscale.invert(d3.mouse(this)[0]),
+			        i = bisectDate(data, x0, 1),
+			        d0 = data[i - 1],
+			        d1 = data[i],
+			        d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
+		 		if(widthscale(d.Date) < 60) {
+		 				focustextback.attr("transform", "translate(60,0)");
+		 				focustext.attr("transform", "translate(60,0)");
+		 			}
+		 		else if(widthscale(d.Date) > width-60) {
+		 				focustextback.attr("transform", "translate(-60,0)");
+		 				focustext.attr("transform", "translate(-60,0)");
+		 			}
+		 		else{
+		 				focustextback.attr("transform", "translate(0,0)");
+		 				focustext.attr("transform", "translate(0,0)");
+		 			};
+				
+				focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.NewYork) + ")");
+			    focus.select("text")
+			    	.text( monthFormat(d.Date) + ": " + d3.round(d.NewYork,1))
+			  };
 
 		})
 	}// END drawjobsline
@@ -1012,6 +1076,113 @@ function drawcontent(){
 				.attr("class", "x axis")
 				.attr("transform", "translate(0, " + height + ")")
 				.call(xAxis);
+			//add callouts
+			var focus = svg.append("g")
+      			.attr("class", "focus")
+      			.style("display", "none");
+
+      		var focusline = focus.append("rect")
+      		    .attr("width", 2)
+      			.attr("height", height)
+
+      		var focustextback = focus.append("rect")
+      		    .attr('height', 90)
+      		    .attr('width', 175)
+                .attr('x', 10)
+                .attr('y', 130)
+                .attr("class", "focustextback");
+
+  			var focustextbox = focus.append("text")
+     			.attr("y", 150)
+     			.attr("text-anchor","start")
+     			.attr("class", "focustext");
+
+     		focustextbox.append("tspan")
+     			.attr("x", 20)
+     			.attr("id", "GradDatetext")
+     			.attr("font-weight", "500");
+
+       		focustextbox.append("tspan")
+     			.attr("x", 20)
+     			.attr("dy", "1.4em")
+     			.attr("id", "Localtext");
+
+     		focustextbox.append("tspan")
+     			.attr("x", 20)
+     			.attr("dy", "1.4em")
+     			.attr("id", "Regtext");
+
+     		focustextbox.append("tspan")
+     			.attr("x", 20)
+     			.attr("dy", "1.4em")
+     			.attr("id", "AdvRegtext");
+
+ 			var  AdvRegfocuscircle = svg.append("circle")
+      			.attr("r", 6)
+      			.attr("class", "AdvReg calloutcircle")
+      			.style("display", "none");
+
+ 			var  Regfocuscircle = svg.append("circle")
+      			.attr("r", 6)
+      			.attr("class", "Reg calloutcircle")
+      			.style("display", "none");
+ 			
+ 			var Localfocuscircle = svg.append("circle")
+      			.attr("r", 6)
+      			.attr("class", "Local calloutcircle")
+      			.style("display", "none");
+
+     		svg.append("rect")
+      			.attr("class", "overlay")
+      			.attr("width", width)
+      			.attr("height", height)
+				.on("mouseover", function() { 
+					focus.style("display", null);
+					AdvRegfocuscircle.style("display", null);
+					Regfocuscircle.style("display", null);
+					Localfocuscircle.style("display", null);
+					})
+      			.on("mouseout", function() { 
+      				focus.style("display", "none");
+      				AdvRegfocuscircle.style("display", "none");
+      				Regfocuscircle.style("display", "none");
+      				Localfocuscircle.style("display", "none");
+      				})
+      			.on("mousemove", mousemove);
+
+			function mousemove() {
+			    var x0 = widthscale.invert(d3.mouse(this)[0]),
+			        i = bisectDate(data, x0, 1),
+			        d0 = data[i - 1],
+			        d1 = data[i],
+			        d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
+			    
+			    if(widthscale(d.Date) > width-175) {
+		 				focustextback.attr("transform", "translate(-185,0)");
+		 				focustextbox.attr("transform", "translate(-185,0)");
+		 			}
+		 		else{
+		 				focustextback.attr("transform", "translate(0,0)");
+		 				focustextbox.attr("transform", "translate(0,0)");
+		 			};
+				
+				focus.attr("transform", "translate(" + widthscale(d.Date) + ",0)");
+				AdvRegfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.AdvReg) + ")");
+				Regfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Reg + +d.AdvReg) + ")");
+				Localfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Local + +d.Reg + +d.AdvReg) + ")");
+			    	
+			    focus.select("#GradDatetext")
+			    	.text( scaleFormat(d.Date)+": " + +d3.round(+d.Local + +d.Reg + +d.AdvReg,1) +"%");
+
+			    focus.select("#Localtext")
+			    	.text( "Local: " + d3.round(d.Local,1) +"%");
+
+			    focus.select("#Regtext")
+			    	.text( "Regents: " + d3.round(d.Reg,1) +"%");
+
+			    focus.select("#AdvRegtext")
+			    	.text( "Advanced Regents: " + d3.round(d.AdvReg,1) +"%");
+			  };
 		})
 	}// END draweduline
 
@@ -2205,7 +2376,7 @@ function drawcontent(){
 			//Set scale domains
 			heightscale.domain([0, d3.max(dataset[dataset.length -1].population,
 				function(d){
-					return(+d.y0 + +d.y) *1.01;
+					return(+d.y0 + +d.y) *1.02;
 				})
 			]);
 
@@ -2240,6 +2411,7 @@ function drawcontent(){
 				.attr("d", function(d) {
 	  			return area(d.population)
 	  			});
+			
 			// call Y-axis
 			svg.append("g")
 				.attr("class", "y axis")
@@ -2250,6 +2422,130 @@ function drawcontent(){
 				.attr("class", "x axis")
 				.attr("transform", "translate(0, " + height + ")")
 				.call(xAxis);
+
+			//add callouts
+			var focus = svg.append("g")
+      			.attr("class", "focus")
+      			.style("display", "none");
+
+      		var focusline = focus.append("rect")
+      		    .attr("width", 2)
+      			.attr("height", height)
+
+      		var focustextback = focus.append("rect")
+      		    .attr('height', 105)
+      		    .attr('width', 165)
+                .attr('x', 10)
+                .attr('y', 120)
+                .attr("class", "focustextback");
+
+  			var focustextbox = focus.append("text")
+     			.attr("y", 140)
+     			.attr("text-anchor","start")
+     			.attr("class", "focustext");
+     		
+     		focustextbox.append("tspan")
+     			.attr("x", 20)
+     			.attr("id", "HomelessDatetext")
+     			.attr("font-weight", "500");
+
+     		focustextbox.append("tspan")
+     			.attr("x", 20)
+     			.attr("dy", "1.4em")
+     			.attr("id", "singlewomentext");
+
+     		focustextbox.append("tspan")
+     			.attr("x", 20)
+     			.attr("dy", "1.4em")
+     			.attr("id", "singlementext");
+
+     		focustextbox.append("tspan")
+     			.attr("x", 20)
+     			.attr("dy", "1.4em")
+     			.attr("id", "adultsinfamiliestext");
+
+     		focustextbox.append("tspan")
+     			.attr("x", 20)
+     			.attr("dy", "1.4em")
+     			.attr("id", "childrentext");
+
+ 			var childrenfocuscircle = svg.append("circle")
+      			.attr("r", 6)
+      			.attr("class", "children calloutcircle")
+      			.style("display", "none");
+
+ 			var adultsInfamiliesfocuscircle = svg.append("circle")
+      			.attr("r", 6)
+      			.attr("class", "adultsInfamilies calloutcircle")
+      			.style("display", "none");
+ 			
+ 			var singleMenfocuscircle = svg.append("circle")
+      			.attr("r", 6)
+      			.attr("class", "singleMen calloutcircle")
+      			.style("display", "none");
+ 			
+ 			var singleWomenfocuscircle = svg.append("circle")
+      			.attr("r", 6)
+      			.attr("class", "singleWomen calloutcircle")
+      			.style("display", "none");
+
+     		svg.append("rect")
+      			.attr("class", "overlay")
+      			.attr("width", width)
+      			.attr("height", height)
+				.on("mouseover", function() { 
+					focus.style("display", null);
+					childrenfocuscircle.style("display", null);
+					adultsInfamiliesfocuscircle.style("display", null);
+					singleMenfocuscircle.style("display", null);
+					singleWomenfocuscircle.style("display", null);
+					})
+      			.on("mouseout", function() { 
+      				focus.style("display", "none");
+      				childrenfocuscircle.style("display", "none");
+      				adultsInfamiliesfocuscircle.style("display", "none");
+      				singleMenfocuscircle.style("display", "none");
+      				singleWomenfocuscircle.style("display", "none");
+      				})
+      			.on("mousemove", mousemove);
+
+			function mousemove() {
+			    var x0 = widthscale.invert(d3.mouse(this)[0]),
+			        i = bisectDate(data, x0, 1),
+			        d0 = data[i - 1],
+			        d1 = data[i],
+			        d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
+			    
+			    if(widthscale(d.Date) > width-175) {
+		 				focustextback.attr("transform", "translate(-185,0)");
+		 				focustextbox.attr("transform", "translate(-185,0)");
+		 			}
+		 		else{
+		 				focustextback.attr("transform", "translate(0,0)");
+		 				focustextbox.attr("transform", "translate(0,0)");
+		 			};
+				
+				focus.attr("transform", "translate(" + widthscale(d.Date) + ",0)");
+				childrenfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.children) + ")");
+				adultsInfamiliesfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.adultsInfamilies + +d.children) + ")");
+				singleMenfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.singleMen + +d.adultsInfamilies + +d.children) + ")");
+				singleWomenfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.singleWomen + +d.singleMen + +d.adultsInfamilies + +d.children) + ")");
+			    	
+			    focus.select("#HomelessDatetext")
+			    	.text( monthFormat(d.Date)+": " +commaformat(+d.singleWomen + +d.singleMen + +d.adultsInfamilies + +d.children));
+
+			    focus.select("#singlewomentext")
+			    	.text( "Single women: " + commaformat(d.singleWomen));
+
+			    focus.select("#singlementext")
+			    	.text( "Single men: " + commaformat(d.singleMen));
+
+			    focus.select("#adultsinfamiliestext")
+			    	.text( "Adults in families: " + commaformat(d.adultsInfamilies));
+
+			    focus.select("#childrentext")
+			    	.text( "Children: " + commaformat(d.children));
+			  };
 
 		}) // End CSV load
 	}  // End drawhomeless line
@@ -2270,7 +2566,6 @@ function drawcontent(){
 		var dateFormat = d3.time.format("%x").parse;
 		var scaleFormat = d3.time.format("%Y");
 
-		var commaformat = d3.format("0,000");
 
 		//create scales
 		var widthscale = d3.time.scale()
@@ -2445,6 +2740,94 @@ function drawcontent(){
 				.duration(timer)
 				.attr("d", line);
 
+			//add callouts
+			var focus = svg.append("g")
+      			.attr("class", "focus")
+      			.style("display", "none");
+
+      		var focustextback = focus.append("rect")
+      		    .attr('height', 30)
+      		    .attr('width', 120)
+                .attr('x', -60)
+                .attr('y', -40)
+                .attr("class", "focustextback");
+
+  			var focustext = focus.append("text")
+      			.attr("x", 0)
+     			.attr("dy", "-20")
+     			.attr("text-anchor","middle")
+     			.attr("class", "focustext");
+
+ 			var focuscircle = focus.append("circle")
+      			.attr("r", 6)
+      			.attr("class", "Citywide calloutcircle");
+
+     		svg.append("rect")
+      			.attr("class", "overlay")
+      			.attr("width", width)
+      			.attr("height", height)
+				.on("mouseover", function() { focus.style("display", null); })
+      			.on("mouseout", function() { focus.style("display", "none"); })
+      			.on("mousemove", mousemove);
+
+			function mousemove() {
+			    var x0 = widthscale.invert(d3.mouse(this)[0]),
+			        i = bisectDate(data, x0, 1),
+			        d0 = data[i - 1],
+			        d1 = data[i],
+			        d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
+			    
+			    if(widthscale(d.Date) > width-60) {
+		 				focustextback.attr("transform", "translate(-60,0)");
+		 				focustext.attr("transform", "translate(-60,0)");
+		 			}
+			    else if(widthscale(d.Date) < 60) {
+		 				focustextback.attr("transform", "translate(60,0)");
+		 				focustext.attr("transform", "translate(60,0)");
+		 			}
+
+		 		else{
+		 				focustextback.attr("transform", "translate(0,0)");
+		 				focustext.attr("transform", "translate(0,0)");
+		 			};
+
+			    if ($('#citysalesbutton').hasClass("active")) {
+			     	focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Citywide) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Citywide))
+   					};
+   				
+   				if ($('#mansalesbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Manhattan) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Manhattan))
+   					};
+   				
+   				if ($('#bksalesbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Brooklyn) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Brooklyn))
+   					};
+   				
+   				if ($('#bxsalesbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Bronx) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Bronx))
+   					};
+   				
+   				if ($('#qnsalesbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Queens) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Queens))
+   					};
+
+   				if ($('#sisalesbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Staten) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Staten))
+   					};
+			  };
+
 			//button actions
 			
 			$('#citysalesbutton').click(function(){
@@ -2457,6 +2840,8 @@ function drawcontent(){
 				.duration(timer)
 				.attr("d", line)
 				.attr ("class", "CitywideLn");
+
+				focuscircle.attr("class","Citywide calloutcircle");
 
 				svg.select(".y-axis")
 				.transition()
@@ -2475,6 +2860,8 @@ function drawcontent(){
 				.attr("d", manline)
 				.attr ("class", "ManhattanLn");
 
+				focuscircle.attr("class","Manhattan calloutcircle");
+
 				svg.select(".y-axis")
 				.transition()
     			.duration(timer)
@@ -2491,6 +2878,8 @@ function drawcontent(){
 				.duration(timer)
 				.attr("d", bkline)
 				.attr ("class", "BrooklynLn");
+
+				focuscircle.attr("class","Brooklyn calloutcircle");
 
 				svg.select(".y-axis")
 				.transition()
@@ -2509,6 +2898,8 @@ function drawcontent(){
 				.attr("d", bxline)
 				.attr ("class", "BronxLn");
 
+				focuscircle.attr("class","Bronx calloutcircle");
+
 				svg.select(".y-axis")
 				.transition()
     			.duration(timer)
@@ -2525,6 +2916,8 @@ function drawcontent(){
 				.duration(timer)
 				.attr("d", qnline)
 				.attr ("class", "QueensLn");
+
+				focuscircle.attr("class","Queens calloutcircle");
 
 				svg.select(".y-axis")
 				.transition()
@@ -2543,6 +2936,8 @@ function drawcontent(){
 				.attr("d", siline)
 				.attr ("class", "StatenLn");
 
+				focuscircle.attr("class","Staten calloutcircle");
+
 				svg.select(".y-axis")
 				.transition()
     			.duration(timer)
@@ -2559,7 +2954,7 @@ function drawcontent(){
 
 
 		//set chart dimensions and margins
-		var chartmargins = { top: 0, right: 3, bottom: 20, left: 37 };
+		var chartmargins = { top: 0, right: 8, bottom: 20, left: 37 };
 		var width = containerwidth - chartmargins.left - chartmargins.right;
 		var height = containerheight - chartmargins.top - chartmargins.bottom;
 
@@ -2567,7 +2962,6 @@ function drawcontent(){
 		var dateFormat = d3.time.format("%x").parse;
 		var scaleFormat = d3.time.format("%Y");
 
-		var commaformat = d3.format("0,000");
 
 		//create scales
 		var widthscale = d3.time.scale()
@@ -2719,18 +3113,107 @@ function drawcontent(){
 				.duration(timer)
 				.attr("d", line);
 
+			//add callouts
+			var focus = svg.append("g")
+      			.attr("class", "focus")
+      			.style("display", "none");
+
+      		var focustextback = focus.append("rect")
+      		    .attr('height', 30)
+      		    .attr('width', 120)
+                .attr('x', -60)
+                .attr('y', -40)
+                .attr("class", "focustextback");
+
+  			var focustext = focus.append("text")
+      			.attr("x", 0)
+     			.attr("dy", "-20")
+     			.attr("text-anchor","middle")
+     			.attr("class", "focustext");
+
+ 			var focuscircle = focus.append("circle")
+      			.attr("r", 6)
+      			.attr("class", "Citywide calloutcircle");
+
+     		svg.append("rect")
+      			.attr("class", "overlay")
+      			.attr("width", width)
+      			.attr("height", height)
+				.on("mouseover", function() { focus.style("display", null); })
+      			.on("mouseout", function() { focus.style("display", "none"); })
+      			.on("mousemove", mousemove);
+
+			function mousemove() {
+			    var x0 = widthscale.invert(d3.mouse(this)[0]),
+			        i = bisectDate(data, x0, 1),
+			        d0 = data[i - 1],
+			        d1 = data[i],
+			        d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
+			    
+			    if(widthscale(d.Date) > width-60) {
+		 				focustextback.attr("transform", "translate(-60,0)");
+		 				focustext.attr("transform", "translate(-60,0)");
+		 			}
+			    else if(widthscale(d.Date) < 60) {
+		 				focustextback.attr("transform", "translate(60,0)");
+		 				focustext.attr("transform", "translate(60,0)");
+		 			}
+		 		else{
+		 				focustextback.attr("transform", "translate(0,0)");
+		 				focustext.attr("transform", "translate(0,0)");
+		 			};
+
+			    if ($('#cityrentbutton').hasClass("active")) {
+			     	focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Citywide) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Citywide))
+   					};
+   				
+   				if ($('#manrentbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Manhattan) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Manhattan))
+   					};
+   				
+   				if ($('#bkrentbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Brooklyn) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Brooklyn))
+   					};
+   				
+   				if ($('#bxrentbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Bronx) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Bronx))
+   					};
+   				
+   				if ($('#qnrentbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Queens) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Queens))
+   					};
+
+   				if ($('#sirentbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Staten) + ")");
+			    	focus.select("text")
+			    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Staten))
+   					};
+			  };
+
 			//button actions
 			
 			$('#cityrentbutton').click(function(){
 				heightscale.domain([
 					d3.min(data,function(d){return +d.Citywide - 75}), 
-					d3.max(data,function(d){return +d.Citywide + 75})
+					d3.max(data,function(d){return +d.Citywide + 100})
 				]);
 
 				beforeline.transition()
 				.duration(timer)
 				.attr("d", line)
 				.attr ("class", "CitywideLn");
+
+				focuscircle.attr("class","Citywide calloutcircle");
 
 				svg.select(".y-axis")
 				.transition()
@@ -2740,14 +3223,16 @@ function drawcontent(){
 
 			$('#manrentbutton').click(function(){
 				heightscale.domain([
-					d3.min(data,function(d){return +d.Manhattan - 75}), 
-					d3.max(data,function(d){return +d.Manhattan + 75})
+					d3.min(data,function(d){return +d.Manhattan - 150}), 
+					d3.max(data,function(d){return +d.Manhattan + 150})
 				]);
 
 				beforeline.transition()
 				.duration(timer)
 				.attr("d", manline)
 				.attr ("class", "ManhattanLn");
+
+				focuscircle.attr("class","Manhattan calloutcircle");
 
 				svg.select(".y-axis")
 				.transition()
@@ -2758,13 +3243,15 @@ function drawcontent(){
 			$('#bkrentbutton').click(function(){
 				heightscale.domain([
 					d3.min(data,function(d){return +d.Brooklyn - 75}), 
-					d3.max(data,function(d){return +d.Brooklyn + 75})
+					d3.max(data,function(d){return +d.Brooklyn + 100})
 				]);
 
 				beforeline.transition()
 				.duration(timer)
 				.attr("d", bkline)
 				.attr ("class", "BrooklynLn");
+
+				focuscircle.attr("class","Brooklyn calloutcircle");
 
 				svg.select(".y-axis")
 				.transition()
@@ -2783,6 +3270,8 @@ function drawcontent(){
 				.attr("d", bxline)
 				.attr ("class", "BronxLn");
 
+				focuscircle.attr("class","Bronx calloutcircle");
+
 				svg.select(".y-axis")
 				.transition()
     			.duration(timer)
@@ -2800,6 +3289,8 @@ function drawcontent(){
 				.attr("d", qnline)
 				.attr ("class", "QueensLn");
 
+				focuscircle.attr("class","Queens calloutcircle");
+
 				svg.select(".y-axis")
 				.transition()
     			.duration(timer)
@@ -2816,6 +3307,8 @@ function drawcontent(){
 				.duration(timer)
 				.attr("d", siline)
 				.attr ("class", "StatenLn");
+
+				focuscircle.attr("class","Staten calloutcircle");
 
 				svg.select(".y-axis")
 				.transition()
@@ -3063,8 +3556,106 @@ function drawcontent(){
 				.attr("transform", "translate(0, " + height + ")")
 				.call(xAxis);
 
-			
+			//add callouts
+			var focus = svg.append("g")
+      			.attr("class", "focus")
+      			.style("display", "none");
 
+      		var focustextback = focus.append("rect")
+      		    .attr('height', 30)
+      		    .attr('width', 100)
+                .attr('x', -50)
+                .attr('y', -40)
+                .attr("class", "focustextback");
+
+  			var focustext = focus.append("text")
+      			.attr("x", 0)
+     			.attr("dy", "-20")
+     			.attr("text-anchor","middle")
+     			.attr("class", "focustext");
+
+ 			var focuscircle = focus.append("circle")
+      			.attr("r", 6)
+      			.attr("class", "Murder calloutcircle");
+
+     		svg.append("rect")
+      			.attr("class", "overlay")
+      			.attr("width", width)
+      			.attr("height", height)
+				.on("mouseover", function() { focus.style("display", null); })
+      			.on("mouseout", function() { focus.style("display", "none"); })
+      			.on("mousemove", mousemove);
+
+			function mousemove() {
+			    var x0 = widthscale.invert(d3.mouse(this)[0]),
+			        i = bisectDate(data, x0, 1),
+			        d0 = data[i - 1],
+			        d1 = data[i],
+			        d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
+			    
+			    if(widthscale(d.Date) > width-50) {
+		 				focustextback.attr("transform", "translate(-50,0)");
+		 				focustext.attr("transform", "translate(-50,0)");
+		 			}
+			    else if(widthscale(d.Date) < 50) {
+		 				focustextback.attr("transform", "translate(50,0)");
+		 				focustext.attr("transform", "translate(50,0)");
+		 			}
+		 		else{
+		 				focustextback.attr("transform", "translate(0,0)");
+		 				focustext.attr("transform", "translate(0,0)");
+		 			};
+
+			    if ($('#allcrimebutton').hasClass("active")) {
+			     	focus.attr("transform", "translate(" + widthscale(d.Date) + "," + +heightscale(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery + +d.Burglary + +d.GrandLarcenyAuto + +d.Rape + +d.Murder) + ")");
+			    	focus.select("text")
+			    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery + +d.Burglary + +d.GrandLarcenyAuto + +d.Rape + +d.Murder,1)))
+   					};
+   				
+   				if ($('#grandlarcenybutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.GrandLarceny) + ")");
+			    	focus.select("text")
+			    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.GrandLarceny,1)))
+   					};
+   				
+   				if ($('#felonyassaultbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.FelonyAssault) + ")");
+			    	focus.select("text")
+			    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.FelonyAssault,1)))
+   					};
+   				
+   				if ($('#robberybutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Robbery) + ")");
+			    	focus.select("text")
+			    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Robbery,1)))
+   					};
+   				
+   				if ($('#burglarybutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Burglary) + ")");
+			    	focus.select("text")
+			    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Burglary,1)))
+   					};
+
+   				if ($('#grandlarcenyautobutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.GrandLarcenyAuto) + ")");
+			    	focus.select("text")
+			    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.GrandLarcenyAuto,1)))
+   					};
+
+   				if ($('#rapebutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Rape) + ")");
+			    	focus.select("text")
+			    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Rape,1)))
+   					};
+
+   				if ($('#murderbutton').hasClass("active")){
+   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Murder) + ")");
+			    	focus.select("text")
+			    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Murder,1)))
+   					};
+			  };
+			
+			//buttton actions
 			$('#allcrimebutton').click(function(){
 				areagroup.selectAll("path")
 				.remove();
@@ -3092,6 +3683,8 @@ function drawcontent(){
 		  			return areabefore(d.amount)
 		  			})
 					.attr("stroke", "none");
+
+      			focuscircle.attr("class","Murder calloutcircle");
 
 				beforearea.transition()
 				.duration(timer)
@@ -3129,6 +3722,8 @@ function drawcontent(){
 				beforearea.transition()
 				.duration(timer)
 				.attr("d", GrandLarcenyArea);
+      			
+      			focuscircle.attr("class","GrandLarceny calloutcircle");
 
 				svg.select(".y-axis")
 				.transition()
@@ -3156,6 +3751,8 @@ function drawcontent(){
 					.attr("d", beforearea2)
 					.attr("class", "FelonyAssault")
 					.attr("stroke", "none");
+
+      			focuscircle.attr("class","FelonyAssault calloutcircle");
 
 				beforearea.transition()
 				.duration(timer)
@@ -3192,6 +3789,8 @@ function drawcontent(){
 				.duration(timer)
 				.attr("d", RobberyArea);
 
+      			focuscircle.attr("class","Robbery calloutcircle");
+
 				svg.select(".y-axis")
 				.transition()
     			.duration(timer)
@@ -3222,6 +3821,8 @@ function drawcontent(){
 				beforearea.transition()
 				.duration(timer)
 				.attr("d", BurglaryArea);
+
+				focuscircle.attr("class","Burglary calloutcircle");
 
 				svg.select(".y-axis")
 				.transition()
@@ -3254,6 +3855,8 @@ function drawcontent(){
 				.duration(timer)
 				.attr("d", GrandLarcenyAutoArea);
 
+      			focuscircle.attr("class","GrandLarcenyAuto calloutcircle");
+
 				svg.select(".y-axis")
 				.transition()
     			.duration(timer)
@@ -3284,6 +3887,8 @@ function drawcontent(){
 				beforearea.transition()
 				.duration(timer)
 				.attr("d", RapeArea);
+
+      			focuscircle.attr("class","Rape calloutcircle");
 
 				svg.select(".y-axis")
 				.transition()
@@ -3316,6 +3921,8 @@ function drawcontent(){
 				.duration(timer)
 				.attr("d", MurderArea);
 
+      			focuscircle.attr("class","Murder calloutcircle");
+
 				svg.select(".y-axis")
 				.transition()
     			.duration(timer)
@@ -3325,6 +3932,7 @@ function drawcontent(){
 
 		}) // End CSV load
 	}  // End drawhomeless line
+
 	drawintromap()
 	drawunemployline();
 	drawjobsline();
