@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Sizing Up NYC</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+    body {
+      margin-top: 50px;
+
+    }
+    .d3-tip {
+        line-height: 1;
+        font-size: small;
+        font-weight: 400;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        border-radius: 2px;
+        max-width: 150px;
+        overflow: auto;
+      }
+
+  .d3-tip ul  {
+    list-style-type: none;
+    font-size: small;
+    font-weight: 400;
+    margin: 0px;
+    padding: 0px;
+    }
+
+    .d3-tip li  {
+      margin-bottom: 3px;
+    }
+
+    .d3-tip h5  {
+      margin: 0px 0px 6px 0px;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: lightgray;
+        shape-rendering: crispEdges;
+      }
+      
+      .axis text {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 11px;
+        fill: gray;
+      }
+
+      .axislabel, {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        fill: gray;
+        paint-order: stroke;
+        stroke: white;
+        stroke-width: 10px;
+        stroke-linecap: butt;
+        stroke-linejoin: miter;
+      }
+
+      @media screen and (min-width: 600px) {
+        .axislabel {
+          font-size: 18px;
+        }
+      }
+      
+      .barlabel {
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      fill: gray;
+      }
+
+
+      .Brooklyn, .children, .AdvReg, .GrandLarceny, .NewYork {
+        fill: #0866A8;
+        background-color: #0866A8;
+      }
+
+      .Queens, .adultsInfamilies, .Reg, .FelonyAssault {
+        fill: #43a2ca;
+        background-color: #43a2ca;
+      }
+
+      .Bronx, .singleMen, .Local, .Robbery{
+        fill: #7bccc4;
+        background-color: #7bccc4;
+      }
+
+      .Manhattan, .singleWomen, .Burglary {
+        fill: #bae4bc;
+        background-color: #bae4bc;
+      }
+
+      .Staten, .GrandLarcenyAuto {
+        fill: #f0f9e8;
+        background-color: #f0f9e8;
+      }
+
+      .Citywide, .Rape, .Northeast {
+        fill: gray;
+        background-color: gray;
+      }
+
+	    .Murder, .USCity, .National{
+        fill: black;
+        background-color: black;
+      }
+
+      .NYState{
+        fill: gray;
+        background-color: gray;
+      }
+
+     .USCityLn, .NationalLn {
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke: black;
+      }
+
+     .NYStateLn {
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke: gray;
+      }
+
+      .CitywideLn, .NortheastLn {
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke: gray;
+      }
+
+      .ManhattanLn {
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke: #bae4bc;
+      }
+
+      .BrooklynLn, .NewYorkLn {
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke: #0866A8;
+      }
+
+      .QueensLn {
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke: #43a2ca;
+      }
+
+      .BronxLn {
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke: #7bccc4;
+      }
+
+      .StatenLn {
+        stroke-width: 4px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke: #f0f9e8;
+      }
+     
+     .Baseline {
+        stroke-width: 2px;
+        stroke-dasharray: 4,6;
+      }
+
+      .Circle:hover {
+        fill-opacity: .75;
+      }
+
+      .label {
+        float: left;
+        margin-right: 3px;
+        margin-top: 3px;
+      }
+
+      .chartsubhead{
+        margin-bottom: 20px;
+      }
+      
+      .chartlabelfix {
+        margin-top: -3px;
+      }
+
+      .boroughlabel {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 5px;
+        font-weight: 400;
+      } 
+
+      .spacerline {
+        background-color: lightgray;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        height: 1px
+      }
+
+      .starterspacerline {
+        background-color: white;
+        margin-top: 40px;
+        margin-bottom: 0px;
+        height: 0px
+      }
+
+      .sectionline {
+        height: 1px;
+      }
+
+      .sectionheader {
+        text-align: left;
+        letter-spacing: 5px;
+        font-weight: 200;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      p.sectionintro:first-letter { 
+        float: left;
+        font-weight: 200;
+        font-size: 65px; 
+        line-height: 50px; 
+        padding-top: 4px; 
+        padding-right: 6px; 
+        padding-left: 3px; 
+      }
+
+      p.sectionintro {
+        text-align: left;
+      }
+
+      .legendbox {
+        height: 12px;
+        width: 12px;
+        margin-right: 4px;
+      }
+
+      .legend {
+        float: left;
+        vertical-align: center;
+      }
+
+      .legend tr {
+        float: left;
+        margin-right: 10px;
+        font-size:  12px;
+      }
+
+
+      #ELAbarbuttongrp {
+        margin-top: 10px;
+      }
+
+      .recession {
+        fill: #f8f8fa;
+      }
+
+      .sourceline {
+      	font-size: 11px;
+      	margin-top: 5px;
+      	text-align: right;
+      	color: gray;
+      }
+
+      footer p {
+      	font-size: 12px;
+      	text-align: center;
+      	color: gray;
+      }
+
+      .hidden {
+      	visibility: hidden
+      }
+
+      #felonylegend {
+      	margin-top: 10px;
+      }
+
+      #unemploybaselegend {
+        margin-top: -5px;
+      }
+
+      .introstats li {
+      	font-size: small;
+      	padding-top: 5px;
+      	padding-bottom: 5px;
+      }
+
+      .introstats li span {
+      	font-weight: 500;
+      }
+
+      .borolabel {
+      	font-size: medium;
+      	font-weight: 400;
+      }
+      
+      .borohighlight {
+        fill: black;
+      }
+
+      .overlay {
+        fill: none;
+        pointer-events: all;
+      }
+      .focustext{
+        fill: white;
+        font-size: small;
+      }
+
+      .focustextback{
+        fill: black;
+        fill-opacity: 0.8;
+      }
+
+    </style>
+  </head>
+
+  <body data-spy="scroll" data-target=".navbar" data-offset="10">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Sizing Up NYC</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="#jobs">Jobs</a></li>
+          <li><a href="#housing">Housing</a></li>
+          <li><a href="#edu">Education</a></li>
+          <li><a href="#crime">Crime</a></li>
+        </ul>
+      </div>
+    </div>
+    </nav>
+  <!-- Start of Header -->
+  	<header class="jumbotron">
+  	 <div class="container">
+          <h1>Sizing Up the Big City</h1>
+          <p>A look at four major indictors of the quality of life in New York City</p>
+      </div>
+  	</header>
+  <!-- Start of map intro -->
+  	<section class="container" id="intro">
+      	<div class="row">
+  	         <div id ="intromap" class="col-md-8 col-sm-8 col-xs-12"></div>
+  	         <div id ="intromapinfo" class="col-md-4 col-sm-4 col-xs-12">
+  	         	<h4 id= "introlabel">New York City</h4>
+  	         	<ul class="list-group">
+      				  <li class="list-group-item">
+      				  	<h5>Population</h5>
+      					 <ul class="list-group introstats">
+      					  <li class="list-group-item">2015 estimate: <span id="fifteenpop">8,550,405</span></li>
+      					  <li class="list-group-item">2040 est.: <span id="fortypop"> 9,025,145</span></li>
+      					</ul>
+      				  </li>
+      				  <li class="list-group-item introstats">
+      				  	<h5>Race (2014 est.)</h5>
+      					 <ul class="list-group">
+      					  <li class="list-group-item">White: <span id="racewhite">32.3%</span></li>
+      					  <li class="list-group-item">Black: <span id="raceblack">22.3%</span></li>
+      					  <li class="list-group-item">Hispanic: <span id="racehispanic">29.0%</span></li>
+      					  <li class="list-group-item">Asian: <span id="raceasian">13.7%</span></li>
+      					</ul>
+      				  </li>
+      				  <li class="list-group-item introstats hidden-sm hidden-xs">
+      				  	<h5>Education (2014 est.)</h5>
+      					 <ul class="list-group">
+      					  <li class="list-group-item">High school or higher: <span id="eduhigh">80.1%</span></li>
+      					  <li class="list-group-item">Bachelors or higher: <span id="edubach">35.0%</span></li>
+      					</ul>
+      				  </li>
+      				  <li class="list-group-item introstats hidden-sm hidden-xs">
+      				  	<h5>Income/poverty</h5>
+      					 <ul class="list-group">
+      					  <li class="list-group-item">Median household income (2014 est.): <span id="incomemedian">$52,737</span></li>
+      					  <li class="list-group-item">Average Weekly wage (3Q 2015): <span id="incomeweekly">$1,262</span></li>
+      					  <li class="list-group-item">Persons in poverty (2014 est.): <span id="incomepoverty">20.6%</span></li>
+      					</ul>
+      				  </li>
+      				</ul>
+  	         </div>
+  	    </div>
+  	    <div class="row">
+  	        <div class="col-md-12">
+  	          <p class = "sourceline"> Sources: New York City Department of City Planning; U.S Census Bureau; U.S. Bureau of Labor Statistics</p>
+  	        </div>
+        	</div>
+  	</section>
+  <!-- Start of map intro -->
+  <!-- Start of Jobs section -->
+    <section class="container" id="jobs">
+	      
+	      <div class="row">
+	        <div class="spacerline sectionline col-md-12"></div>
+	      </div>
+          
+          <div class="row">
+              <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <h2 class="sectionheader"><span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span> JOBS</h2>
+                <p class= "sectionintro"> Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. </p>
+              </div>
+          </div>
+          
+          <!-- Starter Chart breakline -->
+          <div class="row">
+            <div class="starterspacerline col-md-6 col-md-offset-3"></div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Unemployment rate</h4>
+                </div>
+              </div>
+              <div class="row chartsubhead">
+                <div class="col-md-12">
+                  <div class="btn-group-sm" data-toggle="buttons">
+                    <label id="cityunemploybutton" class="btn btn-default active">
+                      <input type="radio" name="options" autocomplete="off" checked> New York City
+                    </label>
+                    <label id="manunemloybutton" class="btn btn-default">
+                      <input type="radio" name="options" autocomplete="off"> Manhattan
+                    </label>
+                    <label id="bkunemloybutton" class="btn btn-default">
+                      <input type="radio" name="options" autocomplete="off"> Brooklyn
+                    </label>
+                    <label id="bxunemloybutton" class="btn btn-default">
+                      <input type="radio" name="options" autocomplete="off"> Bronx
+                    </label>
+                    <label id="qnunemloybutton" class="btn btn-default">
+                      <input type="radio" name="options" autocomplete="off"> Queens
+                    </label>
+                    <label id="siunemloybutton" class="btn btn-default">
+                      <input type="radio" name="options" autocomplete="off"> Staten Island
+                    </label>
+                  </div>
+                  
+                  <div id="unemploybaselinescheck" class="checkbox hidden-xs">
+                    <label>
+                      <input id="unemploybaselines" type="checkbox" > <b>National and state baselines</b>
+                    </label>
+                  </div>
+                  
+                  <div id= "unemploybaselegend" class="legend" style="display: none">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td><div class="legendbox NYState"></div></td>
+                          <td>New York State</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox National"></div></td>
+                          <td>United States</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div id ="unemploychart" class="col-md-12"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <p class = "sourceline"> Source: U.S. Bureau of Labor Statistics</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          
+          <!-- Chart breakline -->
+          <div class="row">
+            <div class="spacerline col-md-6 col-md-offset-3"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Consumer Price Index For All Urban Consumers</h4>
+                </div>
+              </div>
+              <div class="row chartsubhead">
+                <div class="col-md-12">
+                  <h5>Area</h5>
+                  <div class="legend">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td><div class="legendbox NewYork"></div></td>
+                          <td>New York Metro Area</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox Northeast"></div></td>
+                          <td>Northeast Urban</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox USCity"></div></td>
+                          <td>U.S. City Average</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div id ="jobschart" class="col-md-12"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                	<p class = "sourceline"> Source: Bureau of Labor Statistics</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+    </section>
+<!-- End of Crime section -->
+<!-- Start of housing section -->
+    <section class="container" id="housing">
+              <!-- Section breakline -->
+          <div class="row">
+            <div class="spacerline sectionline col-md-12"></div>
+          </div>
+          <div class="row">
+              <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <h2 class="sectionheader"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> HOUSING</h2>
+                <p class= "sectionintro"> Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. </p>
+              </div>
+          </div>
+          
+          <!-- Starter Chart breakline -->
+          <div class="row">
+            <div class="starterspacerline col-md-6 col-md-offset-3"></div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Total population in the NYC shelter system, monthly</h4>
+                </div>
+              </div>
+              <div class="row chartsubhead">
+                <div class="col-md-12">
+                  <h5>DEMOGRAPHIC</h5>
+                  <div class="legend">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td><div class="legendbox children"></div></td>
+                          <td>Children</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox adultsInfamilies"></div></td>
+                          <td>Adults in families</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox singleMen"></div></td>
+                          <td>Single men</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox singleWomen"></div></td>
+                          <td>Single women</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div id ="homelesschart" class="col-md-12"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                	<p class = "sourceline"> Source: Coalition For Homeless </p>
+                </div>
+              </div>
+            </div> 
+          </div>
+          
+          <!-- Chart breakline -->
+          <div class="row">
+            <div class="spacerline col-md-6 col-md-offset-3"></div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Median sale price per square foot for all types of homes in New York City</h4>
+                </div>
+              </div>
+              <div class="row chartsubhead">
+                <div class="col-md-12">
+	                <h5>BOROUGH</h5>
+	                <div class="btn-group-sm" data-toggle="buttons">
+		                <label id="citysalesbutton" class="btn btn-default active">
+		                  <input type="radio" name="options" autocomplete="off" checked> New York City
+		                </label>
+		                <label id="mansalesbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Manhattan
+		                </label>
+		                <label id="bksalesbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Brooklyn
+		                </label>
+		                <label id="bxsalesbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Bronx
+		                </label>
+		                <label id="qnsalesbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Queens
+		                </label>
+		                <label id="sisalesbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Staten Island
+		                </label>
+	              	</div>
+                </div>
+              </div>
+              <div class="row">
+                <div id ="mediansales" class="col-md-12"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                	<p class = "sourceline"> Source: Zillow </p>
+                </div>
+              </div>
+            </div> 
+          </div>
+
+          <!-- Chart breakline -->
+          <div class="row">
+            <div class="spacerline col-md-6 col-md-offset-3"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Median rent estimate for all types of homes in New York City</h4>
+                </div>
+              </div>
+              <div class="row chartsubhead">
+                <div class="col-md-12">
+                <h5>BOROUGH</h5>
+	                <div class="btn-group-sm" data-toggle="buttons">
+		                <label id="cityrentbutton" class="btn btn-default active">
+		                  <input type="radio" name="options" autocomplete="off" checked> New York City
+		                </label>
+		                <label id="manrentbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Manhattan
+		                </label>
+		                <label id="bkrentbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Brooklyn
+		                </label>
+		                <label id="bxrentbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Bronx
+		                </label>
+		                <label id="qnrentbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Queens
+		                </label>
+		                <label id="sirentbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Staten Island
+		                </label>
+	              	</div>
+                </div>
+              </div>
+              <div class="row">
+                <div id ="medianrent" class="col-md-12"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                	<p class = "sourceline"> Source: Zillow </p>
+                </div>
+              </div>
+            </div> 
+          </div>
+    </section>
+
+
+<!-- Start of education section -->
+    <section class="container" id="edu">
+          <!-- Section breakline -->
+      <div class="row">
+        <div class="spacerline sectionline col-md-12"></div>
+      </div>
+      <div class="row">
+          <div class="col-md-8 col-md-offset-2 col-sm-12">
+            <h2 class="sectionheader"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> EDUCATION</h2>
+            <p class= "sectionintro"> Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. Text goes here. </p>
+          </div>
+      </div>
+      
+      <!-- Starter Chart breakline -->
+      <div class="row">
+        <div class="starterspacerline col-md-6 col-md-offset-3"></div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Four year highschool graduation rate in New York City</h4>
+            </div>
+          </div>
+          <div class="row chartsubhead">
+            <div class="col-md-12 ">
+              <h5>DIPLOMA</h5>
+              <div class="legend">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td><div class="legendbox AdvReg"></div></td>
+                      <td>Advanced Regents</td>
+                    </tr>
+                    <tr>
+                      <td><div class="legendbox Reg"></div></td>
+                      <td>Regents</td>
+                    </tr>
+                    <tr>
+                      <td><div class="legendbox Local"></div></td>
+                      <td>Local</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div id ="gradratechart" class="col-md-12"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+            	<p class = "sourceline"> Source: New York City Department of Education </p>
+            </div>
+          </div>
+        </div>
+      </div> 
+      
+      <!-- Chart breakline -->
+      <div class="row">
+        <div class="spacerline col-md-6 col-md-offset-3"></div>
+      </div>
+
+      <!-- Start of barchart section -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Percentage of students receiving a satisfactory score (3 or 4) on the New York State Common Core Tests, by borough </h4>
+            </div>
+          </div>
+          <div class="row">
+          	<div class="col-md-12">
+	          	<h5>SUBJECT</h5>
+	            <div id="ELAbarbuttongrp">
+	              <div class="btn-group-sm" data-toggle="buttons">
+	                <label id="ELAbarbutton" class="btn btn-default active">
+	                  <input type="radio" name="options" autocomplete="off" checked> English Language Arts
+	                </label>
+	                <label id="Mathbarbutton" class="btn btn-default">
+	                  <input type="radio" name="options" autocomplete="off"> Math
+	                </label>
+	              </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-sm-4 col-xs-6">
+              <h5 class="boroughlabel">Citywide</h5>
+              <div id="educitywidebar"></div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+              <h5 class="boroughlabel">Manhattan</h5>
+              <div id="edumanhattanbar"></div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+              <h5 class="boroughlabel">Brooklyn</h5>
+              <div id="edubrooklynbar"></div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+              <h5 class="boroughlabel">Bronx</h5>
+              <div id="edubronxbar"></div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+              <h5 class="boroughlabel">Queens</h5>
+              <div id="eduqueensbar"></div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+              <h5 class="boroughlabel">Staten Island</h5>
+              <div id="edustatensbar"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+            	<p class = "sourceline"> Source: New York City Department of Education </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End of barchart section -->
+      
+      <!-- Chart breakline -->
+      <div class="row">
+        <div class="spacerline col-md-6 col-md-offset-3"></div>
+      </div>
+
+      <!-- Start of scatterplot section -->
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+          <div class="row">
+            <div class="col-md-12">
+               <h4>Percentage of students receiving a satisfactory score (3 or 4) on the New York State Common Core Tests, by school </h4>
+            </div>
+          </div>
+          <div id="eduscatterheader" class="row chartsubhead">
+            <div class="col-md-5 col-xs-12">
+              <h5>GRADE</h5>
+              <div class="btn-group-sm" data-toggle="buttons">
+                <label id="Allscatterbutton" class="btn btn-default active">
+                  <input type="radio" name="options" autocomplete="off" checked> ALL
+                </label>
+                <label id="threescatterbutton" class="btn btn-default">
+                  <input type="radio" name="options" autocomplete="off"> 3
+                </label>
+                <label id="fourscatterbutton" class="btn btn-default">
+                  <input type="radio" name="options" autocomplete="off"> 4
+                </label>
+                <label id="fivescatterbutton" class="btn btn-default">
+                  <input type="radio" name="options" autocomplete="off"> 5
+                </label>
+                <label id="sixscatterbutton" class="btn btn-default">
+                  <input type="radio" name="options" autocomplete="off"> 6
+                </label>
+                <label id="sevenscatterbutton" class="btn btn-default">
+                  <input type="radio" name="options" autocomplete="off"> 7
+                </label>
+                <label id="eightscatterbutton" class="btn btn-default">
+                  <input type="radio" name="options" autocomplete="off"> 8
+                </label>
+              </div>
+            </div>
+            <div class="col-md-7 col-xs-12">
+              <h5>BOROUGH</h5>
+              <div class="legend">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td><div class="legendbox Manhattan"></div></td>
+                      <td>Manhattan</td>
+                    </tr>
+                    <tr>
+                      <td><div class="legendbox Brooklyn"></div></td>
+                      <td>Brooklyn</td>
+                    </tr>
+                    <tr>
+                      <td><div class="legendbox Bronx"></div></td>
+                      <td>Bronx</td>
+                    </tr>
+                    <tr>
+                      <td><div class="legendbox Queens"></div></td>
+                      <td>Queens</td>
+                    </tr>
+                    <tr>
+                      <td><div class="legendbox Staten"></div></td>
+                      <td>Staten Island</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div id="eduscatter" class="col-md-12"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+            	<p class = "sourceline"> Source: New York City Department of Education </p>
+            </div>
+          </div>        
+        </div>
+      </div>
+    </section>
+    <!-- End of education section -->
+
+<!-- Start of Crime section -->
+    <section class="container" id="crime">
+              <!-- Section breakline -->
+          <div class="row">
+            <div class="spacerline sectionline col-md-12"></div>
+          </div>
+          <div class="row">
+              <div class="col-md-8 col-md-offset-2 col-sm-12">
+                <h2 class="sectionheader"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> CRIME</h2>
+                <p class= "sectionintro"> While overall crime has consistently fallen since 2000, major crimes like murder, rape and robbery say modest upticks last year. More text goes here. More text goes here. More text goes here. More text goes here. More text goes here. More text goes here. </p>
+              </div>
+          </div>
+
+          <!-- Starter Chart breakline -->
+          <div class="row">
+            <div class="starterspacerline col-md-6 col-md-offset-3"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-sm-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Seven major felonies, annually</h4>
+                </div>
+              </div>
+              <div class="row chartsubhead">
+                <div class="col-md-12">
+                  <div class="btn-group-sm" data-toggle="buttons">
+		                <label id="allcrimebutton" class="btn btn-default active">
+		                  <input type="radio" name="options" autocomplete="off" checked> Total crime
+		                </label>
+		                <label id="grandlarcenybutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Grand Larceny
+		                </label>
+		                <label id="felonyassaultbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Felony Assault
+		                </label>
+		                <label id="robberybutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Robbery
+		                </label>
+		                <label id="burglarybutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Burglary
+		                </label>
+		                <label id="grandlarcenyautobutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Grand Larceny Auto
+		                </label>
+		                <label id="rapebutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Rape
+		                </label>
+		                <label id="murderbutton" class="btn btn-default">
+		                  <input type="radio" name="options" autocomplete="off"> Murder
+		                </label>
+	              	</div>
+                  <div id= "felonylegend" class="legend">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td><div class="legendbox GrandLarceny"></div></td>
+                          <td>Grand Larceny</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox FelonyAssault"></div></td>
+                          <td>Felony Assault</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox Robbery"></div></td>
+                          <td>Robbery</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox Burglary"></div></td>
+                          <td>Burglary</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox GrandLarcenyAuto"></div></td>
+                          <td>Grand Larceny Auto</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox Rape"></div></td>
+                          <td>Rape</td>
+                        </tr>
+                        <tr>
+                          <td><div class="legendbox Murder"></div></td>
+                          <td>Murder</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div id ="crimechart" class="col-md-12"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                	<p class = "sourceline"> Source: New York City Police Department</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+    </section>
+<!-- End of Crime section -->
+
+    <footer class="container">
+    	<div class="row">
+            <div class="spacerline sectionline col-md-12"></div>
+          </div>
+    	<div class="col-md-8 col-md-offset-2 col-sm-12">
+           <p> This project was produced in partial fulfillment of the requirements for the Master of Arts from the <a href= "https://www.ohio.edu/viscom/">School of Visual Communication</a> in the Scripps College of Communication at Ohio University. <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span> Tristan Wyatt/Ohio University 2016</p>
+        </div>
+    </footer>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/d3tip.js"></script>
+    <script src="js/custom.js"></script>
+
+  </body>
+</html>
