@@ -352,13 +352,6 @@ function drawcontent(){
 				.attr("width", widthscale(recessionend) - widthscale(recessionbegin))
 				.attr("height", height)
 				.attr("class", "recession");
-
-			svg.append("text")
-				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) )
-				.attr("y", 10)
-				.text("Great Recession")
-				.attr("text-anchor", "middle")
-				.attr("class", "barlabel");
 			
 			// call Y-axis
 			svg.append("g")
@@ -370,6 +363,14 @@ function drawcontent(){
 				.attr("class", "x-axis axis")
 				.attr("transform", "translate(0, " + height + ")")
 				.call(xAxis);
+
+			//add recession text
+			svg.append("text")
+				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) )
+				.attr("y", 20)
+				.text("Great Recession")
+				.attr("text-anchor", "middle")
+				.attr("class", "barlabel recessiontext");
 
 			//create group for baseline paths
 			var baselinegroup = svg.append("g")
@@ -778,7 +779,7 @@ function drawcontent(){
 				}),
 				d3.max(dataset[dataset.length -1].cpiu,
 				function(d){
-					return(+d.y)+10;
+					return(+d.y)+15;
 				})
 			]);
 
@@ -799,13 +800,6 @@ function drawcontent(){
 				.attr("height", height)
 				.attr("class", "recession");
 
-			svg.append("text")
-				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) )
-				.attr("y", 30)
-				.text("Great Recession")
-				.attr("text-anchor", "middle")
-				.attr("class", "barlabel");
-
 			// call Y-axis
 			svg.append("g")
 				.attr("class", "y axis")
@@ -816,6 +810,14 @@ function drawcontent(){
 				.attr("class", "x axis")
 				.attr("transform", "translate(0, " + height + ")")
 				.call(xAxis);
+
+			//add recession text
+			svg.append("text")
+				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) )
+				.attr("y", 20)
+				.text("Great Recession")
+				.attr("text-anchor", "middle")
+				.attr("class", "barlabel recessiontext");
 
 			//creates group for line paths
 			var linegroup = svg.append("g")
@@ -1208,8 +1210,11 @@ function drawcontent(){
 							.range([0,height]);
 		
 		// Set width of cirlces
+		var diameter = 0
+		var diameterhl = 6	
 			if (width <= 325 ) {diameter = 1.5}
 			else {diameter = 3};
+
 
 
 		// Set number of ticks on x-axis
@@ -1430,8 +1435,25 @@ function drawcontent(){
 						})
 					.attr("cx",0)
 					.attr("cy",height)
-					.on('mouseover', tip.show)
-      				.on('mouseout', tip.hide)
+					.on('mouseover', function(d){
+						tip.show(d);
+						d3.select(this)
+						.transition()
+						.duration(0)
+						.attr("r", +diameterhl);
+						d3.select(this)
+						.classed("calloutcircle", true);
+
+					})
+      				.on('mouseout', function(d){
+						tip.hide(d);
+						d3.select(this)
+						.transition()
+						.duration(0)
+						.attr("r", +diameter);
+						d3.select(this)
+						.classed("calloutcircle", false);
+					})
 					//Removes blank data: START
 					.classed("baddata", function(d) {
 						if (d.AllGradeELA + d.AllGradeMath == 0) {
@@ -1472,8 +1494,24 @@ function drawcontent(){
 							})
 						.attr("cx",0)
 						.attr("cy", height)
-						.on('mouseover', tip3.show)
-      					.on('mouseout', tip3.hide)
+						.on('mouseover', function(d){
+							tip3.show(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameterhl);
+							d3.select(this)
+						.classed("calloutcircle", true);
+					})
+      					.on('mouseout', function(d){
+							tip3.hide(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameter);
+						d3.select(this)
+						.classed("calloutcircle", false);
+					})
 						//Removes blank data: START
 						.classed("baddata", function(d) {
 							if (d.ThreeELA + d.ThreeMath == 0) {
@@ -1506,8 +1544,24 @@ function drawcontent(){
 							})
 						.attr("cx",0)
 						.attr("cy", height)
-						.on('mouseover', tip4.show)
-      					.on('mouseout', tip4.hide)
+						.on('mouseover', function(d){
+							tip4.show(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameterhl);
+							d3.select(this)
+						.classed("calloutcircle", true);
+					})
+      					.on('mouseout', function(d){
+							tip4.hide(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameter);
+						d3.select(this)
+						.classed("calloutcircle", false);
+					})
 						//Removes blank data: START
 						.classed("baddata", function(d) {
 							if (d.FourELA + d.FourMath == 0) {
@@ -1540,8 +1594,24 @@ function drawcontent(){
 							})
 						.attr("cx",0)
 						.attr("cy", height)
-						.on('mouseover', tip5.show)
-      					.on('mouseout', tip5.hide)
+						.on('mouseover', function(d){
+							tip5.show(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameterhl);
+							d3.select(this)
+						.classed("calloutcircle", true);
+					})
+      					.on('mouseout', function(d){
+							tip5.hide(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameter);
+						d3.select(this)
+						.classed("calloutcircle", false);
+					})
 						//Removes blank data: START
 						.classed("baddata", function(d) {
 							if (d.FiveELA + d.FiveMath == 0) {
@@ -1574,8 +1644,24 @@ function drawcontent(){
 							})
 						.attr("cx",0)
 						.attr("cy", height)
-						.on('mouseover', tip6.show)
-      					.on('mouseout', tip6.hide)
+						.on('mouseover', function(d){
+							tip6.show(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameterhl);
+							d3.select(this)
+						.classed("calloutcircle", true);
+					})
+      					.on('mouseout', function(d){
+							tip6.hide(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameter);
+						d3.select(this)
+						.classed("calloutcircle", false);
+					})
 						//Removes blank data: START
 						.classed("baddata", function(d) {
 							if (d.SixELA + d.SixMath == 0) {
@@ -1608,8 +1694,24 @@ function drawcontent(){
 							})
 						.attr("cx",0)
 						.attr("cy", height)
-						.on('mouseover', tip7.show)
-      					.on('mouseout', tip7.hide)
+						.on('mouseover', function(d){
+							tip7.show(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameterhl);
+							d3.select(this)
+						.classed("calloutcircle", true);
+					})
+      					.on('mouseout', function(d){
+							tip7.hide(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameter);
+						d3.select(this)
+						.classed("calloutcircle", false);
+					})
 						//Removes blank data: START
 						.classed("baddata", function(d) {
 							if (d.SevenELA + d.SevenMath == 0) {
@@ -1642,8 +1744,24 @@ function drawcontent(){
 							})
 						.attr("cx",0)
 						.attr("cy", height)
-						.on('mouseover', tip8.show)
-      					.on('mouseout', tip8.hide)
+						.on('mouseover', function(d){
+							tip8.show(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameterhl);
+							d3.select(this)
+						.classed("calloutcircle", true);
+					})
+      					.on('mouseout', function(d){
+							tip8.hide(d);
+							d3.select(this)
+							.transition()
+							.duration(0)
+							.attr("r", +diameter);
+						d3.select(this)
+						.classed("calloutcircle", false);
+					})
 						//Removes blank data: START
 						.classed("baddata", function(d) {
 							if (d.EightELA + d.EightMath == 0) {
@@ -2704,13 +2822,6 @@ function drawcontent(){
 				.attr("height", height)
 				.attr("class", "recession");
 
-			svg.append("text")
-				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) )
-				.attr("y", 10)
-				.text("Great Recession")
-				.attr("text-anchor", "middle")
-				.attr("class", "barlabel");
-			
 			// call Y-axis
 			svg.append("g")
 				.attr("class", "y-axis axis")
@@ -2722,6 +2833,14 @@ function drawcontent(){
 				.attr("transform", "translate(0, " + height + ")")
 				.call(xAxis);
 
+			//add recession text
+			svg.append("text")
+				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) )
+				.attr("y", 20)
+				.text("Great Recession")
+				.attr("text-anchor", "middle")
+				.attr("class", "barlabel recessiontext");
+			
 			//create group for lines paths
 			var linegroup = svg.append("g")
 				.attr("class", "linegroup");

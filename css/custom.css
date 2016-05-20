@@ -2,6 +2,13 @@ body {
   margin-top: 50px;
 }
 
+.navbar-toggle {
+  float: left;
+  }
+
+.btn {
+  margin-top: 3px;
+}
 .d3-tip {
     line-height: 1;
     font-size: small;
@@ -43,7 +50,7 @@ padding: 0px;
     fill: gray;
   }
 
-  .axislabel, {
+  .axislabel {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
     font-weight: 400;
@@ -67,7 +74,20 @@ padding: 0px;
   font-weight: 400;
   fill: gray;
   }
+  
+  .recession {
+    fill: #f8f8fa;
+  }
 
+  .recessiontext {
+    paint-order: stroke;
+    stroke: #f8f8fa;
+    font-weight: 500;
+    stroke-width: 10px;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+    max-width: 20px;
+  }
 
   .Brooklyn, .children, .AdvReg, .GrandLarceny, .NewYork {
     fill: #0866A8;
@@ -320,8 +340,7 @@ padding: 0px;
     fill-opacity: 0.8;
   }
 
-    .calloutcircle{
+  .calloutcircle{
     stroke: black;
     stroke-width: 2;
   }
-
