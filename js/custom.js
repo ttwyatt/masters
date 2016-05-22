@@ -363,14 +363,21 @@ function drawcontent(){
 				.attr("class", "x-axis axis")
 				.attr("transform", "translate(0, " + height + ")")
 				.call(xAxis);
+			
+			svg.append("rect")
+				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) -55)
+				.attr("y", 12)
+				.attr("width", 110)
+				.attr("height", 20)
+				.attr("class", "recessionbox");
 
 			//add recession text
 			svg.append("text")
 				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) )
-				.attr("y", 20)
+				.attr("y", 26)
 				.text("Great Recession")
 				.attr("text-anchor", "middle")
-				.attr("class", "barlabel recessiontext");
+				.attr("class", "barlabel recessiontext")
 
 			//create group for baseline paths
 			var baselinegroup = svg.append("g")
@@ -811,10 +818,17 @@ function drawcontent(){
 				.attr("transform", "translate(0, " + height + ")")
 				.call(xAxis);
 
+			svg.append("rect")
+				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) -55)
+				.attr("y", 12)
+				.attr("width", 110)
+				.attr("height", 20)
+				.attr("class", "recessionbox");
+
 			//add recession text
 			svg.append("text")
 				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) )
-				.attr("y", 20)
+				.attr("y", 26)
 				.text("Great Recession")
 				.attr("text-anchor", "middle")
 				.attr("class", "barlabel recessiontext");
@@ -2833,10 +2847,17 @@ function drawcontent(){
 				.attr("transform", "translate(0, " + height + ")")
 				.call(xAxis);
 
+			svg.append("rect")
+				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) -55)
+				.attr("y", 12)
+				.attr("width", 110)
+				.attr("height", 20)
+				.attr("class", "recessionbox");
+
 			//add recession text
 			svg.append("text")
 				.attr("x", widthscale(recessionbegin) + ((widthscale(recessionend) - widthscale(recessionbegin))/2) )
-				.attr("y", 20)
+				.attr("y", 26)
 				.text("Great Recession")
 				.attr("text-anchor", "middle")
 				.attr("class", "barlabel recessiontext");

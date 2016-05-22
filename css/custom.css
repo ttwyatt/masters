@@ -79,15 +79,17 @@ padding: 0px;
     fill: #f8f8fa;
   }
 
-  .recessiontext {
-    paint-order: stroke;
-    stroke: #f8f8fa;
-    font-weight: 500;
-    stroke-width: 10px;
-    stroke-linecap: butt;
-    stroke-linejoin: miter;
-    max-width: 20px;
+  .recessionbox {
+    fill: white;
   }
+
+
+  .recessiontext {
+    font-weight: 500;
+    font-size: 12px;
+    fill: gray;
+  }
+
 
   .Brooklyn, .children, .AdvReg, .GrandLarceny, .NewYork {
     fill: #0866A8;
