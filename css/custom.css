@@ -9,6 +9,32 @@ body {
 .btn {
   margin-top: 3px;
 }
+
+.btn-default {
+  text-shadow: none;
+  border: none;
+}
+
+.navbar-nav > li > a {
+  text-shadow: none;
+}
+
+.projectheader {
+  padding-top: 72px;
+  padding-bottom: 90px;
+}
+
+h1 {
+  font-family: 'Lora', serif;
+  font-size: 72px;
+  text-align: center;
+}
+
+.maindek {
+  font-size: 24px;
+  text-align: center;
+  font-weight: 200;
+}
 .d3-tip {
     line-height: 1;
     font-size: small;
@@ -40,14 +66,14 @@ padding: 0px;
 .axis path,
 .axis line {
     fill: none;
-    stroke: lightgray;
+    stroke: #ababab;
     shape-rendering: crispEdges;
   }
   
   .axis text {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 11px;
-    fill: gray;
+    fill: #ababab;
   }
 
   .axislabel {
@@ -72,33 +98,33 @@ padding: 0px;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 11px;
   font-weight: 400;
-  fill: gray;
+  fill: #ababab;
   }
   
   .recession {
-    fill: #f8f8fa;
+    fill: #4c4c4c;
   }
 
   .recessionbox {
-    fill: white;
+    fill: #3f3f41;
   }
 
 
   .recessiontext {
     font-weight: 500;
     font-size: 12px;
-    fill: gray;
+    fill: #4c4c4c;
   }
 
 
-  .Brooklyn, .children, .AdvReg, .GrandLarceny, .NewYork {
-    fill: #0866A8;
-    background-color: #0866A8;
+  .Brooklyn, .children, .AdvReg, .GrandLarceny  {
+    fill: #2b8cbe;
+    background-color: #2b8cbe;
   }
 
   .Queens, .adultsInfamilies, .Reg, .FelonyAssault {
-    fill: #43a2ca;
-    background-color: #43a2ca;
+    fill: #4eb3d3;
+    background-color: #4eb3d3;
   }
 
   .Bronx, .singleMen, .Local, .Robbery{
@@ -107,70 +133,75 @@ padding: 0px;
   }
 
   .Manhattan, .singleWomen, .Burglary {
-    fill: #bae4bc;
-    background-color: #bae4bc;
+    fill: #a8ddb5;
+    background-color: #a8ddb5;
   }
 
   .Staten, .GrandLarcenyAuto {
+    fill: #ccebc5;
+    background-color: #ccebc5;
+  }
+
+  .Citywide, .Murder, .NewYork  {
+    fill: #08589e;
+    background-color: #08589e;
+  }
+
+  .Rape{
     fill: #f0f9e8;
     background-color: #f0f9e8;
   }
 
-  .Citywide, .Rape, .Northeast {
-    fill: gray;
-    background-color: gray;
+  .USCity, .National{
+    fill: #000000;
+    background-color: #000000;
   }
 
-  .Murder, .USCity, .National{
-    fill: black;
-    background-color: black;
-  }
-
-  .NYState{
-    fill: gray;
-    background-color: gray;
+  .NYState, .Northeast{
+    fill: #bcbcbc;
+    background-color: #bcbcbc;
   }
 
  .USCityLn, .NationalLn {
     stroke-width: 4px;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke: black;
+    stroke: #000000;
   }
 
- .NYStateLn {
+ .NYStateLn, .NortheastLn {
     stroke-width: 4px;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke: gray;
+    stroke: #bcbcbc;
   }
 
-  .CitywideLn, .NortheastLn {
+  .CitywideLn, .NewYorkLn {
     stroke-width: 4px;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke: gray;
+    stroke: #08589e;
   }
 
   .ManhattanLn {
     stroke-width: 4px;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke: #bae4bc;
+    stroke: #a8ddb5;
   }
 
-  .BrooklynLn, .NewYorkLn {
+  .BrooklynLn {
     stroke-width: 4px;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke: #0866A8;
+    stroke: #2b8cbe;
   }
 
   .QueensLn {
     stroke-width: 4px;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke: #43a2ca;
+    stroke: #4eb3d3;
   }
 
   .BronxLn {
@@ -184,7 +215,7 @@ padding: 0px;
     stroke-width: 4px;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke: #f0f9e8;
+    stroke: #ccebc5;
   }
  
  .Baseline {
@@ -236,13 +267,16 @@ padding: 0px;
   }
 
   .sectionheader {
+    font-family: 'Lora', serif;
     text-align: left;
-    letter-spacing: 5px;
-    font-weight: 200;
-    text-transform: uppercase;
     margin-bottom: 20px;
   }
 
+  .sectionheader span {
+    font-size: 24px;
+  }
+
+/*
   p.sectionintro:first-letter { 
     float: left;
     font-weight: 200;
@@ -252,6 +286,8 @@ padding: 0px;
     padding-right: 6px; 
     padding-left: 3px; 
   }
+
+*/
 
   p.sectionintro {
     text-align: left;
@@ -279,21 +315,16 @@ padding: 0px;
     margin-top: 10px;
   }
 
-  .recession {
-    fill: #f8f8fa;
-  }
-
   .sourceline {
   	font-size: 11px;
   	margin-top: 5px;
   	text-align: right;
-  	color: gray;
+  	color: #ababab;
   }
 
   footer p {
   	font-size: 12px;
   	text-align: center;
-  	color: gray;
   }
 
   .hidden {
