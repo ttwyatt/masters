@@ -439,7 +439,8 @@ function drawcontent(){
       			.attr("height", height)
 				.on("mouseover", function() { focus.style("display", null); })
       			.on("mouseout", function() { focus.style("display", "none"); })
-      			.on("mousemove", mousemove);
+      			.on("mousemove", mousemove)
+      			.on("touchmove", mousemove);
 
 			function mousemove() {
 			    var x0 = widthscale.invert(d3.mouse(this)[0]),
@@ -904,7 +905,8 @@ function drawcontent(){
       			.attr("height", height)
 				.on("mouseover", function() { focus.style("display", null); })
       			.on("mouseout", function() { focus.style("display", "none"); })
-      			.on("mousemove", mousemove);
+      			.on("mousemove", mousemove)
+      			.on("touchmove", mousemove);
 
 			function mousemove() {
 			    var x0 = widthscale.invert(d3.mouse(this)[0]),
@@ -1163,7 +1165,8 @@ function drawcontent(){
       				Regfocuscircle.style("display", "none");
       				Localfocuscircle.style("display", "none");
       				})
-      			.on("mousemove", mousemove);
+      			.on("mousemove", mousemove)
+      			.on("touchmove", mousemove);
 
 			function mousemove() {
 			    var x0 = widthscale.invert(d3.mouse(this)[0]),
@@ -2638,7 +2641,9 @@ function drawcontent(){
       				singleMenfocuscircle.style("display", "none");
       				singleWomenfocuscircle.style("display", "none");
       				})
-      			.on("mousemove", mousemove);
+      			.on("mousemove", mousemove)
+      			.on("touchmove", mousemove);
+
 
 			function mousemove() {
 			    var x0 = widthscale.invert(d3.mouse(this)[0]),
@@ -2907,7 +2912,8 @@ function drawcontent(){
       			.attr("height", height)
 				.on("mouseover", function() { focus.style("display", null); })
       			.on("mouseout", function() { focus.style("display", "none"); })
-      			.on("mousemove", mousemove);
+      			.on("mousemove", mousemove)
+      			.on("touchmove", mousemove);
 
 			function mousemove() {
 			    var x0 = widthscale.invert(d3.mouse(this)[0]),
@@ -3280,7 +3286,8 @@ function drawcontent(){
       			.attr("height", height)
 				.on("mouseover", function() { focus.style("display", null); })
       			.on("mouseout", function() { focus.style("display", "none"); })
-      			.on("mousemove", mousemove);
+      			.on("mousemove", mousemove)
+      			.on("touchmove", mousemove);
 
 			function mousemove() {
 			    var x0 = widthscale.invert(d3.mouse(this)[0]),
@@ -3723,7 +3730,8 @@ function drawcontent(){
       			.attr("height", height)
 				.on("mouseover", function() { focus.style("display", null); })
       			.on("mouseout", function() { focus.style("display", "none"); })
-      			.on("mousemove", mousemove);
+      			.on("mousemove", mousemove)
+      			.on("touchmove", mousemove);
 
 			function mousemove() {
 			    var x0 = widthscale.invert(d3.mouse(this)[0]),
