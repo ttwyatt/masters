@@ -64,7 +64,7 @@
     "@table-border-color": "@gray-dark",
     "@btn-font-weight": "normal",
     "@btn-default-color": "#fff",
-    "@btn-default-bg": "@gray",
+    "@btn-default-bg": "@gray-light",
     "@btn-default-border": "@gray-dark",
     "@btn-primary-color": "#fff",
     "@btn-primary-bg": "@brand-primary",
@@ -159,9 +159,9 @@
     "@navbar-default-brand-color": "@navbar-default-link-color",
     "@navbar-default-brand-hover-color": "darken(@navbar-default-brand-color, 10%)",
     "@navbar-default-brand-hover-bg": "transparent",
-    "@navbar-default-toggle-hover-bg": "@gray-darker",
+    "@navbar-default-toggle-hover-bg": "@gray-base",
     "@navbar-default-toggle-icon-bar-bg": "@gray",
-    "@navbar-default-toggle-border-color": "@gray-dark",
+    "@navbar-default-toggle-border-color": "@gray-darker",
     "@navbar-inverse-color": "lighten(@gray-light, 15%)",
     "@navbar-inverse-bg": "#222",
     "@navbar-inverse-border": "darken(@navbar-inverse-bg, 10%)",
@@ -290,7 +290,7 @@
     "@progress-bar-danger-bg": "@brand-danger",
     "@progress-bar-info-bg": "@brand-info",
     "@list-group-bg": "#4c4c4c",
-    "@list-group-border": "@gray-light",
+    "@list-group-border": "@gray-base",
     "@list-group-border-radius": "@border-radius-base",
     "@list-group-hover-bg": "@gray-darker",
     "@list-group-active-color": "@component-active-color",
@@ -431,5 +431,5 @@
     "scrollspy.js",
     "transition.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=783bf25b8d30c2536de13628d65a181c"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=8b2bc27d0c744c05483bf0b1ffbceaee"
 }

@@ -5,8 +5,8 @@
  */
 
 /*!
- * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=783bf25b8d30c2536de13628d65a181c)
- * Config saved to config.json and https://gist.github.com/783bf25b8d30c2536de13628d65a181c
+ * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=5c466eafced3b79814fe27002b4f1c81)
+ * Config saved to config.json and https://gist.github.com/5c466eafced3b79814fe27002b4f1c81
  */
 /*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
@@ -4537,11 +4537,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   background-color: transparent;
 }
 .navbar-default .navbar-toggle {
-  border-color: #0d0d0d;
+  border-color: #1d1d1e;
 }
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-  background-color: #1d1d1e;
+  background-color: #3f3f41;
 }
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #949497;
@@ -5260,7 +5260,7 @@ a.thumbnail.active {
   padding: 10px 15px;
   margin-bottom: -1px;
   background-color: #4c4c4c;
-  border: 1px solid #b6b6b8;
+  border: 1px solid #3f3f41;
 }
 .list-group-item:first-child {
   border-top-right-radius: 4px;

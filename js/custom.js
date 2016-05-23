@@ -163,7 +163,6 @@ function drawcontent(){
 
 
 					boroughs.append("text")
-						   .attr("fill", "black")
 						   .attr("class", "borolabel")
 							.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
 							.attr("text-anchor", "middle")
