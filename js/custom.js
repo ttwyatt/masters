@@ -425,8 +425,8 @@ function interactivewrapper() {
 
 				//Set scale domains
 				heightscale.domain([
-					d3.min(data,function(d){return +d.Citywide - 2}), 
-					d3.max(data,function(d){return +d.Citywide + 2})
+					d3.min(data,function(d){return +d.TotalMin - 1}), 
+					d3.max(data,function(d){return +d.TotalMax + 1})
 				]);
 
 				widthscale.domain([
@@ -592,27 +592,11 @@ function interactivewrapper() {
 
 				//button actions
 				$('#cityunemploybutton').click(function(){
-					heightscale.domain([
-						d3.min(data,function(d){return +d.Citywide - 2}), 
-						d3.max(data,function(d){return +d.Citywide + 2})
-					]);
 
 					beforeline.transition()
 					.duration(timer)
 					.attr("d", line)
 					.attr ("class", "CitywideLn");
-
-					d3.select("#overlaybox")
-						.remove();
-
-					svg.append("rect")
-	      			.attr("class", "overlay")
-	      			.attr("id", "overlaybox")
-	      			.attr("width", width)
-	      			.attr("height", height)
-					.on("mouseover", function() { focus.style("display", null); })
-	      			.on("mouseout", function() { focus.style("display", "none"); })
-	      			.on("mousemove", mousemove);
 
 	      			focuscircle.attr("class","Citywide calloutcircle");
 
@@ -629,10 +613,6 @@ function interactivewrapper() {
 				});
 
 				$('#manunemloybutton').click(function(){
-					heightscale.domain([
-						d3.min(data,function(d){return +d.Manhattan - 2}), 
-						d3.max(data,function(d){return +d.Manhattan + 2})
-					]);
 
 					beforeline.transition()
 					.duration(timer)
@@ -654,10 +634,6 @@ function interactivewrapper() {
 				});
 
 				$('#bkunemloybutton').click(function(){
-					heightscale.domain([
-						d3.min(data,function(d){return +d.Brooklyn - 2}), 
-						d3.max(data,function(d){return +d.Brooklyn + 2})
-					]);
 
 					beforeline.transition()
 					.duration(timer)
@@ -679,10 +655,6 @@ function interactivewrapper() {
 				});
 
 				$('#bxunemloybutton').click(function(){
-					heightscale.domain([
-						d3.min(data,function(d){return +d.Bronx - 3}), 
-						d3.max(data,function(d){return +d.Bronx + 2})
-					]);
 
 					beforeline.transition()
 					.duration(timer)
@@ -704,10 +676,6 @@ function interactivewrapper() {
 				});
 
 				$('#qnunemloybutton').click(function(){
-					heightscale.domain([
-						d3.min(data,function(d){return +d.Queens - 2}), 
-						d3.max(data,function(d){return +d.Queens + 2})
-					]);
 
 					beforeline.transition()
 					.duration(timer)
@@ -729,10 +697,6 @@ function interactivewrapper() {
 				});
 
 				$('#siunemloybutton').click(function(){
-					heightscale.domain([
-						d3.min(data,function(d){return +d.Staten - 2}), 
-						d3.max(data,function(d){return +d.Staten + 2})
-					]);
 
 					beforeline.transition()
 					.duration(timer)
@@ -1498,7 +1462,7 @@ function interactivewrapper() {
 					.enter()
 					.append("circle")
 					.attr("r", +diameter)
-					.attr("fill-opacity", .9)
+					.attr("fill-opacity", 0.9)
 	      			.attr("class", function(d){
 								return d.Borough})
 					};
@@ -1996,7 +1960,7 @@ function interactivewrapper() {
 
 				//set scale domains
 				heightscale.domain ([0, d3.max(data, function(d){
-							return +d.Max + 3.5}), 
+							return +d.Max + 3.5}) 
 							]);		
 				widthscale.domain(data.map(function(d) { return d.Date } ))
 
@@ -4169,47 +4133,13 @@ function interactivewrapper() {
 				})
 
 			}) // End CSV load
-		},  // End drawhomeless line
+		}  // End drawhomeless line
 	};
 
 	// Draw charts intially and on resize
 	charts.draw();
 	$( window ).resize(throttle (charts.redraw, 200));
 
-
 };
+
 interactivewrapper();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
