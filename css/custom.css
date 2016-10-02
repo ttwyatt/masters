@@ -1,11 +1,125 @@
+/* Overall styles */
 body {
   margin-top: 50px;
 }
 
+h1 {
+  font-family: 'Lora', serif;
+  font-size: 72px;
+  text-align: center;
+}
+
+p {
+  letter-spacing: 0.25px;
+}
+
+footer p {
+  font-size: 12px;
+  text-align: center;
+}
+
+.hidden {
+  visibility: hidden
+}
+
+/* Specific text styles */
+.sectionheader {
+  font-family: 'Lora', serif;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.sectionheader span {
+  font-size: 24px;
+}
+
+/*
+p.sectionintro:first-letter { 
+  float: left;
+  font-weight: 200;
+  font-size: 65px; 
+  line-height: 50px; 
+  padding-top: 4px; 
+  padding-right: 6px; 
+  padding-left: 3px; 
+}
+
+*/
+
+.maindek {
+  font-size: 24px;
+  text-align: center;
+  font-weight: 200;
+}
+
+.boroughlabel {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-weight: 400;                       
+} 
+
+.barlabel {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  fill: #ababab;
+}
+
+.sourceline {
+  font-size: 11px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  text-align: left;
+  color: #ababab;
+}
+
+/* Spacing */
+.projectheader {
+  padding-top: 72px;
+  padding-bottom: 90px;
+}
+
+.chartsubhead{
+  margin-bottom: 20px;
+}
+
+.chartlabelfix {
+  margin-top: -3px;
+}
+
+.spacerline {
+  background-color: #ababab;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  height: 1px
+}
+
+.starterspacerline {
+  margin-top: 40px;
+  margin-bottom: 0px;
+  height: 0px
+}
+
+.sectionline {
+  height: 1px;
+}
+
+#ELAbarbuttongrp {
+  margin-top: 10px;
+}
+
+
+/* Nav bar */
 .navbar-toggle {
   float: left;
-  }
+}
 
+.navbar-nav > li > a {
+  text-shadow: none;
+}
+
+/* Buttons */
 .btn {
   margin-top: 3px;
 }
@@ -17,54 +131,7 @@ body {
   box-shadow: none;
 }
 
-.navbar-nav > li > a {
-  text-shadow: none;
-}
-
-.projectheader {
-  padding-top: 72px;
-  padding-bottom: 90px;
-}
-
-h1 {
-  font-family: 'Lora', serif;
-  font-size: 72px;
-  text-align: center;
-}
-
-.maindek {
-  font-size: 24px;
-  text-align: center;
-  font-weight: 200;
-}
-.d3-tip {
-    line-height: 1;
-    font-size: small;
-    font-weight: 400;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    border-radius: 2px;
-    max-width: 150px;
-    overflow: auto;
-  }
-
-.d3-tip ul  {
-list-style-type: none;
-font-size: small;
-font-weight: 400;
-margin: 0px;
-padding: 0px;
-}
-
-.d3-tip li  {
-  margin-bottom: 3px;
-}
-
-.d3-tip h5  {
-  margin: 0px 0px 6px 0px;
-}
-
+/* Axis */
 .axis path,
 .axis line {
     fill: none;
@@ -96,206 +163,12 @@ padding: 0px;
   }
 }
 
-.barlabel {
-font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-font-size: 11px;
-font-weight: 400;
-fill: #ababab;
-}
-
-.recession {
-  fill: #4c4c4c;
-}
-
-.recessionbox {
-  fill: #3f3f41;
-}
-
-.recessiontext {
-  font-weight: 500;
-  font-size: 12px;
-  fill: #4c4c4c;
-}
-
-.Brooklyn, .children, .AdvReg, .FelonyAssault {
-  fill: #2b8cbe;
-  background-color: #2b8cbe;
-}
-
-.BrooklynLn {
-  stroke-width: 4px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: #2b8cbe;
-}
-
-.Queens, .adultsInfamilies, .Reg, .Robbery {
-  fill: #4eb3d3;
-  background-color: #4eb3d3;
-}
-
-.QueensLn {
-  stroke-width: 4px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: #4eb3d3;
-}
-
-.Bronx, .singleMen, .Local, .Burglary{
-  fill: #7bccc4;
-  background-color: #7bccc4;
-}
-
-.BronxLn {
-  stroke-width: 4px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: #7bccc4;
-}
-
-.Manhattan, .singleWomen, .GrandLarcenyAuto
- {
-  fill: #a8ddb5;
-  background-color: #a8ddb5;
-}
-
-.ManhattanLn {
-  stroke-width: 4px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: #a8ddb5;
-}
-
-.Staten, .Rape {
-  fill: #ccebc5;
-  background-color: #ccebc5;
-}
-
-.StatenLn {
-  stroke-width: 4px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: #ccebc5;
-}
-
-.Citywide, .GrandLarceny, .NewYork  {
-  fill: #08589e;
-  background-color: #08589e;
-}
-
-.CitywideLn, .NewYorkLn {
-  stroke-width: 4px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: #08589e;
-}
-
-.Murder {
-fill: #f0f9e8;
-  background-color: #f0f9e8;
-}
-
-.USCity, .National{
-  fill: #000000;
-  background-color: #000000;
-}
-
-.NYState, .Northeast{
-  fill: #bcbcbc;
-  background-color: #bcbcbc;
-}
-
-.USCityLn, .NationalLn {
-  stroke-width: 4px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: #000000;
-}
-
-.NYStateLn, .NortheastLn {
-  stroke-width: 4px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: #bcbcbc;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 .Baseline {
   stroke-width: 2px;
   stroke-dasharray: 4,6;
 }
 
-.chartsubhead{
-  margin-bottom: 20px;
-}
-
-.chartlabelfix {
-  margin-top: -3px;
-}
-
-.boroughlabel {
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 5px;
-  font-weight: 400;
-                       
-} 
-
-.spacerline {
-  background-color: #ababab;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  height: 1px
-}
-
-.starterspacerline {
-  margin-top: 40px;
-  margin-bottom: 0px;
-  height: 0px
-}
-
-.sectionline {
-  height: 1px;
-}
-
-.sectionheader {
-  font-family: 'Lora', serif;
-  text-align: left;
-  margin-bottom: 20px;
-}
-
-.sectionheader span {
-  font-size: 24px;
-}
-
-/*
-p.sectionintro:first-letter { 
-  float: left;
-  font-weight: 200;
-  font-size: 65px; 
-  line-height: 50px; 
-  padding-top: 4px; 
-  padding-right: 6px; 
-  padding-left: 3px; 
-}
-
-*/
-
-p.sectionintro {
-  text-align: left;
-}
-
+/* Legends */
 .legendbox {
   height: 12px;
   width: 12px;
@@ -313,62 +186,199 @@ p.sectionintro {
   font-size:  12px;
 }
 
-
-#ELAbarbuttongrp {
-  margin-top: 10px;
-}
-
-.sourceline {
-	font-size: 11px;
-	margin-top: 5px;
-	text-align: right;
-	color: #ababab;
-}
-
-footer p {
-	font-size: 12px;
-	text-align: center;
-}
-
-.hidden {
-	visibility: hidden
-}
-
 #felonylegend {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 
 #unemploybaselegend {
   margin-top: -5px;
 }
 
-.introstats li {
-	font-size: small;
-	padding-top: 5px;
-	padding-bottom: 5px;
+/* Location-related charts */
+.Brooklyn{
+  fill: #1b9e77;
+  background-color: #1b9e77;
 }
 
-.introstats li span {
-	font-weight: 500;
+.BrooklynLn {
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #1b9e77;
 }
 
-.borolabel {
-  fill: white;
-	font-size: medium;
-	font-weight: 500;
-  text-shadow: 0px 0px 5px #4c4c4c;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none;   /* Chrome/Safari/Opera */
-  -khtml-user-select: none;    /* Konqueror */
-  -moz-user-select: none;      /* Firefox */
-  -ms-user-select: none;       /* Internet Explorer/Edge */
-  user-select: none;           /* Non-prefixed version, currently */
+.Queens{
+  fill: #e7298a;
+  background-color: #e7298a;
 }
 
-.borohighlight {
-  fill: black;
+.QueensLn {
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #e7298a;
 }
 
+.Bronx{
+  fill: #7570b3;
+  background-color: #7570b3;
+}
+
+.BronxLn {
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #7570b3;
+}
+
+.Manhattan{
+  fill: #d95f02;
+  background-color: #d95f02;
+}
+
+.ManhattanLn {
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #d95f02;
+}
+
+.Staten{
+  fill: #e6ab02;
+  background-color: #e6ab02;
+}
+
+.StatenLn {
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #e6ab02;
+}
+
+.Citywide, .NewYork  {
+  fill: #66a61e;
+  background-color: #66a61e;
+}
+
+.CitywideLn, .NewYorkLn {
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #66a61e;
+}
+
+.USCity, .National{
+  fill: #000000;
+  background-color: #000000;
+}
+
+.USCityLn, .NationalLn {
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #000000;
+}
+.NYState, .Northeast{
+  fill: #bcbcbc;
+  background-color: #bcbcbc;
+}
+
+.NYStateLn, .NortheastLn {
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #bcbcbc;
+}
+
+/* Shelter chart */
+.children{
+  fill: #1b9e77;
+  background-color: #1b9e77;
+}
+
+.adultsInfamilies{
+  fill: #e7298a;
+  background-color: #e7298a;
+}
+
+.singleMen{
+  fill: #7570b3;
+  background-color: #7570b3;
+}
+
+.singleWomen{
+  fill: #d95f02;
+  background-color: #d95f02;
+}
+
+/* education/degrees chart */
+.AdvReg{
+  fill: #1b9e77;
+  background-color: #1b9e77;
+}
+
+.Reg{
+  fill: #e7298a;
+  background-color: #e7298a;
+}
+
+.Local{
+  fill: #7570b3;
+  background-color: #7570b3;
+}
+
+/* Crime chart */
+.FelonyAssault{
+  fill: #1b9e77;
+  background-color: #1b9e77;
+}
+
+.Robbery{
+  fill: #e7298a;
+  background-color: #e7298a;
+}
+
+.Burglary{
+  fill: #7570b3;
+  background-color: #7570b3;
+}
+
+.GrandLarcenyAuto{
+  fill: #d95f02;
+  background-color: #d95f02;
+}
+
+.Rape {
+  fill: #e6ab02;
+  background-color: #e6ab02;
+}
+
+.GrandLarceny{
+  fill: #66a61e;
+  background-color: #66a61e;
+}
+
+.Murder {
+  fill: #f0f9e8;
+  background-color: #f0f9e8;
+}
+
+/* Recessions */
+.recession {
+  fill: #4c4c4c;
+}
+
+.recessionbox {
+  fill: #3f3f41;
+}
+
+.recessiontext {
+  font-weight: 500;
+  font-size: 12px;
+  fill: #4c4c4c;
+}
+
+/* Callouts */
 .overlay {
   fill: none;
   pointer-events: all;
@@ -388,3 +398,68 @@ footer p {
   stroke: black;
   stroke-width: 2;
 }
+
+.d3-tip {
+    line-height: 1;
+    font-size: small;
+    font-weight: 400;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+    max-width: 150px;
+    overflow: auto;
+  }
+
+.d3-tip ul  {
+list-style-type: none;
+font-size: small;
+font-weight: 400;
+margin: 0px;
+padding: 0px;
+}
+
+.d3-tip li  {
+  margin-bottom: 3px;
+}
+
+.d3-tip h5  {
+  margin: 0px 0px 6px 0px;
+}
+
+/* Intro map */
+.borolabel {
+  fill: white;
+  font-size: medium;
+  font-weight: 500;
+  text-shadow: 0px 0px 5px #4c4c4c;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently */
+}
+
+.introstats li {
+  font-size: small;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.introstats li span {
+  font-weight: 500;
+}
+
+.mapborough {
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #3f3f41;
+}
+
+.borohighlight {
+  fill: black;
+}
+
+

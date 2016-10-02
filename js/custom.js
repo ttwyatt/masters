@@ -172,9 +172,6 @@ function interactivewrapper() {
 							.selectAll("path")
 							.classed ("borohighlight", true);
 
-							d3.select(this)
-							.selectAll("text")
-							.classed ("hidden", true);
 						})
 			   			.on("mouseout", function(d) {
 							d3.select("#introlabel")
@@ -206,9 +203,6 @@ function interactivewrapper() {
 							.selectAll("path")
 							.classed ("borohighlight", false);
 
-							d3.select(this)
-							.selectAll("text")
-							.classed ("hidden", false);
 						})
 
 						.on("touchend", function(d) {
@@ -240,16 +234,12 @@ function interactivewrapper() {
 							d3.select(this)
 							.selectAll("path")
 							.classed ("borohighlight", false);
-
-							d3.select(this)
-							.selectAll("text")
-							.classed ("hidden", false);
 						});
 						
 						boroughs.append("path")
 						   .attr("d", path)
 						   .attr("class", function(d){
-						   	 return d.properties.boro_name + " " + d.properties.boro_name +"map"
+						   	 return d.properties.boro_name + " " + "mapborough"
 						   });
 
 
@@ -425,7 +415,7 @@ function interactivewrapper() {
 
 				//Set scale domains
 				heightscale.domain([
-					d3.min(data,function(d){return +d.TotalMin - 1}), 
+					0, 
 					d3.max(data,function(d){return +d.TotalMax + 1})
 				]);
 
@@ -3711,7 +3701,7 @@ function interactivewrapper() {
 				//Set scale domains
 				heightscale.domain([0, d3.max(dataset[dataset.length -1].amount,
 					function(d){
-						return(+d.y0 + +d.y) *1.01;
+						return(+d.y0 + +d.y) *1.12;
 					})
 				]);
 
@@ -3870,7 +3860,7 @@ function interactivewrapper() {
 					setTimeout(function() {
 						heightscale.domain([0, d3.max(dataset[dataset.length -1].amount,
 							function(d){
-								return(+d.y0 + +d.y) *1.01;
+								return(+d.y0 + +d.y) *1.12;
 							})
 						]);
 
