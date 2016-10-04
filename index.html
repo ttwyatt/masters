@@ -51,6 +51,7 @@
       <div class="projectheader">
       <h1>Sizing Up the Big City</h1>
       <p class="maindek">A look at four major indicators of the quality of life in New York City</p>
+      <p class="mainsubdek">Beefy dek about the project goes here. Beefy dek about the project goes here. Beefy dek about the project goes here. Beefy dek about the project goes here. Beefy dek about the project goes here. </p>
       </div>
   	</header>
   <!-- Start of map intro -->
@@ -68,37 +69,51 @@
         <div class="row">
              <div id ="intromap" class="col-md-8 col-sm-8 col-xs-12"></div>
   	         <div id ="intromapinfo" class="col-md-4 col-sm-4 col-xs-12">
-  	         	<h4 id= "introlabel">New York City</h4>
+  	         	<h4 id= "introlabel"></h4>
   	         	<ul class="list-group">
       				  <li class="list-group-item">
       				  	<h5>Population</h5>
       					 <ul class="list-group introstats">
-      					  <li class="list-group-item">2015 estimate: <span id="fifteenpop">8,550,405</span></li>
-      					  <li class="list-group-item">2040 est.: <span id="fortypop"> 9,025,145</span></li>
+      					  <li id= "samplebar" class="list-group-item">2015 estimate: <span id="fifteenpop"></span></li>
+      					  <li class="list-group-item">2040 est.: <span id="fortypop"></span></li>
       					</ul>
       				  </li>
       				  <li class="list-group-item introstats">
       				  	<h5>Race (2014 est.)</h5>
       					 <ul class="list-group">
-      					  <li class="list-group-item">White: <span id="racewhite">32.3%</span></li>
-      					  <li class="list-group-item">Black: <span id="raceblack">22.3%</span></li>
-      					  <li class="list-group-item">Hispanic: <span id="racehispanic">29.0%</span></li>
-      					  <li class="list-group-item">Asian: <span id="raceasian">13.7%</span></li>
+      					  <li class="list-group-item">White: <span id="racewhite"></span>
+                    <div id="racewhitebar" class="mapbar"></div>
+                  </li>
+      					  <li class="list-group-item">Black: <span id="raceblack"></span>
+                    <div id="raceblackbar" class="mapbar"></div>
+                  </li>
+      					  <li class="list-group-item">Hispanic: <span id="racehispanic"></span>
+                    <div id="racehispanicbar" class="mapbar"></div>
+                  </li>
+      					  <li class="list-group-item">Asian: <span id="raceasian"></span>
+                    <div id="raceasianbar" class="mapbar"></div>
+                  </li>
       					</ul>
       				  </li>
       				  <li class="list-group-item introstats hidden-sm hidden-xs">
       				  	<h5>Education (2014 est.)</h5>
       					 <ul class="list-group">
-      					  <li class="list-group-item">High school or higher: <span id="eduhigh">80.1%</span></li>
-      					  <li class="list-group-item">Bachelors or higher: <span id="edubach">35.0%</span></li>
+      					  <li class="list-group-item">High school or higher: <span id="eduhigh"></span>
+                    <div id="eduhighbar" class="mapbar"></div>
+                  </li>
+      					  <li class="list-group-item">Bachelors or higher: <span id="edubach"></span>
+                    <div id="edubachbar" class="mapbar"></div> 
+                  </li>
       					</ul>
       				  </li>
       				  <li class="list-group-item introstats hidden-sm hidden-xs">
       				  	<h5>Poverty/income</h5>
       					 <ul class="list-group">
-      					  <li class="list-group-item">Persons in poverty* (2014 est.): <span id="incomepoverty">20.6%</span></li>
-                  <li class="list-group-item">Median household income (2014 est.): <span id="incomemedian">$52,737</span></li>
-      					  <li class="list-group-item">Average weekly wage (3Q 2015): <span id="incomeweekly">$1,262</span></li>
+      					  <li class="list-group-item">Persons in poverty* (2014 est.): <span id="incomepoverty"></span>
+                    <div id="incomepovertybar" class="mapbar"></div>
+                  </li>
+                  <li class="list-group-item">Median household income (2014 est.): <span id="incomemedian"></span></li>
+      					  <li class="list-group-item">Average weekly wage (3Q 2015): <span id="incomeweekly"></span></li>
       					</ul>
       				  </li>
                 <li class="list-group-item introstats visible-xs-block">
@@ -432,7 +447,7 @@
         <div class="col-md-8 col-md-offset-2 col-sm-12">
           <div class="row">
             <div class="col-md-12">
-              <h4>Four year highschool graduation rate in New York City</h4>
+              <h4>Four-year highschool-graduation rate in New York City</h4>
             </div>
           </div>
           <div class="row chartsubhead">

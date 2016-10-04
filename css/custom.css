@@ -462,4 +462,10 @@ padding: 0px;
   fill: black;
 }
 
+.mapbar {
+  background-color: white;
+  margin-top: 1px;
+  margin-bottom: 5px;
+  height: 5px;
+}
 

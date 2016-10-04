@@ -74,6 +74,10 @@ function interactivewrapper() {
 			var containerheight = $container.width();
 
 
+			//Set bar container dimensions
+			var $barcontainer = $('#samplebar');
+			var barcontainerwidth = $barcontainer.width();
+
 			//set chart dimensions and margins
 			var chartmargins = { top: 0, right: 0, bottom: 0, left: 0 };
 			var width = containerwidth - chartmargins.left - chartmargins.right;
@@ -88,7 +92,7 @@ function interactivewrapper() {
 				.attr("class", "chartcontainer")
 				.attr("transform", "translate(" + chartmargins.left + "," + chartmargins.top + ")");
 
-
+			//define map projection
 			var projection = d3.geo.mercator()
 			   .center([ -73.978, 40.706 ])
 			   .translate([ width/2, height/2 ])
@@ -97,6 +101,11 @@ function interactivewrapper() {
 			//Define path generator
 			var path = d3.geo.path()
 				.projection(projection);
+
+			//create bar scale
+			var widthscale = d3.scale.linear()
+				.range([0, barcontainerwidth])
+				.domain([0, 100]);
 
 			//load data
 			d3.csv("data/mapdata.csv", function(data) {
@@ -137,6 +146,66 @@ function interactivewrapper() {
 						}
 					};
 
+					var citydataboroname = "New York City";
+					var cityfifteenpop = 8550405;
+					var cityfortypop = 9025145;
+					var cityracewhite = 32.3;
+					var cityraceblack = 22.3;
+					var cityracehispanic = 29;
+					var cityraceasian = 13.7;
+					var cityeduhigh = 80.1;
+					var cityedubach = 35;
+					var cityincomemedian = 52737;
+					var cityincomeweekly = 1262;
+					var cityincomepoverty = 20.6;
+
+					//Create default state of map sidebar
+					function defaultintrolabels() {
+						d3.select("#introlabel")
+							.html(citydataboroname);
+						d3.select("#fifteenpop")
+							.html(commaformat(cityfifteenpop));
+						d3.select("#fortypop")
+							.html(commaformat(cityfortypop));
+						d3.select("#racewhite")
+							.html(cityracewhite +"%");
+						d3.select("#raceblack")
+							.html(cityraceblack +"%");
+						d3.select("#racehispanic")
+							.html(cityracehispanic +"%");
+						d3.select("#raceasian")
+							.html(cityraceasian +"%");	
+						d3.select("#eduhigh")
+							.html(cityeduhigh +"%");
+						d3.select("#edubach")
+							.html(cityedubach +"%");							
+						d3.select("#incomemedian")
+							.html(commaformat(cityincomemedian));
+						d3.select("#incomeweekly")
+							.html(commaformat(cityincomeweekly));
+						d3.select("#incomepoverty")
+							.html(cityincomepoverty +"%");
+					};
+
+					function defaultintrobars() {
+						d3.select("#racewhitebar")
+							.style("width", widthscale(cityracewhite) +"px");
+						d3.select("#raceblackbar")
+							.style("width", widthscale(cityraceblack) +"px");
+						d3.select("#racehispanicbar")
+							.style("width", widthscale(cityracehispanic) +"px");
+						d3.select("#raceasianbar")
+							.style("width", widthscale(cityraceasian) +"px");
+						d3.select("#eduhighbar")
+								.style("width", widthscale(cityeduhigh) +"px");
+						d3.select("#edubachbar")
+							.style("width", widthscale(cityedubach) +"px");																											
+						d3.select("#incomepovertybar")
+							.style("width", widthscale(cityincomepoverty) +"px");
+					};
+
+					defaultintrolabels();
+					defaultintrobars();
 
 					var boroughs = svg.selectAll("path")
 					   .data(geo.features)
@@ -144,114 +213,79 @@ function interactivewrapper() {
 					   .append("g")
 			   			.on("mouseover", function(d) {
 							d3.select("#introlabel")
-							.html(d.properties.boro_name);
+								.html(d.properties.boro_name);
 							d3.select("#fifteenpop")
-							.html(commaformat(d.properties.fifteenpop));
+								.html(commaformat(d.properties.fifteenpop));
 							d3.select("#fortypop")
-							.html(commaformat(d.properties.fortypop));
+								.html(commaformat(d.properties.fortypop));
 							d3.select("#racewhite")
-							.html(d.properties.racewhite + "%");
+								.html(d.properties.racewhite + "%");
 							d3.select("#raceblack")
-							.html(d.properties.raceblack + "%");
+								.html(d.properties.raceblack + "%");
 							d3.select("#racehispanic")
-							.html(d.properties.racehispanic + "%");
+								.html(d.properties.racehispanic + "%");
 							d3.select("#raceasian")
-							.html(d.properties.raceasian + "%");	
+								.html(d.properties.raceasian + "%");	
 							d3.select("#eduhigh")
-							.html(d.properties.eduhigh + "%");
+								.html(d.properties.eduhigh + "%");
 							d3.select("#edubach")
-							.html(d.properties.edubach + "%");							
+								.html(d.properties.edubach + "%");							
 							d3.select("#incomemedian")
-							.html("$" + commaformat(d.properties.incomemedian));
+								.html("$" + commaformat(d.properties.incomemedian));
 							d3.select("#incomeweekly")
-							.html("$" + commaformat(d.properties.incomeweekly));
+								.html("$" + commaformat(d.properties.incomeweekly));
 							d3.select("#incomepoverty")
-							.html(d.properties.incomepoverty + "%");
+								.html(d.properties.incomepoverty + "%");
+
+							d3.select("#racewhitebar")
+								.style("width", widthscale(d.properties.racewhite) +"px");
+							d3.select("#raceblackbar")
+								.style("width", widthscale(d.properties.raceblack) +"px");
+							d3.select("#racehispanicbar")
+								.style("width", widthscale(d.properties.racehispanic) +"px");
+							d3.select("#raceasianbar")
+								.style("width", widthscale(d.properties.raceasian) +"px");
+							d3.select("#eduhighbar")
+								.style("width", widthscale(d.properties.eduhigh) +"px");
+							d3.select("#edubachbar")
+								.style("width", widthscale(d.properties.edubach) +"px")	;																										
+							d3.select("#incomepovertybar")
+								.style("width", widthscale(d.properties.incomepoverty) +"px");
 
 							d3.select(this)
 							.selectAll("path")
 							.classed ("borohighlight", true);
-
 						})
 			   			.on("mouseout", function(d) {
-							d3.select("#introlabel")
-							.html("New York City");
-							d3.select("#fifteenpop")
-							.html("8,550,405");
-							d3.select("#fortypop")
-							.html("9,025,145");
-							d3.select("#racewhite")
-							.html("32.3%");
-							d3.select("#raceblack")
-							.html("22.3%");
-							d3.select("#racehispanic")
-							.html("29.0%");
-							d3.select("#raceasian")
-							.html("13.7%");	
-							d3.select("#eduhigh")
-							.html("80.1%");
-							d3.select("#edubach")
-							.html("35.0%");							
-							d3.select("#incomemedian")
-							.html("$52,737");
-							d3.select("#incomeweekly")
-							.html("$1,262");
-							d3.select("#incomepoverty")
-							.html("20.6%");
+							defaultintrobars()
+							defaultintrolabels()
 
 							d3.select(this)
-							.selectAll("path")
-							.classed ("borohighlight", false);
-
+								.selectAll("path")
+								.classed ("borohighlight", false);
 						})
-
 						.on("touchend", function(d) {
-							d3.select("#introlabel")
-							.html("New York City");
-							d3.select("#fifteenpop")
-							.html("8,550,405");
-							d3.select("#fortypop")
-							.html("9,025,145");
-							d3.select("#racewhite")
-							.html("32.3%");
-							d3.select("#raceblack")
-							.html("22.3%");
-							d3.select("#racehispanic")
-							.html("29.0%");
-							d3.select("#raceasian")
-							.html("13.7%");	
-							d3.select("#eduhigh")
-							.html("80.1%");
-							d3.select("#edubach")
-							.html("35.0%");							
-							d3.select("#incomemedian")
-							.html("$52,737");
-							d3.select("#incomeweekly")
-							.html("$1,262");
-							d3.select("#incomepoverty")
-							.html("20.6%");
+							defaultintrobars()
+							defaultintrolabels()
 
 							d3.select(this)
 							.selectAll("path")
 							.classed ("borohighlight", false);
 						});
 						
-						boroughs.append("path")
-						   .attr("d", path)
-						   .attr("class", function(d){
-						   	 return d.properties.boro_name + " " + "mapborough"
-						   });
+					boroughs.append("path")
+					   .attr("d", path)
+					   .attr("class", function(d){
+					   	 return d.properties.boro_name + " " + "mapborough"
+					   });
 
-
-						boroughs.append("text")
-							   .attr("class", "borolabel")
-								.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
-								.attr("text-anchor", "middle")
-								.text(function(d) {
-									return d.properties.boro_name
-								});
-
-					
+					boroughs.append("text")
+						   .attr("class", "borolabel")
+							.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
+							.attr("text-anchor", "middle")
+							.text(function(d) {
+								return d.properties.boro_name
+							});
 
 				})// End Geo JSON load
 			})// End CSV load
