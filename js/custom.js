@@ -3,6 +3,9 @@ function interactivewrapper() {
 	 //Intialize scrollspy
 	 $('body').scrollspy({ target: '.navbar' });
 
+	 //store window width
+	 var windowWidth = $(window).width()
+
 	//set timing in MS of transitions
 	var timer = 750;
 
@@ -144,7 +147,7 @@ function interactivewrapper() {
 								geo.features[j].properties.incomepoverty = incomepoverty;
 							}
 						}
-					};
+					}
 
 					var citydataboroname = "New York City";
 					var cityfifteenpop = 8550405;
@@ -185,7 +188,7 @@ function interactivewrapper() {
 							.html(commaformat(cityincomeweekly));
 						d3.select("#incomepoverty")
 							.html(cityincomepoverty +"%");
-					};
+					}
 
 					function defaultintrobars() {
 						d3.select("#racewhitebar")
@@ -202,7 +205,7 @@ function interactivewrapper() {
 							.style("width", widthscale(cityedubach) +"px");																											
 						d3.select("#incomepovertybar")
 							.style("width", widthscale(cityincomepoverty) +"px");
-					};
+					}
 
 					defaultintrolabels();
 					defaultintrobars();
@@ -256,17 +259,62 @@ function interactivewrapper() {
 							.selectAll("path")
 							.classed ("borohighlight", true);
 						})
+			   			.on("touchstart", function(d) {
+							d3.select("#introlabel")
+								.html(d.properties.boro_name);
+							d3.select("#fifteenpop")
+								.html(commaformat(d.properties.fifteenpop));
+							d3.select("#fortypop")
+								.html(commaformat(d.properties.fortypop));
+							d3.select("#racewhite")
+								.html(d.properties.racewhite + "%");
+							d3.select("#raceblack")
+								.html(d.properties.raceblack + "%");
+							d3.select("#racehispanic")
+								.html(d.properties.racehispanic + "%");
+							d3.select("#raceasian")
+								.html(d.properties.raceasian + "%");	
+							d3.select("#eduhigh")
+								.html(d.properties.eduhigh + "%");
+							d3.select("#edubach")
+								.html(d.properties.edubach + "%");							
+							d3.select("#incomemedian")
+								.html("$" + commaformat(d.properties.incomemedian));
+							d3.select("#incomeweekly")
+								.html("$" + commaformat(d.properties.incomeweekly));
+							d3.select("#incomepoverty")
+								.html(d.properties.incomepoverty + "%");
+
+							d3.select("#racewhitebar")
+								.style("width", widthscale(d.properties.racewhite) +"px");
+							d3.select("#raceblackbar")
+								.style("width", widthscale(d.properties.raceblack) +"px");
+							d3.select("#racehispanicbar")
+								.style("width", widthscale(d.properties.racehispanic) +"px");
+							d3.select("#raceasianbar")
+								.style("width", widthscale(d.properties.raceasian) +"px");
+							d3.select("#eduhighbar")
+								.style("width", widthscale(d.properties.eduhigh) +"px");
+							d3.select("#edubachbar")
+								.style("width", widthscale(d.properties.edubach) +"px")	;																										
+							d3.select("#incomepovertybar")
+								.style("width", widthscale(d.properties.incomepoverty) +"px");
+
+							d3.select(this)
+							.selectAll("path")
+							.classed ("borohighlight", true);
+						})
 			   			.on("mouseout", function(d) {
-							defaultintrobars()
-							defaultintrolabels()
+							defaultintrobars();
+							defaultintrolabels();
 
 							d3.select(this)
 								.selectAll("path")
 								.classed ("borohighlight", false);
 						})
 						.on("touchend", function(d) {
-							defaultintrobars()
-							defaultintrolabels()
+							defaultintrobars();
+							defaultintrolabels();
 
 							d3.select(this)
 							.selectAll("path")
@@ -276,7 +324,7 @@ function interactivewrapper() {
 					boroughs.append("path")
 					   .attr("d", path)
 					   .attr("class", function(d){
-					   	 return d.properties.boro_name + " " + "mapborough"
+					   	 return d.properties.boro_name + " " + "mapborough";
 					   });
 
 					boroughs.append("text")
@@ -284,11 +332,11 @@ function interactivewrapper() {
 							.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
 							.attr("text-anchor", "middle")
 							.text(function(d) {
-								return d.properties.boro_name
+								return d.properties.boro_name;
 							});
 
-				})// End Geo JSON load
-			})// End CSV load
+				});// End Geo JSON load
+			});// End CSV load
 		},// End intromap
 
 		unemployline: function() {
@@ -319,8 +367,8 @@ function interactivewrapper() {
 			var recessionend = dateFormat("6/1/2009");
 
 				// Set number of ticks on x-axis
-			if (width <= 500 ) {numticks = 5}
-			else {numticks = 15};	
+			if (width <= 500 ) {numticks = 5;}
+			else {numticks = 15;}
 
 			//create y-axis
 			var yAxis = d3.svg.axis()
@@ -330,7 +378,7 @@ function interactivewrapper() {
 				.innerTickSize(-width)
 				.outerTickSize(0)
 				.tickFormat(function(d){
-						return d + "%" 
+						return d + "%";
 						});
 
 			//create x-axis
@@ -340,7 +388,7 @@ function interactivewrapper() {
 				.ticks(numticks)
 				.outerTickSize(0)
 				.tickFormat(function(d) {
-					return scaleFormat(d)
+					return scaleFormat(d);
 				});
 
 			//Set up baseline line generator 
@@ -402,7 +450,7 @@ function interactivewrapper() {
 				})
 				.y(function(d) {
 					return heightscale(+d.Bronx);
-				})
+				});
 
 			//Set up Staten Island line generator 
 			var siline = d3.svg.line()
@@ -441,21 +489,21 @@ function interactivewrapper() {
 								return {
 									x: d.Date,
 									y: +d[q]
-								}
+								};
 							})
-						}
+						};
 					})
-					.slice(6)
+					.slice(6);
 
 				//Set scale domains
 				heightscale.domain([
 					0, 
-					d3.max(data,function(d){return +d.TotalMax + 1})
+					d3.max(data,function(d){return +d.TotalMax + 1;})
 				]);
 
 				widthscale.domain([
-					d3.min(data,function(d){return +d.Date}), 
-					d3.max(data,function(d){return +d.Date})
+					d3.min(data,function(d){return +d.Date;}), 
+					d3.max(data,function(d){return +d.Date;})
 				]);
 
 				//add recessions
@@ -491,7 +539,7 @@ function interactivewrapper() {
 					.attr("y", 26)
 					.text("Great Recession")
 					.attr("text-anchor", "middle")
-					.attr("class", "barlabel recessiontext")
+					.attr("class", "barlabel recessiontext");
 
 				//create group for baseline paths
 				var baselinegroup = svg.append("g")
@@ -503,10 +551,10 @@ function interactivewrapper() {
 					.enter()
 					.append("path")
 					.attr ("class", function(d) {
-						return d.name +"Ln" +" Baseline"
+						return d.name +"Ln" +" Baseline";
 					} )
 					.attr("d", function(d) {
-		  			return baseline(d.rate)
+		  			return baseline(d.rate);
 		  			})
 					.attr("fill", "none");
 
@@ -553,7 +601,9 @@ function interactivewrapper() {
 	      			.attr("width", width)
 	      			.attr("height", height)
 					.on("mouseover", function() { focus.style("display", null); })
+					.on("touchstart", function() { focus.style("display", null); })
 	      			.on("mouseout", function() { focus.style("display", "none"); })
+	      			.on("touchend", function() { focus.style("display", "none"); })
 	      			.on("mousemove", mousemove)
 	      			.on("touchmove", mousemove);
 
@@ -575,44 +625,44 @@ function interactivewrapper() {
 			 		else{
 			 				focustextback.attr("transform", "translate(0,0)");
 			 				focustext.attr("transform", "translate(0,0)");
-			 			};
+			 			}
 
 				    if ($('#cityunemploybutton').hasClass("active")) {
 				     	focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Citywide) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Citywide,1) + "%")
-	   					};
+				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Citywide,1) + "%");
+	   					}
 	   				
 	   				if ($('#manunemloybutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Manhattan) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Manhattan,1) + "%")
-	   					};
+				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Manhattan,1) + "%");
+	   					}
 	   				
 	   				if ($('#bkunemloybutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Brooklyn) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Brooklyn,1) + "%")
-	   					};
+				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Brooklyn,1) + "%");
+	   					}
 	   				
 	   				if ($('#bxunemloybutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Bronx) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Bronx,1) + "%")
-	   					};
+				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Bronx,1) + "%");
+	   					}
 	   				
 	   				if ($('#qnunemloybutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Queens) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Queens,1) + "%")
-	   					};
+				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Queens,1) + "%");
+	   					}
 
 	   				if ($('#siunemloybutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Staten) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Staten,1) + "%")
-	   					};
-				  };
+				    	.text(monthFormat(d.Date) + ": " + d3.round(d.Staten,1) + "%");
+	   					}
+				  }
 
 				//button actions
 				$('#cityunemploybutton').click(function(){
@@ -627,7 +677,7 @@ function interactivewrapper() {
 					baselines.transition()
 					.duration(timer)
 					.attr("d", function(d) {
-		  			return baseline(d.rate)
+		  			return baseline(d.rate);
 		  			});
 
 					svg.select(".y-axis")
@@ -648,7 +698,7 @@ function interactivewrapper() {
 					baselines.transition()
 					.duration(timer)
 					.attr("d", function(d) {
-		  			return baseline(d.rate)
+		  			return baseline(d.rate);
 		  			});
 
 					svg.select(".y-axis")
@@ -669,7 +719,7 @@ function interactivewrapper() {
 					baselines.transition()
 					.duration(timer)
 					.attr("d", function(d) {
-		  			return baseline(d.rate)
+		  			return baseline(d.rate);
 		  			});
 
 					svg.select(".y-axis")
@@ -690,7 +740,7 @@ function interactivewrapper() {
 					baselines.transition()
 					.duration(timer)
 					.attr("d", function(d) {
-		  			return baseline(d.rate)
+		  			return baseline(d.rate);
 		  			});
 
 					svg.select(".y-axis")
@@ -711,7 +761,7 @@ function interactivewrapper() {
 					baselines.transition()
 					.duration(timer)
 					.attr("d", function(d) {
-		  			return baseline(d.rate)
+		  			return baseline(d.rate);
 		  			});
 
 					svg.select(".y-axis")
@@ -732,7 +782,7 @@ function interactivewrapper() {
 					baselines.transition()
 					.duration(timer)
 					.attr("d", function(d) {
-		  			return baseline(d.rate)
+		  			return baseline(d.rate);
 		  			});
 
 					svg.select(".y-axis")
@@ -744,17 +794,17 @@ function interactivewrapper() {
 				$('#unemploybaselines').change(function(){
 					if ($(this).is(":checked")) {
 					$("#unemploybaselegend").show();
-					baselinegroup.classed("hidden", false)
+					baselinegroup.classed("hidden", false);
 				    } else {
 					$("#unemploybaselegend").hide();
-					baselinegroup.classed("hidden", true)
+					baselinegroup.classed("hidden", true);
 				    }
 
 				});
 
 
 
-			})// End CSV load
+			});// End CSV load
 		}, // End mediansalesline
 
 		jobsline: function() {
@@ -785,15 +835,15 @@ function interactivewrapper() {
 				.range([height,0]);
 
 				// Set number of ticks on x-axis
-			if (width <= 400 ) {numticks = 5}
-			else {numticks = 10};	
+			if (width <= 400 ) {numticks = 5;}
+			else {numticks = 10;}
 
 			//create y-axis
 			var yAxis = d3.svg.axis()
 				.scale(heightscale)
 				.orient("left")
 				.tickFormat (function(d) {
-					return d3.round((+d),0)
+					return d3.round((+d),0);
 				})
 				.innerTickSize(-width)
 				.outerTickSize(0);
@@ -805,7 +855,7 @@ function interactivewrapper() {
 				.ticks(numticks)
 				.outerTickSize(0)
 				.tickFormat(function(d) {
-					return scaleFormat(d)
+					return scaleFormat(d);
 				});
 
 			//Set up area generator after transition
@@ -813,7 +863,7 @@ function interactivewrapper() {
 				.x(function(d) {
 					return widthscale(+d.x);
 				})
-				.y(height)
+				.y(height);
 
 			//Set up area generator after transition
 			var line = d3.svg.line()
@@ -852,9 +902,9 @@ function interactivewrapper() {
 								return {
 									x: d.Date,
 									y: +d[q]
-								}
+								};
 							})
-						}
+						};
 					});
 				
 				//Set scale domains
@@ -871,10 +921,10 @@ function interactivewrapper() {
 
 				widthscale.domain([
 					d3.min(dataset[dataset.length - 1].cpiu, function(d) {
-						return +d.x
+						return +d.x;
 					}),
 					d3.max(dataset[dataset.length -1].cpiu, function(d) {
-						return +d.x
+						return +d.x;
 					})
 				]);
 
@@ -922,7 +972,7 @@ function interactivewrapper() {
 					.enter()
 					.append("path")
 					.attr ("class", function(d) {
-						return d.name + "Ln"
+						return d.name + "Ln";
 					})
 					.classed("Baseline", function(d) {
 
@@ -934,17 +984,17 @@ function interactivewrapper() {
 						}
 					})
 					.attr("d", function(d) {
-		  			return linebefore(d.cpiu)
+		  			return linebefore(d.cpiu);
 		  			})
 		  			.attr("fill", "none");
 
 				beforeline.transition()
 					.duration(timer)
 					.attr("d", function(d) {
-			  			return line(d.cpiu)
+			  			return line(d.cpiu);
 			  			});
 				//add line paths
-				var beforeline = linegroup.selectAll("path")
+				var beforeline2 = linegroup.selectAll("path")
 					.data([ data ])
 					.enter()
 					.append("path")
@@ -952,7 +1002,7 @@ function interactivewrapper() {
 					.attr("d", linebefore)
 					.attr("fill", "none");
 
-				beforeline.transition()
+				beforeline2.transition()
 					.duration(timer)
 					.attr("d", line);
 
@@ -983,7 +1033,9 @@ function interactivewrapper() {
 	      			.attr("width", width)
 	      			.attr("height", height)
 					.on("mouseover", function() { focus.style("display", null); })
+					.on("touchstart", function() { focus.style("display", null); })					
 	      			.on("mouseout", function() { focus.style("display", "none"); })
+	      			.on("touchend", function() { focus.style("display", "none"); })
 	      			.on("mousemove", mousemove)
 	      			.on("touchmove", mousemove);
 
@@ -1004,14 +1056,14 @@ function interactivewrapper() {
 			 		else{
 			 				focustextback.attr("transform", "translate(0,0)");
 			 				focustext.attr("transform", "translate(0,0)");
-			 			};
+			 			}
 					
 					focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.NewYork) + ")");
 				    focus.select("text")
-				    	.text( monthFormat(d.Date) + ": " + d3.round(d.NewYork,1))
-				  };
+				    	.text( monthFormat(d.Date) + ": " + d3.round(d.NewYork,1));
+				  }
 
-			})
+			});
 		},// END jobsline
 
 		eduline: function() {
@@ -1030,8 +1082,6 @@ function interactivewrapper() {
 			var dateFormat = d3.time.format("%x").parse;
 			var scaleFormat = d3.time.format("%Y");
 
-
-
 			//Set up stack method
 			var stack = d3.layout.stack()
 						.values(function(d) {
@@ -1046,15 +1096,15 @@ function interactivewrapper() {
 				.range([height,0]);
 
 				// Set number of ticks on x-axis
-			if (width <= 400 ) {numticks = 5}
-			else {numticks = 10};	
+			if (width <= 400 ) {numticks = 5;}
+			else {numticks = 10;}
 
 			//create y-axis
 			var yAxis = d3.svg.axis()
 				.scale(heightscale)
 				.orient("left")
 				.tickFormat (function(d) {
-					return d3.round((+d),0) + "%"
+					return d3.round((+d),0) + "%";
 				})
 				.innerTickSize(-width)
 				.outerTickSize(0);
@@ -1066,7 +1116,7 @@ function interactivewrapper() {
 				.ticks(numticks)
 				.outerTickSize(0)
 				.tickFormat(function(d) {
-					return scaleFormat(d)
+					return scaleFormat(d);
 				});
 
 			//Set up area generator after transition
@@ -1117,10 +1167,10 @@ function interactivewrapper() {
 								return {
 									x: d.Date,
 									y: +d[q]
-								}
+								};
 							})
-						}
-					})
+						};
+					});
 				stack(dataset); //apply stack
 				
 				//Set scale domains
@@ -1132,10 +1182,10 @@ function interactivewrapper() {
 
 				widthscale.domain([
 					d3.min(dataset[dataset.length - 1].graduates, function(d) {
-						return +d.x
+						return +d.x;
 					}),
 					d3.max(dataset[dataset.length -1].graduates, function(d) {
-						return +d.x
+						return +d.x;
 					})
 				]);
 
@@ -1149,18 +1199,18 @@ function interactivewrapper() {
 					.enter()
 					.append("path")
 					.attr ("class", function(d) {
-						return d.name + " area"
+						return d.name + " area";
 					})
 					.attr("d", function(d) {
-		  			return areabefore(d.graduates)
+		  			return areabefore(d.graduates);
 		  			})
 					.attr("stroke", "none");
 
 				beforearea.transition()
 				.duration(timer)
 				.attr("d", function(d) {
-		  			return area(d.graduates)
-		  			})
+		  			return area(d.graduates);
+		  			});
 
 				// call Y-axis
 				svg.append("g")
@@ -1179,7 +1229,7 @@ function interactivewrapper() {
 
 	      		var focusline = focus.append("rect")
 	      		    .attr("width", 2)
-	      			.attr("height", height)
+	      			.attr("height", height);
 
 	      		var focustextback = focus.append("rect")
 	      		    .attr('height', 90)
@@ -1238,7 +1288,19 @@ function interactivewrapper() {
 						Regfocuscircle.style("display", null);
 						Localfocuscircle.style("display", null);
 						})
+					.on("touchstart", function() { 
+						focus.style("display", null);
+						AdvRegfocuscircle.style("display", null);
+						Regfocuscircle.style("display", null);
+						Localfocuscircle.style("display", null);
+						})
 	      			.on("mouseout", function() { 
+	      				focus.style("display", "none");
+	      				AdvRegfocuscircle.style("display", "none");
+	      				Regfocuscircle.style("display", "none");
+	      				Localfocuscircle.style("display", "none");
+	      				})
+	      			.on("touchend", function() { 
 	      				focus.style("display", "none");
 	      				AdvRegfocuscircle.style("display", "none");
 	      				Regfocuscircle.style("display", "none");
@@ -1261,7 +1323,7 @@ function interactivewrapper() {
 			 		else{
 			 				focustextback.attr("transform", "translate(0,0)");
 			 				focustextbox.attr("transform", "translate(0,0)");
-			 			};
+			 			}
 					
 					focus.attr("transform", "translate(" + widthscale(d.Date) + ",0)");
 					AdvRegfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.AdvReg) + ")");
@@ -1280,7 +1342,7 @@ function interactivewrapper() {
 				    focus.select("#AdvRegtext")
 				    	.text( "Advanced Regents: " + d3.round(d.AdvReg,1) +"%");
 				  };
-			})
+			});
 		},// END eduline
 
 		eduscatter: function () {
@@ -1299,22 +1361,20 @@ function interactivewrapper() {
 
 			//create scales
 			var widthscale = d3.scale.linear()
-								.range([0, width])
+								.range([0, width]);
 
 			var heightscale = d3.scale.linear()
 								.range([0,height]);
 			
 			// Set width of cirlces
-			var diameter = 0
-			var diameterhl = 6	
-				if (width <= 325 ) {diameter = 1.5}
-				else {diameter = 3};
-
-
+			var diameter = 0;
+			var diameterhl = 6;
+				if (width <= 325 ) {diameter = 1.5;}
+				else {diameter = 3;}
 
 			// Set number of ticks on x-axis
-				if (width <= 325 ) {numticks = 5}
-				else {numticks = 10};	
+				if (width <= 325 ) {numticks = 5;}
+				else {numticks = 10;}	
 
 			//create axis
 
@@ -1322,7 +1382,7 @@ function interactivewrapper() {
 						.scale(heightscale)
 						.orient("left")
 						.tickFormat(function(d){
-							return d +"%"
+							return d +"%";
 							})
 						.ticks(numticks)
 						.innerTickSize(-width)
@@ -1334,7 +1394,7 @@ function interactivewrapper() {
 					.orient("bottom")
 					.ticks(numticks)
 					.tickFormat(function(d){
-						return d +"%"
+						return d +"%";
 						})
 					.innerTickSize(-height)
 		    		.outerTickSize(0)
@@ -1342,93 +1402,93 @@ function interactivewrapper() {
 
 		    var tip = d3.tip()
 			  .attr('class', 'd3-tip')
-			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.AllGradeELA, 1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.AllGradeMath, 1) + "%</li></ul>"})
+			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.AllGradeELA, 1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.AllGradeMath, 1) + "%</li></ul>";})
 			  .direction( function (d) {
 			  	if (heightscale(d.AllGradeMath) < (height/2)) {
-			  		if (widthscale(d.AllGradeELA) < (width/2)) {return "se"}
-			  		else {return "sw"}
+			  		if (widthscale(d.AllGradeELA) < (width/2)) {return "se";}
+			  		else {return "sw";}
 			  	}
 			  	else {
-			  		if (widthscale(d.AllGradeELA) < (width/2)) {return "ne"}
-			  		else {return "nw"}
+			  		if (widthscale(d.AllGradeELA) < (width/2)) {return "ne";}
+			  		else {return "nw";}
 			  	}});
 
 			var tip3 = d3.tip()
 			  .attr('class', 'd3-tip')
-			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.ThreeELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.ThreeMath,1) + "%</li></ul>"})
+			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.ThreeELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.ThreeMath,1) + "%</li></ul>";})
 			  .direction( function (d) {
 			  	if (heightscale(d.ThreeMath) < (height/2)) {
-			  		if (widthscale(d.ThreeELA) < (width/2)) {return "se"}
-			  		else {return "sw"}
+			  		if (widthscale(d.ThreeELA) < (width/2)) {return "se";}
+			  		else {return "sw";}
 			  	}
 			  	else {
-			  		if (widthscale(d.ThreeELA) < (width/2)) {return "ne"}
-			  		else {return "nw"}
+			  		if (widthscale(d.ThreeELA) < (width/2)) {return "ne";}
+			  		else {return "nw";}
 			  	}});
 
 			var tip4 = d3.tip()
 			  .attr('class', 'd3-tip')
-			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.FourELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.FourMath,1) + "%</li></ul>"})
+			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.FourELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.FourMath,1) + "%</li></ul>";})
 			  .direction( function (d) {
 			  	if (heightscale(d.FourMath) < (height/2)) {
-			  		if (widthscale(d.FourELA) < (width/2)) {return "se"}
-			  		else {return "sw"}
+			  		if (widthscale(d.FourELA) < (width/2)) {return "se";}
+			  		else {return "sw";}
 			  	}
 			  	else {
-			  		if (widthscale(d.FourELA) < (width/2)) {return "ne"}
-			  		else {return "nw"}
+			  		if (widthscale(d.FourELA) < (width/2)) {return "ne";}
+			  		else {return "nw";}
 			  	}});
 
 			var tip5 = d3.tip()
 			  .attr('class', 'd3-tip')
-			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.FiveELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.FiveMath,1) + "%</li></ul>"})
+			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.FiveELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.FiveMath,1) + "%</li></ul>";})
 			  .direction( function (d) {
 			  	if (heightscale(d.FiveMath) < (height/2)) {
-			  		if (widthscale(d.FiveELA) < (width/2)) {return "se"}
-			  		else {return "sw"}
+			  		if (widthscale(d.FiveELA) < (width/2)) {return "se";}
+			  		else {return "sw";}
 			  	}
 			  	else {
-			  		if (widthscale(d.FiveELA) < (width/2)) {return "ne"}
-			  		else {return "nw"}
+			  		if (widthscale(d.FiveELA) < (width/2)) {return "ne";}
+			  		else {return "nw";}
 			  	}});
 
 			var tip6 = d3.tip()
 			  .attr('class', 'd3-tip')
-			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.SixELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.SixMath,1) + "%</li></ul>"})
+			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.SixELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.SixMath,1) + "%</li></ul>";})
 			  .direction( function (d) {
 			  	if (heightscale(d.SixMath) < (height/2)) {
-			  		if (widthscale(d.SixELA) < (width/2)) {return "se"}
-			  		else {return "sw"}
+			  		if (widthscale(d.SixELA) < (width/2)) {return "se";}
+			  		else {return "sw";}
 			  	}
 			  	else {
-			  		if (widthscale(d.SixELA) < (width/2)) {return "ne"}
-			  		else {return "nw"}
+			  		if (widthscale(d.SixELA) < (width/2)) {return "ne";}
+			  		else {return "nw";}
 			  	}});
 
 			var tip7 = d3.tip()
 			  .attr('class', 'd3-tip')
-			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.SevenELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.SevenMath,1) + "%</li></ul>"})
+			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.SevenELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.SevenMath,1) + "%</li></ul>";})
 			  .direction( function (d) {
 			  	if (heightscale(d.SevenMath) < (height/2)) {
-			  		if (widthscale(d.SevenELA) < (width/2)) {return "se"}
-			  		else {return "sw"}
+			  		if (widthscale(d.SevenELA) < (width/2)) {return "se";}
+			  		else {return "sw";}
 			  	}
 			  	else {
-			  		if (widthscale(d.SevenELA) < (width/2)) {return "ne"}
-			  		else {return "nw"}
+			  		if (widthscale(d.SevenELA) < (width/2)) {return "ne";}
+			  		else {return "nw";}
 			  	}});
 
 			var tip8 = d3.tip()
 			  .attr('class', 'd3-tip')
-			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.EightELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.EightMath,1) + "%</li></ul>"})
+			  .html(function(d) { return "<ul><li><h5>" + d.School + "</h5></li><li><span><b>ELA: </b><span>" + d3.round(d.EightELA,1) + "%</li><li><span><b>Math: </b><span>" + d3.round(d.EightMath,1) + "%</li></ul>";})
 			  .direction( function (d) {
 			  	if (heightscale(d.EightMath) < (height/2)) {
-			  		if (widthscale(d.EightELA) < (width/2)) {return "se"}
-			  		else {return "sw"}
+			  		if (widthscale(d.EightELA) < (width/2)) {return "se";}
+			  		else {return "sw";}
 			  	}
 			  	else {
-			  		if (widthscale(d.EightELA) < (width/2)) {return "ne"}
-			  		else {return "nw"}
+			  		if (widthscale(d.EightELA) < (width/2)) {return "ne";}
+			  		else {return "nw";}
 			  	}});
 
 			// create svg
@@ -1444,7 +1504,7 @@ function interactivewrapper() {
 			d3.csv("data/schoolsdata.csv", function(data) {
 
 				widthscale.domain([0, 100]);
-				heightscale.domain([100, 0])
+				heightscale.domain([100, 0]);
 				
 				//Call Axis
 				svg.append("g")
@@ -1470,14 +1530,14 @@ function interactivewrapper() {
 					.attr("x",-38)
 					.attr("y",-15)
 					.text ("MATH")
-					.attr("text-anchor", "start")
+					.attr("text-anchor", "start");
 
 				svg	.append("text")
 					.attr("class", "axislabel")
 					.attr("x",width + 15)
 					.attr("y",height -10)
 					.text ("ENGLISH LANGUAGE ARTS")
-					.attr("text-anchor", "end")
+					.attr("text-anchor", "end");
 				
 				//Creates circles, binds data and adds identifying classes
 				function createcircles() {
@@ -1488,8 +1548,8 @@ function interactivewrapper() {
 					.attr("r", +diameter)
 					.attr("fill-opacity", 0.9)
 	      			.attr("class", function(d){
-								return d.Borough})
-					};
+								return d.Borough;});
+					}
 				
 				//Returns circles to 0,0
 				function backtozero() {
@@ -1498,35 +1558,35 @@ function interactivewrapper() {
 					.duration(timer)
 					.attr("cx",0)
 					.attr("cy", height)
-					.remove()
-				};
+					.remove();
+				}
 				
 				//Clears all circles in SVG
 				function removecircles() {
 					svg.selectAll("circle")
-					.remove()
-				};
+					.remove();
+				}
 
 				//Removes circles with blank or 0 value for both x & y coordinates
 				function removeblank() {
 					d3.selectAll(".baddata")
-					.remove()
-				};
+					.remove();
+				}
 
 				//Creates titles for circles
 				function createtitles() {
 					svg.selectAll("circle")
 					.append("title")
 					.text(function(d) {
-						return d.School
+						return d.School;
 						});
-				};
+				}
 				
 				//Creates default circles
 				function allgradecircles() {
 					var newcircle = svg.selectAll("circle")
 						.sort(function(a, b) {
-							return d3.descending(+a.AllGradeELA, +b.AllGradeELA)
+							return d3.descending(+a.AllGradeELA, +b.AllGradeELA);
 							})
 						.attr("cx",0)
 						.attr("cy",height)
@@ -1552,9 +1612,9 @@ function interactivewrapper() {
 						//Removes blank data: START
 						.classed("baddata", function(d) {
 							if (d.AllGradeELA + d.AllGradeMath == 0) {
-								return true
+								return true;
 							}
-							else { return false }
+							else { return false; }
 						});
 
 					removeblank();
@@ -1585,7 +1645,7 @@ function interactivewrapper() {
 						createcircles();
 						var newcircle = svg.selectAll("circle")
 							.sort(function(a, b) {
-								return d3.descending(a.ThreeELA, b.ThreeELA)
+								return d3.descending(a.ThreeELA, b.ThreeELA);
 								})
 							.attr("cx",0)
 							.attr("cy", height)
@@ -1610,9 +1670,9 @@ function interactivewrapper() {
 							//Removes blank data: START
 							.classed("baddata", function(d) {
 								if (d.ThreeELA + d.ThreeMath == 0) {
-									return true
+									return true;
 								}
-								else { return false }
+								else { return false; }
 							});
 
 						removeblank();
@@ -1635,7 +1695,7 @@ function interactivewrapper() {
 						createcircles();
 						var newcircle = svg.selectAll("circle")
 							.sort(function(a, b) {
-								return d3.descending(a.FourELA, b.FourELA)
+								return d3.descending(a.FourELA, b.FourELA);
 								})
 							.attr("cx",0)
 							.attr("cy", height)
@@ -1660,9 +1720,9 @@ function interactivewrapper() {
 							//Removes blank data: START
 							.classed("baddata", function(d) {
 								if (d.FourELA + d.FourMath == 0) {
-									return true
+									return true;
 								}
-								else { return false }
+								else { return false; }
 							});
 
 						removeblank();
@@ -1685,7 +1745,7 @@ function interactivewrapper() {
 						createcircles();
 						var newcircle = svg.selectAll("circle")
 							.sort(function(a, b) {
-								return d3.descending(a.FiveELA, b.FiveELA)
+								return d3.descending(a.FiveELA, b.FiveELA);
 								})
 							.attr("cx",0)
 							.attr("cy", height)
@@ -1710,9 +1770,9 @@ function interactivewrapper() {
 							//Removes blank data: START
 							.classed("baddata", function(d) {
 								if (d.FiveELA + d.FiveMath == 0) {
-									return true
+									return true;
 								}
-								else { return false }
+								else { return false; }
 							});
 
 						removeblank();
@@ -1735,7 +1795,7 @@ function interactivewrapper() {
 						createcircles();
 						var newcircle = svg.selectAll("circle")
 							.sort(function(a, b) {
-								return d3.descending(a.SixELA, b.SixELA)
+								return d3.descending(a.SixELA, b.SixELA);
 								})
 							.attr("cx",0)
 							.attr("cy", height)
@@ -1760,9 +1820,9 @@ function interactivewrapper() {
 							//Removes blank data: START
 							.classed("baddata", function(d) {
 								if (d.SixELA + d.SixMath == 0) {
-									return true
+									return true;
 								}
-								else { return false }
+								else { return false; }
 							});
 
 						removeblank();
@@ -1785,7 +1845,7 @@ function interactivewrapper() {
 						createcircles();
 						var newcircle = svg.selectAll("circle")
 							.sort(function(a, b) {
-								return d3.descending(a.SevenELA, b.SevenELA)
+								return d3.descending(a.SevenELA, b.SevenELA);
 								})
 							.attr("cx",0)
 							.attr("cy", height)
@@ -1810,9 +1870,9 @@ function interactivewrapper() {
 							//Removes blank data: START
 							.classed("baddata", function(d) {
 								if (d.SevenELA + d.SevenMath == 0) {
-									return true
+									return true;
 								}
-								else { return false }
+								else { return false; }
 							});
 
 						removeblank();
@@ -1827,7 +1887,7 @@ function interactivewrapper() {
 								return heightscale(d.SevenMath);
 								});
 					}, timer);
-				})
+				});
 
 				$('#eightscatterbutton').click(function(){
 					backtozero();
@@ -1835,7 +1895,7 @@ function interactivewrapper() {
 						createcircles();
 						var newcircle = svg.selectAll("circle")
 							.sort(function(a, b) {
-								return d3.descending(a.EightELA, b.EightELA)
+								return d3.descending(a.EightELA, b.EightELA);
 								})
 							.attr("cx",0)
 							.attr("cy", height)
@@ -1860,9 +1920,9 @@ function interactivewrapper() {
 							//Removes blank data: START
 							.classed("baddata", function(d) {
 								if (d.EightELA + d.EightMath == 0) {
-									return true
+									return true;
 								}
-								else { return false }
+								else { return false; }
 							});
 
 						removeblank();
@@ -1877,7 +1937,7 @@ function interactivewrapper() {
 								return heightscale(d.EightMath);
 								});
 					}, timer);
-				})
+				});
 				//Grade buttons: END
 				//Call default state functions
 				createcircles();
@@ -1897,8 +1957,8 @@ function interactivewrapper() {
 			var height = containerheight - chartmargins.top - chartmargins.bottom;
 
 			//set up date formatter for scale
-			var dateformat = d3.time.format("%x")
-			var scaleformat = d3.time.format("%Y")
+			var dateformat = d3.time.format("%x");
+			var scaleformat = d3.time.format("%Y");
 
 			//set up scales
 			var heightscale = d3.scale.linear ()
@@ -1914,7 +1974,7 @@ function interactivewrapper() {
 				.outerTickSize(0)
 				.innerTickSize(0)
 				.tickFormat(function(d){
-						return scaleformat(dateformat.parse(d))
+						return scaleformat(dateformat.parse(d));
 						})
 				.ticks(3)
 				.tickPadding(5);
@@ -1925,7 +1985,7 @@ function interactivewrapper() {
 				.scale(heightscale)
 				.orient("left")
 				.tickFormat(function(d){
-						return d +"%"
+						return d +"%";
 						})
 				.outerTickSize(0)
 				.ticks(5);
@@ -1984,9 +2044,9 @@ function interactivewrapper() {
 
 				//set scale domains
 				heightscale.domain ([0, d3.max(data, function(d){
-							return +d.Max + 3.5}) 
+							return +d.Max + 3.5;}) 
 							]);		
-				widthscale.domain(data.map(function(d) { return d.Date } ))
+				widthscale.domain(data.map(function(d) { return d.Date; } ));
 
 				//Start Citywide bar chart
 				//Create groups
@@ -1999,27 +2059,27 @@ function interactivewrapper() {
 				//Create bars
 				var Cityrects = Citybargroups.append("rect")
 					.attr("x", function(d, i) {
-									return widthscale(d.Date)
+									return widthscale(d.Date);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.CityElaLv34)
+						return heightscale(d.CityElaLv34);
 					})
 					.attr("width", widthscale.rangeBand())
 					.attr("height", function(d) {
-						return height - heightscale(d.CityElaLv34)
+						return height - heightscale(d.CityElaLv34);
 					})
 					.attr("class", "Citywide");
 				
 				//Create labels
 				var Cityrectslabels = Citybargroups.append("text")
 					.attr("x", function(d) {
-									return widthscale(d.Date) + (widthscale.rangeBand()/2)
+									return widthscale(d.Date) + (widthscale.rangeBand()/2);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.CityElaLv34) - 5
+						return heightscale(d.CityElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.CityElaLv34, 1) + "%")
+						return (d3.round(d.CityElaLv34, 1) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel ");
@@ -2043,27 +2103,27 @@ function interactivewrapper() {
 				//Create bars
 				var Manrects = Manbargroups.append("rect")
 					.attr("x", function(d, i) {
-									return widthscale(d.Date)
+									return widthscale(d.Date);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.MANElaLv34)
+						return heightscale(d.MANElaLv34);
 					})
 					.attr("width", widthscale.rangeBand())
 					.attr("height", function(d) {
-						return height - heightscale(d.MANElaLv34)
+						return height - heightscale(d.MANElaLv34);
 					})
 					.attr("class", "Manhattan");
 
 				//Create labels
 				var Manrectslabels = Manbargroups.append("text")
 					.attr("x", function(d) {
-									return widthscale(d.Date) + (widthscale.rangeBand()/2)
+									return widthscale(d.Date) + (widthscale.rangeBand()/2);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.MANElaLv34) - 5
+						return heightscale(d.MANElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.MANElaLv34, 1) + "%")
+						return (d3.round(d.MANElaLv34, 1) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel");
@@ -2087,27 +2147,27 @@ function interactivewrapper() {
 				//create bars
 				var Bkrects = Bkbargroups.append("rect")
 					.attr("x", function(d, i) {
-									return widthscale(d.Date)
+									return widthscale(d.Date);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.BKElaLv34)
+						return heightscale(d.BKElaLv34);
 					})
 					.attr("width", widthscale.rangeBand())
 					.attr("height", function(d) {
-						return height - heightscale(d.BKElaLv34)
+						return height - heightscale(d.BKElaLv34);
 					})
 					.attr("class", "Brooklyn");
 
 				//Create labels
 				var Bkrectslabels = Bkbargroups.append("text")
 					.attr("x", function(d) {
-									return widthscale(d.Date) + (widthscale.rangeBand()/2)
+									return widthscale(d.Date) + (widthscale.rangeBand()/2);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.BKElaLv34) - 5
+						return heightscale(d.BKElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.BKElaLv34, 1) + "%")
+						return (d3.round(d.BKElaLv34, 1) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel");
@@ -2131,27 +2191,27 @@ function interactivewrapper() {
 				//create bars
 				var Bxrects = Bxbargroups.append("rect")
 					.attr("x", function(d, i) {
-									return widthscale(d.Date)
+									return widthscale(d.Date);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.BXElaLv34)
+						return heightscale(d.BXElaLv34);
 					})
 					.attr("width", widthscale.rangeBand())
 					.attr("height", function(d) {
-						return height - heightscale(d.BXElaLv34)
+						return height - heightscale(d.BXElaLv34);
 					})
 					.attr("class", "Bronx");
 
 				//Create labels
 				var Bxrectslabels = Bxbargroups.append("text")
 					.attr("x", function(d) {
-									return widthscale(d.Date) + (widthscale.rangeBand()/2)
+									return widthscale(d.Date) + (widthscale.rangeBand()/2);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.BXElaLv34) - 5
+						return heightscale(d.BXElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.BXElaLv34, 1) + "%")
+						return (d3.round(d.BXElaLv34, 1) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel");
@@ -2175,27 +2235,27 @@ function interactivewrapper() {
 				//create bars
 				var Qnrects = Qnbargroups.append("rect")
 					.attr("x", function(d, i) {
-									return widthscale(d.Date)
+									return widthscale(d.Date);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.QNElaLv34)
+						return heightscale(d.QNElaLv34);
 					})
 					.attr("width", widthscale.rangeBand())
 					.attr("height", function(d) {
-						return height - heightscale(d.QNElaLv34)
+						return height - heightscale(d.QNElaLv34);
 					})
 					.attr("class", "Queens");
 
 				//Create labels
 				var Qnrectslabels = Qnbargroups.append("text")
 					.attr("x", function(d) {
-									return widthscale(d.Date) + (widthscale.rangeBand()/2)
+									return widthscale(d.Date) + (widthscale.rangeBand()/2);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.QNElaLv34) - 5
+						return heightscale(d.QNElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.QNElaLv34, 1) + "%")
+						return (d3.round(d.QNElaLv34, 1) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel");
@@ -2219,27 +2279,27 @@ function interactivewrapper() {
 				//create bars
 				var Sirects = Sibargroups.append("rect")
 					.attr("x", function(d, i) {
-									return widthscale(d.Date)
+									return widthscale(d.Date);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.SIElaLv34)
+						return heightscale(d.SIElaLv34);
 					})
 					.attr("width", widthscale.rangeBand())
 					.attr("height", function(d) {
-						return height - heightscale(d.SIElaLv34)
+						return height - heightscale(d.SIElaLv34);
 					})
 					.attr("class", "Staten");
 
 				//Create labels
 				var Sirectslabels = Sibargroups.append("text")
 					.attr("x", function(d) {
-									return widthscale(d.Date) + (widthscale.rangeBand()/2)
+									return widthscale(d.Date) + (widthscale.rangeBand()/2);
 								})
 					.attr("y", function(d) {
-						return heightscale(d.SIElaLv34) - 5
+						return heightscale(d.SIElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.SIElaLv34, 1) + "%")
+						return (d3.round(d.SIElaLv34, 1) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel");
@@ -2258,223 +2318,223 @@ function interactivewrapper() {
 				Cityrects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.CityMathLv34)
+							return heightscale(d.CityMathLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.CityMathLv34)
+						return height - heightscale(d.CityMathLv34);
 					});
 					
 				Cityrectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.CityMathLv34) - 5
+							return heightscale(d.CityMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.CityMathLv34, 1) + "%")
+						return (d3.round(d.CityMathLv34, 1) + "%");
 					});
 
 				Manrects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.MANMathLv34)
+							return heightscale(d.MANMathLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.MANMathLv34)
+						return height - heightscale(d.MANMathLv34);
 					});
 					
 				Manrectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.MANMathLv34) - 5
+							return heightscale(d.MANMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.MANMathLv34, 1) + "%")
+						return (d3.round(d.MANMathLv34, 1) + "%");
 					});
 
 				Bkrects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.BKMathLv34)
+							return heightscale(d.BKMathLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.BKMathLv34)
+						return height - heightscale(d.BKMathLv34);
 					});
 				
 				Bkrectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.BKMathLv34) - 5
+							return heightscale(d.BKMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.BKMathLv34, 1) + "%")
+						return (d3.round(d.BKMathLv34, 1) + "%");
 					});
 
 				Bxrects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.BXMathLv34)
+							return heightscale(d.BXMathLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.BXMathLv34)
+						return height - heightscale(d.BXMathLv34);
 					});
 				
 				Bxrectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.BXMathLv34) - 5
+							return heightscale(d.BXMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.BXMathLv34, 1) + "%")
+						return (d3.round(d.BXMathLv34, 1) + "%");
 					});
 
 				Qnrects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.QNMathLv34)
+							return heightscale(d.QNMathLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.QNMathLv34)
+						return height - heightscale(d.QNMathLv34);
 					});
 				
 				Qnrectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.QNMathLv34) - 5
+							return heightscale(d.QNMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.QNMathLv34, 1) + "%")
+						return (d3.round(d.QNMathLv34, 1) + "%");
 					});
 
 				Sirects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.SIMathLv34)
+							return heightscale(d.SIMathLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.SIMathLv34)
+						return height - heightscale(d.SIMathLv34);
 					});
 				
 				Sirectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.SIMathLv34) - 5
+							return heightscale(d.SIMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.SIMathLv34, 1) + "%")
+						return (d3.round(d.SIMathLv34, 1) + "%");
 					});
-			})
+			});
 
 			$('#ELAbarbutton').click(function(){
 				Cityrects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.CityElaLv34)
+							return heightscale(d.CityElaLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.CityElaLv34)
+						return height - heightscale(d.CityElaLv34);
 					});
 				
 				Cityrectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.CityElaLv34) - 5
+							return heightscale(d.CityElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.CityElaLv34, 1) + "%")
+						return (d3.round(d.CityElaLv34, 1) + "%");
 					});
 
 				Manrects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.MANElaLv34)
+							return heightscale(d.MANElaLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.MANElaLv34)
+						return height - heightscale(d.MANElaLv34);
 					});
 					
 				Manrectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.MANElaLv34) - 5
+							return heightscale(d.MANElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.MANElaLv34, 1) + "%")
+						return (d3.round(d.MANElaLv34, 1) + "%");
 					});
 
 				Bkrects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.BKElaLv34)
+							return heightscale(d.BKElaLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.BKElaLv34)
+						return height - heightscale(d.BKElaLv34);
 					});
 					
 				Bkrectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.BKElaLv34) - 5
+							return heightscale(d.BKElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.BKElaLv34, 1) + "%")
+						return (d3.round(d.BKElaLv34, 1) + "%");
 					});
 
 				Bxrects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.BXElaLv34)
+							return heightscale(d.BXElaLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.BXElaLv34)
+						return height - heightscale(d.BXElaLv34);
 					});
 					
 				Bxrectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.BXElaLv34) - 5
+							return heightscale(d.BXElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.BXElaLv34, 1) + "%")
+						return (d3.round(d.BXElaLv34, 1) + "%");
 					});
 
 				Qnrects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.QNElaLv34)
+							return heightscale(d.QNElaLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.QNElaLv34)
+						return height - heightscale(d.QNElaLv34);
 					});
 					
 				Qnrectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.QNElaLv34) - 5
+							return heightscale(d.QNElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.QNElaLv34, 1) + "%")
+						return (d3.round(d.QNElaLv34, 1) + "%");
 					});
 
 				Sirects.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.SIElaLv34)
+							return heightscale(d.SIElaLv34);
 						})
 					.attr("height", function(d) {
-						return height - heightscale(d.SIElaLv34)
+						return height - heightscale(d.SIElaLv34);
 					});
 					
 				Sirectslabels.transition()
 					.duration(timer)
 					.attr("y", function(d) {
-							return heightscale(d.SIElaLv34) - 5
+							return heightscale(d.SIElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.SIElaLv34, 1) + "%")
+						return (d3.round(d.SIElaLv34, 1) + "%");
 					});
 			});
 
-			}) // End CSV load
+			}); // End CSV load
 		}, // End edubars;
 
 		homelessline: function() {
@@ -2509,8 +2569,8 @@ function interactivewrapper() {
 				.range([height,0]);
 
 				// Set number of ticks on x-axis
-			if (width <= 500 ) {numticks = 5}
-			else {numticks = 15};	
+			if (width <= 500 ) {numticks = 5;}
+			else {numticks = 15;}	
 
 			//create y-axis
 			var yAxis = d3.svg.axis()
@@ -2528,7 +2588,7 @@ function interactivewrapper() {
 				.ticks(numticks)
 				.outerTickSize(0)
 				.tickFormat(function(d) {
-					return scaleFormat(d)
+					return scaleFormat(d);
 				});
 
 			//Set up area generator before transition
@@ -2579,10 +2639,10 @@ function interactivewrapper() {
 								return {
 									x: d.Date,
 									y: +d[q]
-								}
+								};
 							})
-						}
-					})
+						};
+					});
 
 				stack(dataset); //apply stack
 
@@ -2595,10 +2655,10 @@ function interactivewrapper() {
 
 				widthscale.domain([
 					d3.min(dataset[dataset.length - 1].population, function(d) {
-						return +d.x
+						return +d.x;
 					}),
 					d3.max(dataset[dataset.length -1].population, function(d) {
-						return +d.x
+						return +d.x;
 					})
 				]);
 
@@ -2612,17 +2672,17 @@ function interactivewrapper() {
 					.enter()
 					.append("path")
 					.attr ("class", function(d) {
-						return d.name + " area"
+						return d.name + " area";
 					})
 					.attr("d", function(d) {
-		  			return areabefore(d.population)
+		  			return areabefore(d.population);
 		  			})
 					.attr("stroke", "none");
 
 				beforearea.transition()
 					.duration(timer)
 					.attr("d", function(d) {
-		  			return area(d.population)
+		  			return area(d.population);
 		  			});
 				
 				// call Y-axis
@@ -2643,7 +2703,7 @@ function interactivewrapper() {
 
 	      		var focusline = focus.append("rect")
 	      		    .attr("width", 2)
-	      			.attr("height", height)
+	      			.attr("height", height);
 
 	      		var focustextback = focus.append("rect")
 	      		    .attr('height', 105)
@@ -2713,7 +2773,21 @@ function interactivewrapper() {
 						singleMenfocuscircle.style("display", null);
 						singleWomenfocuscircle.style("display", null);
 						})
+					.on("touchstart", function() { 
+						focus.style("display", null);
+						childrenfocuscircle.style("display", null);
+						adultsInfamiliesfocuscircle.style("display", null);
+						singleMenfocuscircle.style("display", null);
+						singleWomenfocuscircle.style("display", null);
+						})
 	      			.on("mouseout", function() { 
+	      				focus.style("display", "none");
+	      				childrenfocuscircle.style("display", "none");
+	      				adultsInfamiliesfocuscircle.style("display", "none");
+	      				singleMenfocuscircle.style("display", "none");
+	      				singleWomenfocuscircle.style("display", "none");
+	      				})
+	      			.on("touchend", function() { 
 	      				focus.style("display", "none");
 	      				childrenfocuscircle.style("display", "none");
 	      				adultsInfamiliesfocuscircle.style("display", "none");
@@ -2738,7 +2812,7 @@ function interactivewrapper() {
 			 		else{
 			 				focustextback.attr("transform", "translate(0,0)");
 			 				focustextbox.attr("transform", "translate(0,0)");
-			 			};
+			 			}
 					
 					focus.attr("transform", "translate(" + widthscale(d.Date) + ",0)");
 					childrenfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.children) + ")");
@@ -2760,9 +2834,9 @@ function interactivewrapper() {
 
 				    focus.select("#childrentext")
 				    	.text( "Children: " + commaformat(d.children));
-				  };
+				  }
 
-			}) // End CSV load
+			}); // End CSV load
 		},  // End homeless line
 
 		mediansalesline: function() {
@@ -2796,8 +2870,8 @@ function interactivewrapper() {
 
 
 				// Set number of ticks on x-axis
-			if (width <= 500 ) {numticks = 5}
-			else {numticks = 15};	
+			if (width <= 500 ) {numticks = 5;}
+			else {numticks = 15;}
 
 			//create y-axis
 			var yAxis = d3.svg.axis()
@@ -2807,7 +2881,7 @@ function interactivewrapper() {
 				.innerTickSize(-width)
 				.outerTickSize(0)
 				.tickFormat(function(d){
-						return "$" + commaformat(d) 
+						return "$" + commaformat(d);
 						});
 
 			//create x-axis
@@ -2817,7 +2891,7 @@ function interactivewrapper() {
 				.ticks(numticks)
 				.outerTickSize(0)
 				.tickFormat(function(d) {
-					return scaleFormat(d)
+					return scaleFormat(d);
 				});
 
 			//Set up line generator before transition
@@ -2870,7 +2944,7 @@ function interactivewrapper() {
 				})
 				.y(function(d) {
 					return heightscale(+d.Bronx);
-				})
+				});
 
 			//Set up Staten Island line generator 
 			var siline = d3.svg.line()
@@ -2902,13 +2976,13 @@ function interactivewrapper() {
 
 				//Set scale domains
 				heightscale.domain([
-					d3.min(data,function(d){return +d.Citywide - 75}), 
-					d3.max(data,function(d){return +d.Citywide + 75})
+					d3.min(data,function(d){return +d.Citywide - 75;}), 
+					d3.max(data,function(d){return +d.Citywide + 75;})
 				]);
 
 				widthscale.domain([
-					d3.min(data,function(d){return +d.Date}), 
-					d3.max(data,function(d){return +d.Date})
+					d3.min(data,function(d){return +d.Date;}), 
+					d3.max(data,function(d){return +d.Date;})
 				]);
 
 				//add recessions
@@ -2990,7 +3064,9 @@ function interactivewrapper() {
 	      			.attr("width", width)
 	      			.attr("height", height)
 					.on("mouseover", function() { focus.style("display", null); })
+					.on("touchstart", function() { focus.style("display", null); })
 	      			.on("mouseout", function() { focus.style("display", "none"); })
+	      			.on("touchend", function() { focus.style("display", "none"); })
 	      			.on("mousemove", mousemove)
 	      			.on("touchmove", mousemove);
 
@@ -3013,51 +3089,51 @@ function interactivewrapper() {
 			 		else{
 			 				focustextback.attr("transform", "translate(0,0)");
 			 				focustext.attr("transform", "translate(0,0)");
-			 			};
+			 			}
 
 				    if ($('#citysalesbutton').hasClass("active")) {
 				     	focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Citywide) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Citywide))
-	   					};
+				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Citywide));
+	   					}
 	   				
 	   				if ($('#mansalesbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Manhattan) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Manhattan))
-	   					};
+				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Manhattan));
+	   					}
 	   				
 	   				if ($('#bksalesbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Brooklyn) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Brooklyn))
-	   					};
+				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Brooklyn));
+	   					}
 	   				
 	   				if ($('#bxsalesbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Bronx) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Bronx))
-	   					};
+				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Bronx));
+	   					}
 	   				
 	   				if ($('#qnsalesbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Queens) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Queens))
-	   					};
+				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Queens));
+	   					}
 
 	   				if ($('#sisalesbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Staten) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Staten))
-	   					};
-				  };
+				    	.text(monthFormat(d.Date)+ ": $" + commaformat(d.Staten));
+	   					}
+				  }
 
 				//button actions
 				
 				$('#citysalesbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Citywide - 75}), 
-						d3.max(data,function(d){return +d.Citywide + 75})
+						d3.min(data,function(d){return +d.Citywide - 75;}), 
+						d3.max(data,function(d){return +d.Citywide + 75;})
 					]);
 
 					beforeline.transition()
@@ -3075,8 +3151,8 @@ function interactivewrapper() {
 
 				$('#mansalesbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Manhattan - 75}), 
-						d3.max(data,function(d){return +d.Manhattan + 75})
+						d3.min(data,function(d){return +d.Manhattan - 75;}), 
+						d3.max(data,function(d){return +d.Manhattan + 75;})
 					]);
 
 					beforeline.transition()
@@ -3094,8 +3170,8 @@ function interactivewrapper() {
 
 				$('#bksalesbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Brooklyn - 75}), 
-						d3.max(data,function(d){return +d.Brooklyn + 75})
+						d3.min(data,function(d){return +d.Brooklyn - 75;}), 
+						d3.max(data,function(d){return +d.Brooklyn + 75;})
 					]);
 
 					beforeline.transition()
@@ -3113,8 +3189,8 @@ function interactivewrapper() {
 
 				$('#bxsalesbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Bronx - 75}), 
-						d3.max(data,function(d){return +d.Bronx + 75})
+						d3.min(data,function(d){return +d.Bronx - 75;}), 
+						d3.max(data,function(d){return +d.Bronx + 75;})
 					]);
 
 					beforeline.transition()
@@ -3132,8 +3208,8 @@ function interactivewrapper() {
 
 				$('#qnsalesbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Queens - 75}), 
-						d3.max(data,function(d){return +d.Queens + 75})
+						d3.min(data,function(d){return +d.Queens - 75;}), 
+						d3.max(data,function(d){return +d.Queens + 75;})
 					]);
 
 					beforeline.transition()
@@ -3151,8 +3227,8 @@ function interactivewrapper() {
 
 				$('#sisalesbutton').click(function(){
 					heightscale.domain([
-						d3.min(data.filter(function(d) { return d.Staten; }),function(d){return +d.Staten - 40}),
-						d3.max(data,function(d){return +d.Staten + 40})
+						d3.min(data.filter(function(d) { return d.Staten; }),function(d){return +d.Staten - 40;}),
+						d3.max(data,function(d){return +d.Staten + 40;})
 					]);
 
 					beforeline.transition()
@@ -3167,7 +3243,7 @@ function interactivewrapper() {
 	    			.duration(timer)
 	    			.call(yAxis);
 				});
-			})// End CSV load
+			});// End CSV load
 		}, // End drawmediansalesline
 
 		medianrentline: function() {
@@ -3195,8 +3271,8 @@ function interactivewrapper() {
 				.range([height,0]);
 
 				// Set number of ticks on x-axis
-			if (width <= 500 ) {numticks = 5}
-			else {numticks = 5};	
+			if (width <= 500 ) {numticks = 5;}
+			else {numticks = 5;}	
 
 			//create y-axis
 			var yAxis = d3.svg.axis()
@@ -3206,7 +3282,7 @@ function interactivewrapper() {
 				.innerTickSize(-width)
 				.outerTickSize(0)
 				.tickFormat(function(d){
-						return "$" + commaformat(d) 
+						return "$" + commaformat(d); 
 						});
 
 			//create x-axis
@@ -3216,7 +3292,7 @@ function interactivewrapper() {
 				.ticks(numticks)
 				.outerTickSize(0)
 				.tickFormat(function(d) {
-					return scaleFormat(d)
+					return scaleFormat(d);
 				});
 
 			//Set up line generator before transition
@@ -3299,13 +3375,13 @@ function interactivewrapper() {
 
 				//Set scale domains
 				heightscale.domain([
-					d3.min(data,function(d){return +d.Citywide - 75}), 
-					d3.max(data,function(d){return +d.Citywide + 75})
+					d3.min(data,function(d){return +d.Citywide - 75;}), 
+					d3.max(data,function(d){return +d.Citywide + 75;})
 				]);
 
 				widthscale.domain([
-					d3.min(data,function(d){return +d.Date}), 
-					d3.max(data,function(d){return +d.Date})
+					d3.min(data,function(d){return +d.Date;}), 
+					d3.max(data,function(d){return +d.Date;})
 				]);
 				
 				// call Y-axis
@@ -3364,7 +3440,9 @@ function interactivewrapper() {
 	      			.attr("width", width)
 	      			.attr("height", height)
 					.on("mouseover", function() { focus.style("display", null); })
+					.on("touchstart", function() { focus.style("display", null); })
 	      			.on("mouseout", function() { focus.style("display", "none"); })
+	      			.on("touchend", function() { focus.style("display", "none"); })
 	      			.on("mousemove", mousemove)
 	      			.on("touchmove", mousemove);
 
@@ -3386,51 +3464,51 @@ function interactivewrapper() {
 			 		else{
 			 				focustextback.attr("transform", "translate(0,0)");
 			 				focustext.attr("transform", "translate(0,0)");
-			 			};
+			 			}
 
 				    if ($('#cityrentbutton').hasClass("active")) {
 				     	focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Citywide) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Citywide))
-	   					};
+				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Citywide));
+	   					}
 	   				
 	   				if ($('#manrentbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Manhattan) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Manhattan))
-	   					};
+				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Manhattan));
+	   					}
 	   				
 	   				if ($('#bkrentbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Brooklyn) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Brooklyn))
-	   					};
+				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Brooklyn));
+	   					}
 	   				
 	   				if ($('#bxrentbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Bronx) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Bronx))
-	   					};
+				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Bronx));
+	   					}
 	   				
 	   				if ($('#qnrentbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Queens) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Queens))
-	   					};
+				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Queens));
+	   					}
 
 	   				if ($('#sirentbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Staten) + ")");
 				    	focus.select("text")
-				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Staten))
-	   					};
-				  };
+				    	.text(monthFormat(d.Date) + ": $" + commaformat(d.Staten));
+	   					}
+				  }
 
 				//button actions
 				
 				$('#cityrentbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Citywide - 75}), 
-						d3.max(data,function(d){return +d.Citywide + 100})
+						d3.min(data,function(d){return +d.Citywide - 75;}), 
+						d3.max(data,function(d){return +d.Citywide + 100;})
 					]);
 
 					beforeline.transition()
@@ -3448,8 +3526,8 @@ function interactivewrapper() {
 
 				$('#manrentbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Manhattan - 150}), 
-						d3.max(data,function(d){return +d.Manhattan + 150})
+						d3.min(data,function(d){return +d.Manhattan - 150;}), 
+						d3.max(data,function(d){return +d.Manhattan + 150;})
 					]);
 
 					beforeline.transition()
@@ -3467,8 +3545,8 @@ function interactivewrapper() {
 
 				$('#bkrentbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Brooklyn - 75}), 
-						d3.max(data,function(d){return +d.Brooklyn + 100})
+						d3.min(data,function(d){return +d.Brooklyn - 75;}), 
+						d3.max(data,function(d){return +d.Brooklyn + 100;})
 					]);
 
 					beforeline.transition()
@@ -3486,8 +3564,8 @@ function interactivewrapper() {
 
 				$('#bxrentbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Bronx - 75}), 
-						d3.max(data,function(d){return +d.Bronx + 75})
+						d3.min(data,function(d){return +d.Bronx - 75;}), 
+						d3.max(data,function(d){return +d.Bronx + 75;})
 					]);
 
 					beforeline.transition()
@@ -3505,8 +3583,8 @@ function interactivewrapper() {
 
 				$('#qnrentbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Queens - 75}), 
-						d3.max(data,function(d){return +d.Queens + 75})
+						d3.min(data,function(d){return +d.Queens - 75;}), 
+						d3.max(data,function(d){return +d.Queens + 75;})
 					]);
 
 					beforeline.transition()
@@ -3524,8 +3602,8 @@ function interactivewrapper() {
 
 				$('#sirentbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Staten - 75}), 
-						d3.max(data,function(d){return +d.Staten + 75})
+						d3.min(data,function(d){return +d.Staten - 75;}), 
+						d3.max(data,function(d){return +d.Staten + 75;})
 					]);
 
 					beforeline.transition()
@@ -3540,7 +3618,7 @@ function interactivewrapper() {
 	    			.duration(timer)
 	    			.call(yAxis);
 				});
-			})// End CSV load
+			});// End CSV load
 		}, // End drawmedianrentline
 
 		crimeline: function() {
@@ -3575,8 +3653,8 @@ function interactivewrapper() {
 				.range([height,0]);
 
 				// Set number of ticks on x-axis
-			if (width <= 500 ) {numticks = 5}
-			else {numticks = 15};	
+			if (width <= 500 ) {numticks = 5;}
+			else {numticks = 15;}
 
 			//create y-axis
 			var yAxis = d3.svg.axis()
@@ -3594,7 +3672,7 @@ function interactivewrapper() {
 				.ticks(numticks)
 				.outerTickSize(0)
 				.tickFormat(function(d) {
-					return scaleFormat(d)
+					return scaleFormat(d);
 				});
 
 			//Set up area generator before transition
@@ -3724,14 +3802,14 @@ function interactivewrapper() {
 								return {
 									x: d.Date,
 									y: +d[q]
-								}
+								};
 							})
-						}
-					})
+						};
+					});
 
 				stack(dataset); //apply stack
 				}
-				newdataset()
+				newdataset();
 				//Set scale domains
 				heightscale.domain([0, d3.max(dataset[dataset.length -1].amount,
 					function(d){
@@ -3741,10 +3819,10 @@ function interactivewrapper() {
 
 				widthscale.domain([
 					d3.min(dataset[dataset.length - 1].amount, function(d) {
-						return +d.x
+						return +d.x;
 					}),
 					d3.max(dataset[dataset.length -1].amount, function(d) {
-						return +d.x
+						return +d.x;
 					})
 				]);
 
@@ -3758,17 +3836,17 @@ function interactivewrapper() {
 					.enter()
 					.append("path")
 					.attr ("class", function(d) {
-						return d.name + " area"
+						return d.name + " area";
 					})
 					.attr("d", function(d) {
-		  			return areabefore(d.amount)
+		  			return areabefore(d.amount);
 		  			})
 					.attr("stroke", "none");
 
 				beforearea.transition()
 					.duration(timer)
 					.attr("d", function(d) {
-		  			return area(d.amount)
+		  			return area(d.amount);
 		  			});
 				// call Y-axis
 				svg.append("g")
@@ -3808,18 +3886,18 @@ function interactivewrapper() {
 	      			.attr("width", width)
 	      			.attr("height", height);
 
-	      		mainoverlayhighlight()
+	      		mainoverlayhighlight();
 
 	      		function overlayhighlight() {
 	      			overlay.on("mouseover", function() { 
 						focus.style("display", null); })
+	      			.on("touchstart", function() { 
+						focus.style("display", null); })
 	      			.on("mouseout", function() { focus.style("display", "none"); })
+	      			.on("touchend", function() { focus.style("display", "none"); })
 	      			.on("mousemove", mousemove)
 	      			.on("touchmove", mousemove)
-	      			.on("mouseout", function() { focus.style("display", "none"); })
-	      			.on("mousemove", mousemove)
-	      			.on("touchmove", mousemove);
-	      		};
+	      		}
 
 				function mousemove() {
 				    var x0 = widthscale.invert(d3.mouse(this)[0]),
@@ -3839,56 +3917,56 @@ function interactivewrapper() {
 			 		else{
 			 				focustextback.attr("transform", "translate(0,0)");
 			 				focustext.attr("transform", "translate(0,0)");
-			 			};
+			 			}
 
 				    if ($('#allcrimebutton').hasClass("active")) {
 				     	focus.attr("transform", "translate(" + widthscale(d.Date) + "," + +heightscale(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery + +d.Burglary + +d.GrandLarcenyAuto + +d.Rape + +d.Murder) + ")");
 				    	focus.select("text")
-				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery + +d.Burglary + +d.GrandLarcenyAuto + +d.Rape + +d.Murder,1)))
-	   					};
+				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery + +d.Burglary + +d.GrandLarcenyAuto + +d.Rape + +d.Murder,1)));
+	   					}
 	   				
 	   				if ($('#grandlarcenybutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.GrandLarceny) + ")");
 				    	focus.select("text")
-				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.GrandLarceny,1)))
-	   					};
+				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.GrandLarceny,1)));
+	   					}
 	   				
 	   				if ($('#felonyassaultbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.FelonyAssault) + ")");
 				    	focus.select("text")
-				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.FelonyAssault,1)))
-	   					};
+				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.FelonyAssault,1)));
+	   					}
 	   				
 	   				if ($('#robberybutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Robbery) + ")");
 				    	focus.select("text")
-				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Robbery,1)))
-	   					};
+				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Robbery,1)));
+	   					}
 	   				
 	   				if ($('#burglarybutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Burglary) + ")");
 				    	focus.select("text")
-				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Burglary,1)))
-	   					};
+				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Burglary,1)));
+	   					}
 
 	   				if ($('#grandlarcenyautobutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.GrandLarcenyAuto) + ")");
 				    	focus.select("text")
-				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.GrandLarcenyAuto,1)))
-	   					};
+				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.GrandLarcenyAuto,1)));
+	   					}
 
 	   				if ($('#rapebutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Rape) + ")");
 				    	focus.select("text")
-				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Rape,1)))
-	   					};
+				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Rape,1)));
+	   					}
 
 	   				if ($('#murderbutton').hasClass("active")){
 	   			 		focus.attr("transform", "translate(" + widthscale(d.Date) + "," + heightscale(+d.Murder) + ")");
 				    	focus.select("text")
-				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Murder,1)))
-	   					};
-				  };
+				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Murder,1)));
+	   					}
+				  }
 
 				//add main callouts
 				var mainfocus = svg.append("g")
@@ -3897,11 +3975,11 @@ function interactivewrapper() {
 
 	      		var mainfocusline = mainfocus.append("rect")
 	      		    .attr("width", 2)
-	      			.attr("height", height)
+	      			.attr("height", height);
 
 	      		var mainfocustextback = mainfocus.append("rect")
 	      		    .attr('height', 160)
-	      		    .attr('width', 185)
+	      		    .attr('width', 152)
 	                .attr('x', 10)
 	                .attr('y', 105)
 	                .attr("class", "focustextback");
@@ -3997,7 +4075,27 @@ function interactivewrapper() {
 	      				FelonyAssaultfocuscircle.style("display", null);
 	      				GrandLarcenyfocuscircle.style("display", null);   
 						})
+	     			.on("touchstart", function() { 
+						mainfocus.style("display", null);
+	      				Murderfocuscircle.style("display", null);
+	      				Rapefocuscircle.style("display", "none");
+	      				GrandLarcenyAutofocuscircle.style("display", null);
+	      				Burglaryfocuscircle.style("display", null);
+	      				Robberyfocuscircle.style("display", null);
+	      				FelonyAssaultfocuscircle.style("display", null);
+	      				GrandLarcenyfocuscircle.style("display", null);   
+						})
 	      			.on("mouseout", function() { 
+	      				mainfocus.style("display", "none");
+	      				Murderfocuscircle.style("display", "none");
+	      				Rapefocuscircle.style("display", "none");
+	      				GrandLarcenyAutofocuscircle.style("display", "none");
+	      				Burglaryfocuscircle.style("display", "none");
+	      				Robberyfocuscircle.style("display", "none");
+	      				FelonyAssaultfocuscircle.style("display", "none");
+	      				GrandLarcenyfocuscircle.style("display", "none");    				
+	      				})
+	      			.on("touchend", function() { 
 	      				mainfocus.style("display", "none");
 	      				Murderfocuscircle.style("display", "none");
 	      				Rapefocuscircle.style("display", "none");
@@ -4009,7 +4107,7 @@ function interactivewrapper() {
 	      				})
 	      			.on("mousemove", mainmousemove)
 	      			.on("touchmove", mainmousemove);
-	     		};
+	     		}
 
 				function mainmousemove() {
 				    var x0 = widthscale.invert(d3.mouse(this)[0]),
@@ -4018,14 +4116,14 @@ function interactivewrapper() {
 				        d1 = data[i],
 				        d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
 				    
-				    if(widthscale(d.Date) > width-185) {
-			 				mainfocustextback.attr("transform", "translate(-205,0)");
-			 				mainfocustextbox.attr("transform", "translate(-205,0)");
+				    if(widthscale(d.Date) > width-152) {
+			 				mainfocustextback.attr("transform", "translate(-172,0)");
+			 				mainfocustextbox.attr("transform", "translate(-172,0)");
 			 			}
 			 		else{
 			 				mainfocustextback.attr("transform", "translate(0,0)");
 			 				mainfocustextbox.attr("transform", "translate(0,0)");
-			 			};
+			 			}
 					
 					mainfocus.attr("transform", "translate(" + widthscale(d.Date) + ",0)");
 					Murderfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + +heightscale(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery + +d.Burglary + +d.GrandLarcenyAuto + +d.Rape + +d.Murder) + ")");
@@ -4046,7 +4144,7 @@ function interactivewrapper() {
 				    	.text( "Rape: " + commaformat(d3.round(d.Rape,1)));
 				    
 				    mainfocus.select("#GrandLarcenyAutotext")
-				    	.text( "Grand Larceny Auto: " + commaformat(d3.round(d.GrandLarcenyAuto,1)));
+				    	.text( "GLA: " + commaformat(d3.round(d.GrandLarcenyAuto,1)));
 
 				    mainfocus.select("#Burglarytext")
 				    	.text( "Burglary: " + commaformat(d3.round(d.Burglary,1)));
@@ -4059,16 +4157,17 @@ function interactivewrapper() {
 
 				    mainfocus.select("#GrandLarcenytext")
 				    	.text( "Grand Larceny: " + commaformat(d3.round(d.GrandLarceny,1)));			    
-				  };				
+				 }
+
 				//buttton actions
 				$('#allcrimebutton').click(function(){
 					areagroup.selectAll("path")
 					.remove();
 
-					newdataset()
+					newdataset();
 
 					d3.select("#felonylegend")
-					.classed("hidden", false)
+					.classed("hidden", false);
 					
 					setTimeout(function() {
 						heightscale.domain([0, d3.max(dataset[dataset.length -1].amount,
@@ -4082,10 +4181,10 @@ function interactivewrapper() {
 						.enter()
 						.append("path")
 						.attr ("class", function(d) {
-							return d.name + " area"
+							return d.name + " area";
 						})
 						.attr("d", function(d) {
-			  			return areabefore(d.amount)
+			  			return areabefore(d.amount);
 			  			})
 						.attr("stroke", "none");
 
@@ -4093,11 +4192,10 @@ function interactivewrapper() {
 
 	      			mainoverlayhighlight();
 
-
 					beforearea.transition()
 					.duration(timer)
 					.attr("d", function(d) {
-		  			return area(d.amount)
+		  			return area(d.amount);
 		  			});
 
 					svg.select(".y-axis")
@@ -4105,18 +4203,18 @@ function interactivewrapper() {
 	    			.duration(timer)
 	    			.call(yAxis);
 					}, 50);
-				})
+				});
 
 				$('#grandlarcenybutton').click(function(){
 					areagroup.selectAll("path")
 					.remove();
 
 					d3.select("#felonylegend")
-					.classed("hidden", true)
+					.classed("hidden", true);
 					
 					setTimeout(function() {
 						heightscale.domain([0,
-							d3.max(data,function(d){return +d.GrandLarceny + 10000})
+							d3.max(data,function(d){return +d.GrandLarceny + 10000;})
 						]);
 
 					beforearea = areagroup.selectAll("path")
@@ -4140,18 +4238,18 @@ function interactivewrapper() {
 	    			.duration(timer)
 	    			.call(yAxis);
 					}, 50);
-				})
+				});
 
 				$('#felonyassaultbutton').click(function(){
 					areagroup.selectAll("path")
 					.remove();
 
 					d3.select("#felonylegend")
-					.classed("hidden", true)
+					.classed("hidden", true);
 					
 					setTimeout(function() {
 						heightscale.domain([0,
-							d3.max(data,function(d){return +d.FelonyAssault + 5000})
+							d3.max(data,function(d){return +d.FelonyAssault + 5000;})
 						]);
 
 					beforearea = areagroup.selectAll("path")
@@ -4175,18 +4273,18 @@ function interactivewrapper() {
 	    			.duration(timer)
 	    			.call(yAxis);
 					}, 50);
-				})
+				});
 				
 				$('#robberybutton').click(function(){
 					areagroup.selectAll("path")
 					.remove();
 
 					d3.select("#felonylegend")
-					.classed("hidden", true)
+					.classed("hidden", true);
 					
 					setTimeout(function() {
 						heightscale.domain([0,
-							d3.max(data,function(d){return +d.Robbery + 5000})
+							d3.max(data,function(d){return +d.Robbery + 5000;})
 						]);
 
 					beforearea = areagroup.selectAll("path")
@@ -4210,18 +4308,18 @@ function interactivewrapper() {
 	    			.duration(timer)
 	    			.call(yAxis);
 					}, 50);
-				})
+				});
 
 				$('#burglarybutton').click(function(){
 					areagroup.selectAll("path")
 					.remove();
 
 					d3.select("#felonylegend")
-					.classed("hidden", true)
+					.classed("hidden", true);
 					
 					setTimeout(function() {
 						heightscale.domain([0,
-							d3.max(data,function(d){return +d.Burglary + 5000})
+							d3.max(data,function(d){return +d.Burglary + 5000;})
 						]);
 
 					beforearea = areagroup.selectAll("path")
@@ -4243,18 +4341,18 @@ function interactivewrapper() {
 	    			.duration(timer)
 	    			.call(yAxis);
 					}, 50);
-				})
+				});
 
 				$('#grandlarcenyautobutton').click(function(){
 					areagroup.selectAll("path")
 					.remove();
 
 					d3.select("#felonylegend")
-					.classed("hidden", true)
+					.classed("hidden", true);
 					
 					setTimeout(function() {
 						heightscale.domain([0,
-							d3.max(data,function(d){return +d.GrandLarcenyAuto + 5000})
+							d3.max(data,function(d){return +d.GrandLarcenyAuto + 5000;})
 						]);
 
 					beforearea = areagroup.selectAll("path")
@@ -4278,18 +4376,18 @@ function interactivewrapper() {
 	    			.duration(timer)
 	    			.call(yAxis);
 					}, 50);
-				})
+				});
 				
 				$('#rapebutton').click(function(){
 					areagroup.selectAll("path")
 					.remove();
 
 					d3.select("#felonylegend")
-					.classed("hidden", true)
+					.classed("hidden", true);
 					
 					setTimeout(function() {
 						heightscale.domain([0,
-							d3.max(data,function(d){return +d.Rape + 400})
+							d3.max(data,function(d){return +d.Rape + 400;})
 						]);
 
 					beforearea = areagroup.selectAll("path")
@@ -4313,18 +4411,18 @@ function interactivewrapper() {
 	    			.duration(timer)
 	    			.call(yAxis);
 					}, 50);
-				})
+				});
 
 				$('#murderbutton').click(function(){
 					areagroup.selectAll("path")
 					.remove();
 
 					d3.select("#felonylegend")
-					.classed("hidden", true)
+					.classed("hidden", true);
 					
 					setTimeout(function() {
 						heightscale.domain([0,
-							d3.max(data,function(d){return +d.Murder + 100})
+							d3.max(data,function(d){return +d.Murder + 100;})
 						]);
 
 					beforearea = areagroup.selectAll("path")
@@ -4348,16 +4446,19 @@ function interactivewrapper() {
 	    			.duration(timer)
 	    			.call(yAxis);
 					}, 50);
-				})
+				});
 
-			}) // End CSV load
-		}  // End drawhomeless line
+			}); // End CSV load
+		}  // End drawcrime line
 	};
 
 	// Draw charts intially and on resize
 	charts.draw();
-	$( window ).resize(throttle(charts.redraw, 200));
-
+	$( window ).resize( function(){
+		if ($(window).width() != windowWidth) {
+			throttle(charts.redraw, 200)
+		}
+	});
 };
 
 interactivewrapper();
