@@ -299,7 +299,7 @@ function interactivewrapper() {
 
 
 			//set chart dimensions and margins
-			var chartmargins = { top: 0, right: 10, bottom: 20, left: 37 };
+			var chartmargins = { top: 0, right: 10, bottom: 20, left: 25 };
 			var width = containerwidth - chartmargins.left - chartmargins.right;
 			var height = containerheight - chartmargins.top - chartmargins.bottom;
 
@@ -3735,7 +3735,7 @@ function interactivewrapper() {
 				//Set scale domains
 				heightscale.domain([0, d3.max(dataset[dataset.length -1].amount,
 					function(d){
-						return(+d.y0 + +d.y) *1.12;
+						return(+d.y0 + +d.y) *1.01;
 					})
 				]);
 
@@ -3803,14 +3803,23 @@ function interactivewrapper() {
 	      			.attr("r", 6)
 	      			.attr("class", "Murder calloutcircle");
 
-	     		svg.append("rect")
+	     		var overlay = svg.append("rect")
 	      			.attr("class", "overlay")
 	      			.attr("width", width)
-	      			.attr("height", height)
-					.on("mouseover", function() { focus.style("display", null); })
+	      			.attr("height", height);
+
+	      		mainoverlayhighlight()
+
+	      		function overlayhighlight() {
+	      			overlay.on("mouseover", function() { 
+						focus.style("display", null); })
+	      			.on("mouseout", function() { focus.style("display", "none"); })
+	      			.on("mousemove", mousemove)
+	      			.on("touchmove", mousemove)
 	      			.on("mouseout", function() { focus.style("display", "none"); })
 	      			.on("mousemove", mousemove)
 	      			.on("touchmove", mousemove);
+	      		};
 
 				function mousemove() {
 				    var x0 = widthscale.invert(d3.mouse(this)[0]),
@@ -3880,7 +3889,177 @@ function interactivewrapper() {
 				    	.text(scaleFormat(d.Date) + ": " + commaformat(d3.round(d.Murder,1)))
 	   					};
 				  };
-				
+
+				//add main callouts
+				var mainfocus = svg.append("g")
+	      			.attr("class", "focus")
+	      			.style("display", "none");
+
+	      		var mainfocusline = mainfocus.append("rect")
+	      		    .attr("width", 2)
+	      			.attr("height", height)
+
+	      		var mainfocustextback = mainfocus.append("rect")
+	      		    .attr('height', 160)
+	      		    .attr('width', 185)
+	                .attr('x', 10)
+	                .attr('y', 105)
+	                .attr("class", "focustextback");
+
+	  			var mainfocustextbox = mainfocus.append("text")
+	     			.attr("y", 125)
+	     			.attr("text-anchor","start")
+	     			.attr("class", "focustext");
+
+	     		mainfocustextbox.append("tspan")
+	     			.attr("x", 20)
+	     			.attr("id", "CrimeDatetext")
+	     			.attr("font-weight", "500");
+
+	       		mainfocustextbox.append("tspan")
+	     			.attr("x", 20)
+	     			.attr("dy", "1.4em")
+	     			.attr("id", "Murdertext");
+
+	     		mainfocustextbox.append("tspan")
+	     			.attr("x", 20)
+	     			.attr("dy", "1.4em")
+	     			.attr("id", "Rapetext");
+
+	     		mainfocustextbox.append("tspan")
+	     			.attr("x", 20)
+	     			.attr("dy", "1.4em")
+	     			.attr("id", "GrandLarcenyAutotext");
+
+	     		mainfocustextbox.append("tspan")
+	     			.attr("x", 20)
+	     			.attr("dy", "1.4em")
+	     			.attr("id", "Burglarytext");
+
+	     		mainfocustextbox.append("tspan")
+	     			.attr("x", 20)
+	     			.attr("dy", "1.4em")
+	     			.attr("id", "Robberytext");
+
+	     		mainfocustextbox.append("tspan")
+	     			.attr("x", 20)
+	     			.attr("dy", "1.4em")
+	     			.attr("id", "FelonyAssaulttext");
+
+	     		mainfocustextbox.append("tspan")
+	     			.attr("x", 20)
+	     			.attr("dy", "1.4em")
+	     			.attr("id", "GrandLarcenytext");
+	 			
+	 			var GrandLarcenyfocuscircle = svg.append("circle")
+	      			.attr("r", 6)
+	      			.attr("class", "GrandLarceny calloutcircle")
+	      			.style("display", "none");	  	      					
+	 			
+	 			var FelonyAssaultfocuscircle = svg.append("circle")
+	      			.attr("r", 6)
+	      			.attr("class", "FelonyAssault calloutcircle")
+	      			.style("display", "none");
+	 			
+	 			var Robberyfocuscircle = svg.append("circle")
+	      			.attr("r", 6)
+	      			.attr("class", "Robbery calloutcircle")
+	      			.style("display", "none");
+	 			
+	 			var Burglaryfocuscircle = svg.append("circle")
+	      			.attr("r", 6)
+	      			.attr("class", "Burglary calloutcircle")
+	      			.style("display", "none");	   	      			
+	 			
+	 			var GrandLarcenyAutofocuscircle = svg.append("circle")
+	      			.attr("r", 6)
+	      			.attr("class", "GrandLarcenyAuto calloutcircle")
+	      			.style("display", "none");
+
+	      		var  Rapefocuscircle = svg.append("circle")
+	      			.attr("r", 6)
+	      			.attr("class", "Rape calloutcircle")
+	      			.style("display", "none");
+	      		
+	      		var  Murderfocuscircle = svg.append("circle")
+	      			.attr("r", 6)
+	      			.attr("class", "Murder calloutcircle")
+	      			.style("display", "none");	
+
+	     		function mainoverlayhighlight() {
+	     			overlay.on("mouseover", function() { 
+						mainfocus.style("display", null);
+	      				Murderfocuscircle.style("display", null);
+	      				Rapefocuscircle.style("display", "none");
+	      				GrandLarcenyAutofocuscircle.style("display", null);
+	      				Burglaryfocuscircle.style("display", null);
+	      				Robberyfocuscircle.style("display", null);
+	      				FelonyAssaultfocuscircle.style("display", null);
+	      				GrandLarcenyfocuscircle.style("display", null);   
+						})
+	      			.on("mouseout", function() { 
+	      				mainfocus.style("display", "none");
+	      				Murderfocuscircle.style("display", "none");
+	      				Rapefocuscircle.style("display", "none");
+	      				GrandLarcenyAutofocuscircle.style("display", "none");
+	      				Burglaryfocuscircle.style("display", "none");
+	      				Robberyfocuscircle.style("display", "none");
+	      				FelonyAssaultfocuscircle.style("display", "none");
+	      				GrandLarcenyfocuscircle.style("display", "none");    				
+	      				})
+	      			.on("mousemove", mainmousemove)
+	      			.on("touchmove", mainmousemove);
+	     		};
+
+				function mainmousemove() {
+				    var x0 = widthscale.invert(d3.mouse(this)[0]),
+				        i = bisectDate(data, x0, 1),
+				        d0 = data[i - 1],
+				        d1 = data[i],
+				        d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
+				    
+				    if(widthscale(d.Date) > width-185) {
+			 				mainfocustextback.attr("transform", "translate(-205,0)");
+			 				mainfocustextbox.attr("transform", "translate(-205,0)");
+			 			}
+			 		else{
+			 				mainfocustextback.attr("transform", "translate(0,0)");
+			 				mainfocustextbox.attr("transform", "translate(0,0)");
+			 			};
+					
+					mainfocus.attr("transform", "translate(" + widthscale(d.Date) + ",0)");
+					Murderfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + +heightscale(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery + +d.Burglary + +d.GrandLarcenyAuto + +d.Rape + +d.Murder) + ")");
+					Rapefocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + +heightscale(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery + +d.Burglary + +d.GrandLarcenyAuto + +d.Rape) + ")");
+					GrandLarcenyAutofocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + +heightscale(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery + +d.Burglary + +d.GrandLarcenyAuto) + ")");
+				    Burglaryfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + +heightscale(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery + +d.Burglary) + ")");
+				    Robberyfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + +heightscale(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery) + ")");
+				    FelonyAssaultfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + +heightscale(+d.GrandLarceny + +d.FelonyAssault) + ")");
+				    GrandLarcenyfocuscircle.attr("transform", "translate(" + widthscale(d.Date) + "," + +heightscale(+d.GrandLarceny) + ")");
+				    
+				    mainfocus.select("#CrimeDatetext")
+				    	.text( scaleFormat(d.Date)+": " + commaformat(d3.round(+d.GrandLarceny + +d.FelonyAssault + +d.Robbery + +d.Burglary + +d.GrandLarcenyAuto + +d.Rape + +d.Murder,1)));
+
+				    mainfocus.select("#Murdertext")
+				    	.text( "Murder: " + commaformat(d3.round(d.Murder,1)));
+				    
+				    mainfocus.select("#Rapetext")
+				    	.text( "Rape: " + commaformat(d3.round(d.Rape,1)));
+				    
+				    mainfocus.select("#GrandLarcenyAutotext")
+				    	.text( "Grand Larceny Auto: " + commaformat(d3.round(d.GrandLarcenyAuto,1)));
+
+				    mainfocus.select("#Burglarytext")
+				    	.text( "Burglary: " + commaformat(d3.round(d.Burglary,1)));
+
+				    mainfocus.select("#Robberytext")
+				    	.text( "Robbery: " + commaformat(d3.round(d.Robbery,1)));
+				    
+				    mainfocus.select("#FelonyAssaulttext")
+				    	.text( "Felony Assault: " + commaformat(d3.round(d.FelonyAssault,1)));
+
+				    mainfocus.select("#GrandLarcenytext")
+				    	.text( "Grand Larceny: " + commaformat(d3.round(d.GrandLarceny,1)));			    
+				  };				
 				//buttton actions
 				$('#allcrimebutton').click(function(){
 					areagroup.selectAll("path")
@@ -3911,6 +4090,9 @@ function interactivewrapper() {
 						.attr("stroke", "none");
 
 	      			focuscircle.attr("class","Murder calloutcircle");
+
+	      			mainoverlayhighlight();
+
 
 					beforearea.transition()
 					.duration(timer)
@@ -3951,6 +4133,8 @@ function interactivewrapper() {
 	      			
 	      			focuscircle.attr("class","GrandLarceny calloutcircle");
 
+	      			overlayhighlight();
+
 					svg.select(".y-axis")
 					.transition()
 	    			.duration(timer)
@@ -3979,6 +4163,8 @@ function interactivewrapper() {
 						.attr("stroke", "none");
 
 	      			focuscircle.attr("class","FelonyAssault calloutcircle");
+
+	      			overlayhighlight();
 
 					beforearea.transition()
 					.duration(timer)
@@ -4016,6 +4202,8 @@ function interactivewrapper() {
 					.attr("d", RobberyArea);
 
 	      			focuscircle.attr("class","Robbery calloutcircle");
+
+	      			overlayhighlight();
 
 					svg.select(".y-axis")
 					.transition()
@@ -4083,6 +4271,8 @@ function interactivewrapper() {
 
 	      			focuscircle.attr("class","GrandLarcenyAuto calloutcircle");
 
+	      			overlayhighlight();
+
 					svg.select(".y-axis")
 					.transition()
 	    			.duration(timer)
@@ -4115,6 +4305,8 @@ function interactivewrapper() {
 					.attr("d", RapeArea);
 
 	      			focuscircle.attr("class","Rape calloutcircle");
+
+	      			overlayhighlight();
 
 					svg.select(".y-axis")
 					.transition()
@@ -4149,6 +4341,8 @@ function interactivewrapper() {
 
 	      			focuscircle.attr("class","Murder calloutcircle");
 
+	      			overlayhighlight();
+
 					svg.select(".y-axis")
 					.transition()
 	    			.duration(timer)
@@ -4162,7 +4356,7 @@ function interactivewrapper() {
 
 	// Draw charts intially and on resize
 	charts.draw();
-	$( window ).resize(throttle (charts.redraw, 200));
+	$( window ).resize(throttle(charts.redraw, 200));
 
 };
 

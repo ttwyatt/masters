@@ -1,16 +1,22 @@
 /* Overall styles */
 body {
   margin-top: 50px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
 }
 
 h1 {
-  font-family: 'Lora', serif;
-  font-size: 72px;
+  font-family: 'Alfa Slab One', cursive;
+  font-size: 82px;
   text-align: center;
 }
 
-p {
-  letter-spacing: 0.25px;
+h4, h5 {
+  font-weight: 600;
+}
+
+b {
+  font-weight: 700;
 }
 
 footer p {
@@ -24,8 +30,8 @@ footer p {
 
 /* Specific text styles */
 .sectionheader {
-  font-family: 'Lora', serif;
   text-align: left;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 
@@ -47,20 +53,28 @@ p.sectionintro:first-letter {
 */
 
 .maindek {
-  font-size: 24px;
+  font-size: 28px;
   text-align: center;
-  font-weight: 200;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+.mainsubdek {
+  font-size: 18px;
+  text-align: center;
+  font-weight: 400;
+  margin-top: 20px;
 }
 
 .boroughlabel {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 5px;
-  font-weight: 400;                       
+  font-weight: 600;                       
 } 
 
 .barlabel {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'Raleway', sans-serif;
   font-size: 11px;
   font-weight: 400;
   fill: #ababab;
@@ -117,6 +131,7 @@ p.sectionintro:first-letter {
 
 .navbar-nav > li > a {
   text-shadow: none;
+  font-weight: 600;
 }
 
 /* Buttons */
@@ -131,6 +146,10 @@ p.sectionintro:first-letter {
   box-shadow: none;
 }
 
+.btn-default:active, .btn-default.active {
+  background-color: #68686c;
+}
+
 /* Axis */
 .axis path,
 .axis line {
@@ -140,15 +159,15 @@ p.sectionintro:first-letter {
   }
   
 .axis text {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'Raleway', sans-serif;
   font-size: 11px;
   fill: #ababab;
 }
 
 .axislabel {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'Raleway', sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 600;
   fill: #ababab;
   paint-order: stroke;
   stroke: #3f3f41;
@@ -292,75 +311,75 @@ p.sectionintro:first-letter {
 
 /* Shelter chart */
 .children{
-  fill: #1b9e77;
-  background-color: #1b9e77;
+  fill: #225ea8;
+  background-color: #225ea8;
 }
 
 .adultsInfamilies{
-  fill: #e7298a;
-  background-color: #e7298a;
+  fill: #41b6c4;
+  background-color: #41b6c4;
 }
 
 .singleMen{
-  fill: #7570b3;
-  background-color: #7570b3;
+  fill: #a1dab4;
+  background-color: #a1dab4;
 }
 
 .singleWomen{
-  fill: #d95f02;
-  background-color: #d95f02;
+  fill: #ffffcc;
+  background-color: #ffffcc;
 }
 
 /* education/degrees chart */
 .AdvReg{
-  fill: #1b9e77;
-  background-color: #1b9e77;
+  fill: #c51b8a;
+  background-color: #c51b8a;
 }
 
 .Reg{
-  fill: #e7298a;
-  background-color: #e7298a;
+  fill: #fa9fb5;
+  background-color: #fa9fb5;
 }
 
 .Local{
-  fill: #7570b3;
-  background-color: #7570b3;
+  fill: #fde0dd;
+  background-color: #fde0dd;
 }
 
 /* Crime chart */
 .FelonyAssault{
-  fill: #1b9e77;
-  background-color: #1b9e77;
+  fill: #e31a1c;
+  background-color: #e31a1c;
 }
 
 .Robbery{
-  fill: #e7298a;
-  background-color: #e7298a;
+  fill: #fc4e2a;
+  background-color: #fc4e2a;
 }
 
 .Burglary{
-  fill: #7570b3;
-  background-color: #7570b3;
+  fill: #fd8d3c;
+  background-color: #fd8d3c;
 }
 
 .GrandLarcenyAuto{
-  fill: #d95f02;
-  background-color: #d95f02;
+  fill: #feb24c;
+  background-color: #feb24c;
 }
 
 .Rape {
-  fill: #e6ab02;
-  background-color: #e6ab02;
+  fill: #fed976;
+  background-color: #fed976;
 }
 
 .GrandLarceny{
-  fill: #66a61e;
-  background-color: #66a61e;
+  fill: #b10026;
+  background-color: #b10026;
 }
 
 .Murder {
-  fill: #f0f9e8;
-  background-color: #f0f9e8;
+  fill: #ffffb2;
+  background-color: #ffffb2;
 }
 
 /* Recessions */
@@ -373,7 +392,7 @@ p.sectionintro:first-letter {
 }
 
 .recessiontext {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 12px;
   fill: #4c4c4c;
 }
@@ -430,8 +449,8 @@ padding: 0px;
 /* Intro map */
 .borolabel {
   fill: white;
-  font-size: medium;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   text-shadow: 0px 0px 5px #4c4c4c;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
@@ -442,13 +461,13 @@ padding: 0px;
 }
 
 .introstats li {
-  font-size: small;
+  font-size: 12px;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
 .introstats li span {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .mapborough {
