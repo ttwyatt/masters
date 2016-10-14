@@ -210,6 +210,19 @@ function interactivewrapper() {
 					defaultintrolabels();
 					defaultintrobars();
 
+/*
+					var mapback = svg.append("rect")
+		      			.attr("width", width)
+		      			.attr("height", height)
+		      			.attr("fill", "#3f3f41")
+	      				.on("touchstart", function(d) {
+							defaultintrobars();
+							defaultintrolabels();
+							boroughs.selectAll("path")
+							.classed ("borohighlight", false);
+							});
+*/
+
 					var boroughs = svg.selectAll("path")
 					   .data(geo.features)
 					   .enter()
