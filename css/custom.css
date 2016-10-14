@@ -24,6 +24,13 @@ footer p {
   text-align: center;
 }
 
+svg text {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
 .hidden {
   visibility: hidden
 }

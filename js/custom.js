@@ -493,7 +493,7 @@ function interactivewrapper() {
 							})
 						};
 					})
-					.slice(6);
+					.slice(6,8);
 
 				//Set scale domains
 				heightscale.domain([
@@ -570,10 +570,17 @@ function interactivewrapper() {
 					.attr ("class", "CitywideLn")
 					.attr("d", linebefore)
 					.attr("fill", "none");
-
-				beforeline.transition()
+				
+				var unemploywaypoint = new Waypoint({
+					element: document.getElementById('unemploychart'),
+					handler: function() {
+					beforeline.transition()
 					.duration(timer)
 					.attr("d", line);
+					unemploywaypoint.disable();
+					},
+					offset: '60%'
+				});
 
 				var focus = svg.append("g")
 	      			.attr("class", "focus")
@@ -874,7 +881,6 @@ function interactivewrapper() {
 					return heightscale(+d.y);
 				});
 
-
 			// create svg
 			var svg = d3.select("#jobschart")
 				.append("svg")
@@ -906,7 +912,6 @@ function interactivewrapper() {
 							})
 						};
 					});
-				
 				//Set scale domains
 				heightscale.domain([ 
 					d3.min(dataset[0].cpiu,
@@ -988,23 +993,18 @@ function interactivewrapper() {
 		  			})
 		  			.attr("fill", "none");
 
-				beforeline.transition()
-					.duration(timer)
-					.attr("d", function(d) {
-			  			return line(d.cpiu);
-			  			});
-				//add line paths
-				var beforeline2 = linegroup.selectAll("path")
-					.data([ data ])
-					.enter()
-					.append("path")
-					.attr ("class", "CitywideLn")
-					.attr("d", linebefore)
-					.attr("fill", "none");
-
-				beforeline2.transition()
-					.duration(timer)
-					.attr("d", line);
+				var jobswaypoint = new Waypoint({
+					element: document.getElementById('jobschart'),
+					handler: function() {
+					beforeline.transition()
+						.duration(timer)
+						.attr("d", function(d) {
+				  			return line(d.cpiu);
+				  			});
+					jobswaypoint.disable();
+					},
+					offset: '60%'
+				});
 
 				//add callouts
 				var focus = svg.append("g")
@@ -1206,11 +1206,18 @@ function interactivewrapper() {
 		  			})
 					.attr("stroke", "none");
 
-				beforearea.transition()
-				.duration(timer)
-				.attr("d", function(d) {
-		  			return area(d.graduates);
-		  			});
+				var edulinewaypoint = new Waypoint({
+					element: document.getElementById('gradratechart'),
+					handler: function() {
+						beforearea.transition()
+						.duration(timer)
+						.attr("d", function(d) {
+				  			return area(d.graduates);
+				  			});
+						edulinewaypoint.disable();
+					},
+					offset: '60%'
+				});
 
 				// call Y-axis
 				svg.append("g")
@@ -1620,14 +1627,22 @@ function interactivewrapper() {
 					removeblank();
 					//Removes blank data:END 
 
-					newcircle.transition()
-						.duration(timer)
-						.attr("cx", function(d) {
-							return widthscale(d.AllGradeELA);
-							})
-						.attr("cy", function(d) {
-							return heightscale(d.AllGradeMath);
-							});
+					var eduscatterwaypoint = new Waypoint({
+						element: document.getElementById('eduscatter'),
+						handler: function() {
+						newcircle.transition()
+							.duration(timer)
+							.attr("cx", function(d) {
+								return widthscale(d.AllGradeELA);
+								})
+							.attr("cy", function(d) {
+								return heightscale(d.AllGradeMath);
+								});
+							eduscatterwaypoint.disable();
+						},
+						offset: '60%'
+					});
+
 				}
 
 				// Grade Buttons: START
@@ -2679,11 +2694,18 @@ function interactivewrapper() {
 		  			})
 					.attr("stroke", "none");
 
-				beforearea.transition()
-					.duration(timer)
-					.attr("d", function(d) {
-		  			return area(d.population);
-		  			});
+				var homelesswaypoint = new Waypoint({
+					element: document.getElementById('homelesschart'),
+					handler: function() {
+					beforearea.transition()
+						.duration(timer)
+						.attr("d", function(d) {
+				  			return area(d.population);
+			  			});	
+					homelesswaypoint.disable();
+					},
+					offset: '60%'
+				});
 				
 				// call Y-axis
 				svg.append("g")
@@ -3033,10 +3055,17 @@ function interactivewrapper() {
 					.attr("d", linebefore)
 					.attr("fill", "none");
 
-				beforeline.transition()
-					.duration(timer)
-					.attr("d", line);
-
+				var mediansaleswaypoint = new Waypoint({
+					element: document.getElementById('mediansales'),
+					handler: function() {
+						beforeline.transition()
+							.duration(timer)
+							.attr("d", line);
+						mediansaleswaypoint.disable();
+					},
+					offset: '60%'
+				});
+				
 				//add callouts
 				var focus = svg.append("g")
 	      			.attr("class", "focus")
@@ -3399,7 +3428,6 @@ function interactivewrapper() {
 				var linegroup = svg.append("g")
 					.attr("class", "linegroup");
 
-
 				//add line paths
 				var beforeline = linegroup.selectAll("path")
 					.data([ data ])
@@ -3408,10 +3436,17 @@ function interactivewrapper() {
 					.attr ("class", "CitywideLn")
 					.attr("d", linebefore)
 					.attr("fill", "none");
-
-				beforeline.transition()
-					.duration(timer)
-					.attr("d", line);
+				
+				var medianrentwaypoint = new Waypoint({
+					element: document.getElementById('medianrent'),
+					handler: function() {
+						beforeline.transition()
+							.duration(timer)
+							.attr("d", line);
+						medianrentwaypoint.disable();
+					},
+					offset: '60%'
+				});					
 
 				//add callouts
 				var focus = svg.append("g")
@@ -3842,12 +3877,20 @@ function interactivewrapper() {
 		  			return areabefore(d.amount);
 		  			})
 					.attr("stroke", "none");
+				
+				var crimewaypoint = new Waypoint({
+					element: document.getElementById('crimechart'),
+					handler: function() {
+					beforearea.transition()
+						.duration(timer)
+						.attr("d", function(d) {
+			  			return area(d.amount);
+			  			});
+						crimewaypoint.disable();
+					},
+					offset: '60%'
+				});					
 
-				beforearea.transition()
-					.duration(timer)
-					.attr("d", function(d) {
-		  			return area(d.amount);
-		  			});
 				// call Y-axis
 				svg.append("g")
 					.attr("class", "y-axis axis")
