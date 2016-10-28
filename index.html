@@ -9,7 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-theme.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 
     <!-- Custom styles -->
     <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" rel="stylesheet">
@@ -54,7 +54,7 @@
           <h1>State of the City</h1>
           <p class="maindek">A look at four major indicators of the quality of life in New York City</p>
           <p class="mainsubdek">In a city of five distinct boroughs, hundreds neighborhoods, and millions of people with vastly backgrounds and living situations, it’s incredibly hard for people living inside and outside the area to get a sense of what direction the city is moving in. Below is a look at how the economy, housing, education, and crime effect the residents of New York City.</p>
-        <div>
+        </div>
       </div>
   	</header>
   <!-- Start of map intro -->
@@ -72,7 +72,7 @@
         <div class="row">
              <div id ="intromap" class="col-md-8 col-sm-8 col-xs-12"></div>
   	         <div id ="intromapinfo" class="col-md-4 col-sm-4 col-xs-12">
-  	         	<h4 id= "introlabel"></h4>
+  	         	<h4 id= "introlabel"> </h4>
   	         	<ul class="list-group">
       				  <li class="list-group-item">
       				  	<h5>Population</h5>
@@ -133,7 +133,7 @@
   	        </div>
         	</div>
   	</section>
-  <!-- Start of map intro -->
+  <!-- End of map intro -->
   <!-- Start of Jobs section -->
     <section class="container" id="economy">
 	      
@@ -162,6 +162,7 @@
               </div>
               <div class="row chartsubhead">
                 <div class="col-md-12">
+                  <h5>AREA</h5>
                   <div class="btn-group-sm" data-toggle="buttons">
                     <label id="cityunemploybutton" class="btn btn-default active">
                       <input type="radio" name="options" autocomplete="off" checked> New York City
@@ -182,13 +183,6 @@
                       <input type="radio" name="options" autocomplete="off"> Staten Island
                     </label>
                   </div>
-                  
-                  <div id="unemploybaselinescheck" class="checkbox hidden-xs">
-                    <label>
-                      <input id="unemploybaselines" type="checkbox" >National and state baselines
-                    </label>
-                  </div>
-                  
                   <div id= "unemploybaselegend" class="legend" style="display: none">
                     <table>
                       <tbody>
@@ -264,10 +258,9 @@
             </div> 
           </div>
     </section>
-<!-- End of Crime section -->
-<!-- Start of housing section -->
+  <!-- End of jobs section -->
+  <!-- Start of housing section -->
     <section class="container" id="housing">
-              <!-- Section breakline -->
           <div class="row">
             <div class="spacerline sectionline col-md-12"></div>
           </div>
@@ -342,7 +335,7 @@
               </div>
               <div class="row chartsubhead">
                 <div class="col-md-12">
-	                <h5>BOROUGH</h5>
+	                <h5>AREA</h5>
 	                <div class="btn-group-sm" data-toggle="buttons">
 		                <label id="citysalesbutton" class="btn btn-default active">
 		                  <input type="radio" name="options" autocomplete="off" checked> New York City
@@ -391,7 +384,7 @@
               </div>
               <div class="row chartsubhead">
                 <div class="col-md-12">
-                <h5>BOROUGH</h5>
+                <h5>AREA</h5>
 	                <div class="btn-group-sm" data-toggle="buttons">
 		                <label id="cityrentbutton" class="btn btn-default active">
 		                  <input type="radio" name="options" autocomplete="off" checked> New York City
@@ -426,11 +419,9 @@
             </div> 
           </div>
     </section>
-
-
-<!-- Start of education section -->
+  <!-- End of housing section -->
+  <!-- Start of education section -->
     <section class="container" id="edu">
-          <!-- Section breakline -->
       <div class="row">
         <div class="spacerline sectionline col-md-12"></div>
       </div>
@@ -450,7 +441,7 @@
         <div class="col-md-8 col-md-offset-2 col-sm-12">
           <div class="row">
             <div class="col-md-12">
-              <h4>Four-year highschool-graduation rate in New York City</h4>
+              <h4>Four-year high school-graduation rate in New York City</h4>
             </div>
           </div>
           <div class="row chartsubhead">
@@ -570,7 +561,7 @@
             <div class="col-md-5 col-xs-12">
               <h5>GRADE</h5>
               <div class="btn-group-sm" data-toggle="buttons">
-                <label id="Allscatterbutton" class="btn btn-default active">
+                <label id="allscatterbutton" class="btn btn-default active">
                   <input type="radio" name="options" autocomplete="off" checked> ALL
                 </label>
                 <label id="threescatterbutton" class="btn btn-default">
@@ -634,11 +625,9 @@
         </div>
       </div>
     </section>
-    <!-- End of education section -->
-
-<!-- Start of Crime section -->
+  <!-- End of education section -->
+  <!-- Start of crime section -->
     <section class="container" id="crime">
-              <!-- Section breakline -->
           <div class="row">
             <div class="spacerline sectionline col-md-12"></div>
           </div>
@@ -663,6 +652,7 @@
               </div>
               <div class="row chartsubhead">
                 <div class="col-md-12">
+                  <h5>CRIME</h5>
                   <div class="btn-group-sm" data-toggle="buttons">
 		                <label id="allcrimebutton" class="btn btn-default active">
 		                  <input type="radio" name="options" autocomplete="off" checked> Total crime
@@ -737,8 +727,8 @@
             </div> 
           </div>
     </section>
-<!-- End of Crime section -->
-
+  <!-- End of crime section -->
+  <!-- Start of footer section -->
     <footer class="container">
     	<div class="row">
             <div class="spacerline sectionline col-md-12"></div>
@@ -747,12 +737,14 @@
            <p> This project was produced in partial fulfillment of the requirements for the Master of Arts from the <a href= "https://www.ohio.edu/viscom/">School of Visual Communication</a> in the Scripps College of Communication at Ohio University. <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span> Tristan Wyatt/Ohio University 2016</p>
         </div>
     </footer>
-
+  <!-- End of footer section -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+    <!-- <script src="js/jquery-1.12.4.min.js"></script> -->
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/d3.js"></script> -->
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="js/jquery.waypoints.min.js"></script>
     <script src="js/d3tip.js"></script>

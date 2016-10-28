@@ -3,8 +3,8 @@ function interactivewrapper() {
 	 //Intialize scrollspy
 	 $('body').scrollspy({ target: '.navbar' });
 
-	 //store window width
-	 var windowWidth = $(window).width()
+	 //store window dimensions
+	 var windowwidth = $(window).width();
 
 	//set timing in MS of transitions
 	var timer = 750;
@@ -30,6 +30,23 @@ function interactivewrapper() {
 	            }, limit);
 	        }
 	    }
+	};
+
+	function refreshbuttons() {
+		d3.selectAll(".btn.active")
+		.classed("active",false);
+		d3.select("#cityunemploybutton")
+		.classed("active",true);
+		d3.select("#citysalesbutton")
+		.classed("active",true);
+		d3.select("#cityrentbutton")
+		.classed("active",true);
+		d3.select("#ELAbarbutton")
+		.classed("active",true);
+		d3.select("#allscatterbutton")
+		.classed("active",true);
+		d3.select("#allcrimebutton")
+		.classed("active",true);
 	};
 
 	//Set up charts and chart methods
@@ -209,19 +226,6 @@ function interactivewrapper() {
 
 					defaultintrolabels();
 					defaultintrobars();
-
-/*
-					var mapback = svg.append("rect")
-		      			.attr("width", width)
-		      			.attr("height", height)
-		      			.attr("fill", "#3f3f41")
-	      				.on("touchstart", function(d) {
-							defaultintrobars();
-							defaultintrolabels();
-							boroughs.selectAll("path")
-							.classed ("borohighlight", false);
-							});
-*/
 
 					var boroughs = svg.selectAll("path")
 					   .data(geo.features)
@@ -404,6 +408,13 @@ function interactivewrapper() {
 					return scaleFormat(d);
 				});
 
+			//Set up baseline line generator before transition
+			var baselinebefore = d3.svg.line()
+				.x(function(d) {
+					return widthscale(+d.x);
+				})
+				.y(height);
+
 			//Set up baseline line generator 
 			var baseline = d3.svg.line()
 				.x(function(d) {
@@ -567,7 +578,7 @@ function interactivewrapper() {
 						return d.name +"Ln" +" Baseline";
 					} )
 					.attr("d", function(d) {
-		  			return baseline(d.rate);
+		  			return baselinebefore(d.rate);
 		  			})
 					.attr("fill", "none");
 
@@ -590,6 +601,11 @@ function interactivewrapper() {
 					beforeline.transition()
 					.duration(timer)
 					.attr("d", line);
+					baselines.transition()
+					.duration(timer)
+					.attr("d", function(d) {
+		  			return baseline(d.rate);
+		  			})
 					unemploywaypoint.disable();
 					},
 					offset: '60%'
@@ -811,18 +827,14 @@ function interactivewrapper() {
 	    			.call(yAxis);
 				});
 
-				$('#unemploybaselines').change(function(){
-					if ($(this).is(":checked")) {
+				if (width <= 500 ) {
+					$("#unemploybaselegend").hide();
+						baselinegroup.classed("hidden", true);
+					}	
+				else {
 					$("#unemploybaselegend").show();
 					baselinegroup.classed("hidden", false);
-				    } else {
-					$("#unemploybaselegend").hide();
-					baselinegroup.classed("hidden", true);
-				    }
-
-				});
-
-
+				}
 
 			});// End CSV load
 		}, // End mediansalesline
@@ -1659,7 +1671,7 @@ function interactivewrapper() {
 				}
 
 				// Grade Buttons: START
-				$('#Allscatterbutton').click(function(){
+				$('#allscatterbutton').click(function(){
 					backtozero();
 					setTimeout(function(){
 						createcircles();
@@ -4510,9 +4522,14 @@ function interactivewrapper() {
 
 	// Draw charts intially and on resize
 	charts.draw();
-	$( window ).resize( function(){
-		if ($(window).width() != windowWidth) {
-			throttle(charts.redraw, 200)
+	$(window).resize( function(){
+		if ($(window).width() !== windowwidth) {
+			var scroll = $(window).scrollTop();
+			throttle(charts.redraw(), 200);
+			windowwidth = $(window).width();
+			refreshbuttons();
+			//window.scroll(0, +scroll);
+
 		}
 	});
 };

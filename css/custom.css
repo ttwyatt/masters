@@ -217,7 +217,7 @@ p.sectionintro:first-letter {
 }
 
 #unemploybaselegend {
-  margin-top: -5px;
+  margin-top: 10px;
 }
 
 /* Location-related charts */
@@ -339,18 +339,18 @@ p.sectionintro:first-letter {
 
 /* education/degrees chart */
 .AdvReg{
-  fill: #c51b8a;
-  background-color: #c51b8a;
+  fill: #31a354;
+  background-color: #31a354;
 }
 
 .Reg{
-  fill: #fa9fb5;
-  background-color: #fa9fb5;
+  fill: #addd8e;
+  background-color: #addd8e;
 }
 
 .Local{
-  fill: #fde0dd;
-  background-color: #fde0dd;
+  fill: #f7fcb9;
+  background-color: #f7fcb9;
 }
 
 /* Crime chart */
