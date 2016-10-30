@@ -1548,6 +1548,7 @@ function interactivewrapper() {
 					.attr("class", "y axis")
 					.call(yAxis);
 
+				//Call d3tip
 				svg.call(tip)
 					.call(tip3)
 					.call(tip4)
@@ -1557,14 +1558,14 @@ function interactivewrapper() {
 					.call(tip8);
 
 				//Create axis labels
-				svg	.append("text")
+				svg.append("text")
 					.attr("class", "axislabel")
 					.attr("x",-38)
 					.attr("y",-15)
 					.text ("MATH")
 					.attr("text-anchor", "start");
 
-				svg	.append("text")
+				svg.append("text")
 					.attr("class", "axislabel")
 					.attr("x",width + 15)
 					.attr("y",height -10)
@@ -1593,27 +1594,6 @@ function interactivewrapper() {
 					.remove();
 				}
 				
-				//Clears all circles in SVG
-				function removecircles() {
-					svg.selectAll("circle")
-					.remove();
-				}
-
-				//Removes circles with blank or 0 value for both x & y coordinates
-				function removeblank() {
-					d3.selectAll(".baddata")
-					.remove();
-				}
-
-				//Creates titles for circles
-				function createtitles() {
-					svg.selectAll("circle")
-					.append("title")
-					.text(function(d) {
-						return d.School;
-						});
-				}
-				
 				//Creates default circles
 				function allgradecircles() {
 					var newcircle = svg.selectAll("circle")
@@ -1640,17 +1620,14 @@ function interactivewrapper() {
 							.attr("r", +diameter);
 							d3.select(this)
 							.classed("calloutcircle", false);
-						})
-						//Removes blank data: START
-						.classed("baddata", function(d) {
-							if (d.AllGradeELA + d.AllGradeMath == 0) {
-								return true;
-							}
-							else { return false; }
 						});
 
-					removeblank();
-					//Removes blank data:END 
+					//Remove incomplete data
+					svg.selectAll("circle")
+						.filter(function(d) {
+							return +d.AllGradeELA == 0 || +d.AllGradeMath == 0
+						})
+						.remove();
 
 					var eduscatterwaypoint = new Waypoint({
 						element: document.getElementById('eduscatter'),
@@ -1676,7 +1653,7 @@ function interactivewrapper() {
 					setTimeout(function(){
 						createcircles();
 						allgradecircles();
-					}, timer);	
+					}, timer * 1.1);	
 				});
 
 				$('#threescatterbutton').click(function(){
@@ -1706,17 +1683,14 @@ function interactivewrapper() {
 								.attr("r", +diameter);
 							d3.select(this)
 							.classed("calloutcircle", false);
-						})
-							//Removes blank data: START
-							.classed("baddata", function(d) {
-								if (d.ThreeELA + d.ThreeMath == 0) {
-									return true;
-								}
-								else { return false; }
-							});
+						});
 
-						removeblank();
-						//Removes blank data:END
+						//Remove incomplete data
+						svg.selectAll("circle")
+							.filter(function(d) {
+								return +d.ThreeELA == 0 || +d.ThreeMath == 0
+							})
+							.remove();
 
 						newcircle.transition()
 							.duration(timer)
@@ -1726,7 +1700,7 @@ function interactivewrapper() {
 							.attr("cy", function(d) {
 								return heightscale(d.ThreeMath);
 								});
-					}, timer);	
+					}, timer * 1.1);	
 				});
 
 				$('#fourscatterbutton').click(function(){
@@ -1756,17 +1730,14 @@ function interactivewrapper() {
 								.attr("r", +diameter);
 							d3.select(this)
 							.classed("calloutcircle", false);
-						})
-							//Removes blank data: START
-							.classed("baddata", function(d) {
-								if (d.FourELA + d.FourMath == 0) {
-									return true;
-								}
-								else { return false; }
-							});
-
-						removeblank();
-						//Removes blank data:END
+						});
+						
+						//Remove incomplete data
+						svg.selectAll("circle")
+							.filter(function(d) {
+								return +d.FourELA == 0 || +d.FourMath == 0
+							})
+							.remove();
 
 						newcircle.transition()
 							.duration(timer)
@@ -1776,7 +1747,7 @@ function interactivewrapper() {
 							.attr("cy", function(d) {
 								return heightscale(d.FourMath);
 								});
-						}, timer);
+						}, timer * 1.1);
 				});
 
 				$('#fivescatterbutton').click(function(){
@@ -1806,17 +1777,14 @@ function interactivewrapper() {
 								.attr("r", +diameter);
 							d3.select(this)
 							.classed("calloutcircle", false);
-						})
-							//Removes blank data: START
-							.classed("baddata", function(d) {
-								if (d.FiveELA + d.FiveMath == 0) {
-									return true;
-								}
-								else { return false; }
-							});
-
-						removeblank();
-						//Removes blank data:END
+						});
+						
+						//Remove incomplete data
+						svg.selectAll("circle")
+							.filter(function(d) {
+								return +d.FiveELA == 0 || +d.FiveMath == 0
+							})
+							.remove();
 
 						newcircle.transition()
 							.duration(timer)
@@ -1826,7 +1794,7 @@ function interactivewrapper() {
 							.attr("cy", function(d) {
 								return heightscale(d.FiveMath);
 								});
-						}, timer);
+						}, timer * 1.1);
 				});
 
 				$('#sixscatterbutton').click(function(){
@@ -1856,17 +1824,14 @@ function interactivewrapper() {
 								.attr("r", +diameter);
 							d3.select(this)
 							.classed("calloutcircle", false);
-						})
-							//Removes blank data: START
-							.classed("baddata", function(d) {
-								if (d.SixELA + d.SixMath == 0) {
-									return true;
-								}
-								else { return false; }
-							});
-
-						removeblank();
-						//Removes blank data:END
+						});
+						
+						//Remove incomplete data
+						svg.selectAll("circle")
+							.filter(function(d) {
+								return +d.SixELA == 0 || +d.SixMath == 0
+							})
+							.remove();
 
 						newcircle.transition()
 							.duration(timer)
@@ -1876,7 +1841,7 @@ function interactivewrapper() {
 							.attr("cy", function(d) {
 								return heightscale(d.SixMath);
 								});
-					}, timer);
+					}, timer * 1.1);
 				});
 
 				$('#sevenscatterbutton').click(function(){
@@ -1906,17 +1871,14 @@ function interactivewrapper() {
 								.attr("r", +diameter);
 							d3.select(this)
 							.classed("calloutcircle", false);
-						})
-							//Removes blank data: START
-							.classed("baddata", function(d) {
-								if (d.SevenELA + d.SevenMath == 0) {
-									return true;
-								}
-								else { return false; }
-							});
-
-						removeblank();
-						//Removes blank data:END
+						});
+						
+						//Remove incomplete data
+						svg.selectAll("circle")
+							.filter(function(d) {
+								return +d.SevenELA == 0 || +d.SevenMath == 0
+							})
+							.remove();						
 
 						newcircle.transition()
 							.duration(timer)
@@ -1926,7 +1888,7 @@ function interactivewrapper() {
 							.attr("cy", function(d) {
 								return heightscale(d.SevenMath);
 								});
-					}, timer);
+					}, timer * 1.1);
 				});
 
 				$('#eightscatterbutton').click(function(){
@@ -1947,7 +1909,7 @@ function interactivewrapper() {
 								.attr("r", +diameterhl);
 								d3.select(this)
 							.classed("calloutcircle", true);
-						})
+							})
 	      					.on('mouseout', function(d){
 								tip8.hide(d);
 								d3.select(this)
@@ -1956,17 +1918,14 @@ function interactivewrapper() {
 								.attr("r", +diameter);
 							d3.select(this)
 							.classed("calloutcircle", false);
-						})
-							//Removes blank data: START
-							.classed("baddata", function(d) {
-								if (d.EightELA + d.EightMath == 0) {
-									return true;
-								}
-								else { return false; }
 							});
-
-						removeblank();
-						//Removes blank data:END
+						
+						//Remove incomplete data
+						svg.selectAll("circle")
+							.filter(function(d) {
+								return +d.EightELA == 0 || +d.EightMath == 0
+							})
+							.remove();
 
 						newcircle.transition()
 							.duration(timer)
@@ -1976,7 +1935,7 @@ function interactivewrapper() {
 							.attr("cy", function(d) {
 								return heightscale(d.EightMath);
 								});
-					}, timer);
+					}, timer * 1.1);
 				});
 				//Grade buttons: END
 				//Call default state functions
@@ -2119,7 +2078,7 @@ function interactivewrapper() {
 						return heightscale(d.CityElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.CityElaLv34, 1) + "%");
+						return (d3.round(d.CityElaLv34, 0) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel ");
@@ -2163,7 +2122,7 @@ function interactivewrapper() {
 						return heightscale(d.MANElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.MANElaLv34, 1) + "%");
+						return (d3.round(d.MANElaLv34, 0) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel");
@@ -2207,7 +2166,7 @@ function interactivewrapper() {
 						return heightscale(d.BKElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.BKElaLv34, 1) + "%");
+						return (d3.round(d.BKElaLv34, 0) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel");
@@ -2251,7 +2210,7 @@ function interactivewrapper() {
 						return heightscale(d.BXElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.BXElaLv34, 1) + "%");
+						return (d3.round(d.BXElaLv34, 0) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel");
@@ -2295,7 +2254,7 @@ function interactivewrapper() {
 						return heightscale(d.QNElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.QNElaLv34, 1) + "%");
+						return (d3.round(d.QNElaLv34, 0) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel");
@@ -2339,7 +2298,7 @@ function interactivewrapper() {
 						return heightscale(d.SIElaLv34) - 5;
 					})
 					.text(function(d) {
-						return (d3.round(d.SIElaLv34, 1) + "%");
+						return (d3.round(d.SIElaLv34, 0) + "%");
 					})
 					.attr("text-anchor", "middle")
 					.attr("class", "barlabel");
@@ -4528,7 +4487,7 @@ function interactivewrapper() {
 			throttle(charts.redraw(), 200);
 			windowwidth = $(window).width();
 			refreshbuttons();
-			//window.scroll(0, +scroll);
+			window.scroll(0, +scroll);
 
 		}
 	});
