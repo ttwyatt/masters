@@ -3527,7 +3527,7 @@ function interactivewrapper() {
 				$('#cityrentbutton').click(function(){
 					heightscale.domain([
 						d3.min(data,function(d){return +d.Citywide - 75;}), 
-						d3.max(data,function(d){return +d.Citywide + 100;})
+						d3.max(data,function(d){return +d.Citywide + 75;})
 					]);
 
 					beforeline.transition()
@@ -3832,7 +3832,7 @@ function interactivewrapper() {
 				//Set scale domains
 				heightscale.domain([0, d3.max(dataset[dataset.length -1].amount,
 					function(d){
-						return(+d.y0 + +d.y) *1.01;
+						return(+d.y0 + +d.y) *1.1;
 					})
 				]);
 
@@ -4199,7 +4199,7 @@ function interactivewrapper() {
 					setTimeout(function() {
 						heightscale.domain([0, d3.max(dataset[dataset.length -1].amount,
 							function(d){
-								return(+d.y0 + +d.y) *1.12;
+								return(+d.y0 + +d.y) *1.1;
 							})
 						]);
 
