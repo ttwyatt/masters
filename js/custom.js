@@ -2043,7 +2043,7 @@ function interactivewrapper() {
 
 				//set scale domains
 				heightscale.domain ([0, d3.max(data, function(d){
-							return +d.Max + 3.5;}) 
+							return +d.Max + 5;}) 
 							]);		
 				widthscale.domain(data.map(function(d) { return d.Date; } ));
 
@@ -2329,7 +2329,7 @@ function interactivewrapper() {
 							return heightscale(d.CityMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.CityMathLv34, 1) + "%");
+						return (d3.round(d.CityMathLv34, 0) + "%");
 					});
 
 				Manrects.transition()
@@ -2347,7 +2347,7 @@ function interactivewrapper() {
 							return heightscale(d.MANMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.MANMathLv34, 1) + "%");
+						return (d3.round(d.MANMathLv34, 0) + "%");
 					});
 
 				Bkrects.transition()
@@ -2365,7 +2365,7 @@ function interactivewrapper() {
 							return heightscale(d.BKMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.BKMathLv34, 1) + "%");
+						return (d3.round(d.BKMathLv34, 0) + "%");
 					});
 
 				Bxrects.transition()
@@ -2383,7 +2383,7 @@ function interactivewrapper() {
 							return heightscale(d.BXMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.BXMathLv34, 1) + "%");
+						return (d3.round(d.BXMathLv34, 0) + "%");
 					});
 
 				Qnrects.transition()
@@ -2401,7 +2401,7 @@ function interactivewrapper() {
 							return heightscale(d.QNMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.QNMathLv34, 1) + "%");
+						return (d3.round(d.QNMathLv34, 0) + "%");
 					});
 
 				Sirects.transition()
@@ -2419,7 +2419,7 @@ function interactivewrapper() {
 							return heightscale(d.SIMathLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.SIMathLv34, 1) + "%");
+						return (d3.round(d.SIMathLv34, 0) + "%");
 					});
 			});
 
@@ -2439,7 +2439,7 @@ function interactivewrapper() {
 							return heightscale(d.CityElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.CityElaLv34, 1) + "%");
+						return (d3.round(d.CityElaLv34, 0) + "%");
 					});
 
 				Manrects.transition()
@@ -2457,7 +2457,7 @@ function interactivewrapper() {
 							return heightscale(d.MANElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.MANElaLv34, 1) + "%");
+						return (d3.round(d.MANElaLv34, 0) + "%");
 					});
 
 				Bkrects.transition()
@@ -2475,7 +2475,7 @@ function interactivewrapper() {
 							return heightscale(d.BKElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.BKElaLv34, 1) + "%");
+						return (d3.round(d.BKElaLv34, 0) + "%");
 					});
 
 				Bxrects.transition()
@@ -2493,7 +2493,7 @@ function interactivewrapper() {
 							return heightscale(d.BXElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.BXElaLv34, 1) + "%");
+						return (d3.round(d.BXElaLv34, 0) + "%");
 					});
 
 				Qnrects.transition()
@@ -2511,7 +2511,7 @@ function interactivewrapper() {
 							return heightscale(d.QNElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.QNElaLv34, 1) + "%");
+						return (d3.round(d.QNElaLv34, 0) + "%");
 					});
 
 				Sirects.transition()
@@ -2529,7 +2529,7 @@ function interactivewrapper() {
 							return heightscale(d.SIElaLv34) - 5;
 						})
 					.text(function(d) {
-						return (d3.round(d.SIElaLv34, 1) + "%");
+						return (d3.round(d.SIElaLv34, 0) + "%");
 					});
 			});
 
@@ -3165,7 +3165,7 @@ function interactivewrapper() {
 				$('#mansalesbutton').click(function(){
 					heightscale.domain([
 						d3.min(data,function(d){return +d.Manhattan - 75;}), 
-						d3.max(data,function(d){return +d.Manhattan + 75;})
+						d3.max(data,function(d){return +d.Manhattan + 100;})
 					]);
 
 					beforeline.transition()
@@ -3267,7 +3267,7 @@ function interactivewrapper() {
 
 
 			//set chart dimensions and margins
-			var chartmargins = { top: 0, right: 8, bottom: 20, left: 37 };
+			var chartmargins = { top: 0, right: 8, bottom: 20, left: 40 };
 			var width = containerwidth - chartmargins.left - chartmargins.right;
 			var height = containerheight - chartmargins.top - chartmargins.bottom;
 
@@ -3546,7 +3546,7 @@ function interactivewrapper() {
 				$('#manrentbutton').click(function(){
 					heightscale.domain([
 						d3.min(data,function(d){return +d.Manhattan - 150;}), 
-						d3.max(data,function(d){return +d.Manhattan + 150;})
+						d3.max(data,function(d){return +d.Manhattan + 200;})
 					]);
 
 					beforeline.transition()
