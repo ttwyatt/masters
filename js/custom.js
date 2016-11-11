@@ -347,7 +347,20 @@ function interactivewrapper() {
 					   .attr("class", "mapborough");
 
 					var labelgroup = boroughs.append("g")
-							.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; });
+							.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
+							.attr("id", function(d){
+					   	 		return d.properties.boro_name + "maplabelgroup";
+					   });
+
+					if (windowwidth < 500) {
+						d3.select("#Manhattanmaplabelgroup")
+						.attr("transform", function(d) { 
+							var centroid = path.centroid(d),
+				            lx = centroid[0],
+				            ly = centroid[1];
+				        	return "translate(" + lx + "," + ly*1.1 + ")"
+						});
+					}
 
 					var labeltext = labelgroup.append("text")
 						.text(function(d) {
@@ -371,7 +384,8 @@ function interactivewrapper() {
 	                	.attr('ry', 5)
 	                	.attr("class", function(d){
 					   	 return d.properties.boro_name;
-					   });
+					   })
+
 
 	                labeltext = labelgroup.append("text")
 						.attr("class", "borolabel")
