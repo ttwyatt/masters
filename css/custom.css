@@ -458,7 +458,7 @@ padding: 0px;
   fill: white;
   font-size: 16px;
   font-weight: 600;
-  text-shadow: 0px 0px 5px #4c4c4c;
+  /*text-shadow: 0px 0px 5px #4c4c4c;*/
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
   -khtml-user-select: none;    /* Konqueror */
@@ -478,6 +478,7 @@ padding: 0px;
 }
 
 .mapborough {
+  fill: #4c4c4c;
   stroke-width: 2px;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -495,3 +496,11 @@ padding: 0px;
   height: 5px;
 }
 
+.contextline {
+  stroke-width: 2px;
+  opacity: .4;
+}
+.contextlinehighlight{
+   stroke-width: 4px; 
+    opacity: 1;
+}

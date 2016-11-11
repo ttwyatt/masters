@@ -60,6 +60,8 @@ function interactivewrapper() {
 			charts.eduscatter();
 			charts.homelessline();
 			charts.mediansalesline();
+			if (windowwidth > 767) { charts.mediansaleslinecontext();}
+			if (windowwidth > 767) { charts.medianrentlinecontext();}
 			charts.medianrentline();
 			charts.crimeline();
 		},
@@ -83,7 +85,9 @@ function interactivewrapper() {
 			$('#edustatensbar').empty();
 			$('#homelesschart').empty();
 			$('#mediansales').empty();
+			$('#mediansalescontext').empty();
 			$('#medianrent').empty();
+			$('#medianrentcontext').empty();
 			$('#crimechart').empty();
 		},	
 
@@ -340,17 +344,45 @@ function interactivewrapper() {
 						
 					boroughs.append("path")
 					   .attr("d", path)
-					   .attr("class", function(d){
-					   	 return d.properties.boro_name + " " + "mapborough";
+					   .attr("class", "mapborough");
+
+					var labelgroup = boroughs.append("g")
+							.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; });
+
+					var labeltext = labelgroup.append("text")
+						.text(function(d) {
+							return d.properties.boro_name;
+							})
+						.each(function(d) {
+							d.textwidth = this.getBBox().width + 30;
+							this.remove()
+						});
+
+					labelgroup.append("rect")
+	      		    	.attr('height', 30)
+	      		    	.attr('width', function(d){
+	      		    		return d.textwidth;
+	      		    		})
+	                	.attr('x', function(d){
+	      		    		return d.textwidth * -0.5;
+	      		    		})
+	                	.attr('y', -20)
+	                	.attr('rx', 5)
+	                	.attr('ry', 5)
+	                	.attr("class", function(d){
+					   	 return d.properties.boro_name;
 					   });
 
-					boroughs.append("text")
-						   .attr("class", "borolabel")
-							.attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
+	                labeltext = labelgroup.append("text")
+						.attr("class", "borolabel")
 							.attr("text-anchor", "middle")
-							.text(function(d) {
-								return d.properties.boro_name;
-							});
+						.text(function(d) {
+							return d.properties.boro_name;
+							})
+						.each(function(d) {
+							d.textwidth = this.getBBox().width;
+						});
+
 
 				});// End Geo JSON load
 			});// End CSV load
@@ -2845,6 +2877,220 @@ function interactivewrapper() {
 			}); // End CSV load
 		},  // End homeless line
 
+		mediansaleslinecontext: function() {
+			// set container dimensions
+			var $container = $('#mediansalescontext');
+			var containerwidth = $container.width();
+			var containerheight = 400;
+
+
+			//set chart dimensions and margins
+			var chartmargins = { top: 0, right: 10, bottom: 20, left: 37 };
+			var width = containerwidth - chartmargins.left - chartmargins.right;
+			var height = containerheight - chartmargins.top - chartmargins.bottom;
+
+			//create date formater
+			var dateFormat = d3.time.format("%x").parse;
+			var scaleFormat = d3.time.format("%Y");
+
+
+			//create scales
+			var widthscale = d3.time.scale()
+				.range([0, width]);
+
+			var heightscale = d3.scale.linear()
+				.range([height,0]);
+
+			//recessions
+			var recessionbegin = dateFormat("12/1/2007");
+			var recessionend = dateFormat("6/1/2009");
+
+			//create y-axis
+			var yAxis = d3.svg.axis()
+				.scale(heightscale)
+				.orient("left")
+				.ticks(10)
+				.innerTickSize(-width)
+				.outerTickSize(0)
+				.tickFormat(function(d){
+						return "$" + commaformat(d);
+						});
+
+			//create x-axis
+			var xAxis = d3.svg.axis()
+				.scale(widthscale)
+				.orient("bottom")
+				.ticks(3)
+				.outerTickSize(0)
+				.tickFormat(function(d) {
+					return scaleFormat(d);
+				});
+
+			//Set up line generator after transition
+			var linebefore = d3.svg.line()
+				.defined(function(d) { return d.y !== 0; })
+				.x(function(d) {
+					return widthscale(+d.x);
+				})
+				.y(height);
+
+			//Set up lien generator after transition
+			var line = d3.svg.line()
+				.defined(function(d) { return d.y !== 0; })
+				.x(function(d) {
+					return widthscale(+d.x);
+				})
+				.y(function(d) {
+					return heightscale(+d.y);
+				});
+
+
+			// create svg
+			var svg = d3.select("#mediansalescontext")
+				.append("svg")
+				.attr("width", width + chartmargins.left + chartmargins.right)
+				.attr("height", height + chartmargins.top + chartmargins. bottom)
+				.append ("g")
+				.attr("class", "chartcontainer")
+				.attr("transform", "translate(" + chartmargins.left + "," + chartmargins.top + ")");
+
+			//load data
+			d3.csv("data/mediansalepsf.csv", function(data) {
+
+				data.forEach(function(d) {
+					d.Date = dateFormat(d.Date);
+				});	
+
+				dataset = d3.keys(data[0])			//Create array of header
+					.filter(function(key) {			// Filter out "Date"
+						return key != "Date";
+					})
+					.map(function(q){				//Create another array inside first array
+						return {
+							name: q,
+							price: data.map (function(d) {
+								return {
+									x: d.Date,
+									y: +d[q]
+								};
+							})
+						};
+					});
+
+				//Set scale domains
+				heightscale.domain([ 
+					d3.min(dataset[3].price,
+					function(d){
+						return(+d.y)-50;
+					}),
+					d3.max(dataset[2].price,
+					function(d){
+						return(+d.y)+50;
+					})
+				]);
+
+				widthscale.domain([
+					d3.min(dataset[2].price, function(d) {
+						return +d.x;
+					}),
+					d3.max(dataset[2].price, function(d) {
+						return +d.x;
+					})
+				]);
+
+				//add recessions
+				svg.append("rect")
+					.attr("x", widthscale(recessionbegin))
+					.attr("y", 0)
+					.attr("width", widthscale(recessionend) - widthscale(recessionbegin))
+					.attr("height", height)
+					.attr("class", "recession");
+
+				// call Y-axis
+				svg.append("g")
+					.attr("class", "y-axis axis")
+					.call(yAxis);
+
+				//call X-axis
+				svg.append("g")
+					.attr("class", "x-axis axis")
+					.attr("transform", "translate(0, " + height + ")")
+					.call(xAxis);
+				
+				//create group for lines paths
+				var linegroup = svg.append("g")
+					.attr("class", "linegroup");
+
+				//add line paths
+				var beforeline = linegroup.selectAll("path")
+					.data(dataset)
+					.enter()
+					.append("path")
+					.attr ("class", function(d) {
+						return d.name + "Ln" + " contextline";
+					})
+					.attr ("id", function(d) {
+						return d.name + "CxtLn";
+					})
+					.attr("d", function(d) {
+		  			return linebefore(d.price);
+		  			})
+					.attr("fill", "none");
+
+				var mediansalescontextwaypoint = new Waypoint({
+					element: document.getElementById('mediansalescontext'),
+					handler: function() {
+						beforeline.transition()
+							.duration(timer)
+							.attr("d", function(d) {
+		  						return line(d.price);
+		  					});
+						d3.select("#CitywideCxtLn").classed("contextlinehighlight", true);
+						mediansalescontextwaypoint.disable();
+					},
+					offset: '60%'
+				});
+
+				//button actions
+				
+				$('#citysalesbutton').click(function(){
+					linegroup.selectAll("path")
+					.classed("contextlinehighlight", false);
+					d3.select("#CitywideCxtLn").classed("contextlinehighlight", true);
+				});
+
+				$('#mansalesbutton').click(function(){
+					linegroup.selectAll("path")
+					.classed("contextlinehighlight", false);
+					d3.select("#ManhattanCxtLn").classed("contextlinehighlight", true);
+				});
+
+				$('#bksalesbutton').click(function(){
+					linegroup.selectAll("path")
+					.classed("contextlinehighlight", false);
+					d3.select("#BrooklynCxtLn").classed("contextlinehighlight", true);
+				});
+
+				$('#bxsalesbutton').click(function(){
+					linegroup.selectAll("path")
+					.classed("contextlinehighlight", false);
+					d3.select("#BronxCxtLn").classed("contextlinehighlight", true);					 
+				});
+
+				$('#qnsalesbutton').click(function(){
+					linegroup.selectAll("path")
+					.classed("contextlinehighlight", false);
+					d3.select("#QueensCxtLn").classed("contextlinehighlight", true);
+				});
+
+				$('#sisalesbutton').click(function(){
+					linegroup.selectAll("path")
+					.classed("contextlinehighlight", false);
+					d3.select("#StatenCxtLn").classed("contextlinehighlight", true);
+				});
+			});// End CSV load
+		}, // End drawmediansaleslinecontext
+
 		mediansalesline: function() {
 			// set container dimensions
 			var $container = $('#mediansales');
@@ -2872,8 +3118,6 @@ function interactivewrapper() {
 			//recessions
 			var recessionbegin = dateFormat("12/1/2007");
 			var recessionend = dateFormat("6/1/2009");
-
-
 
 				// Set number of ticks on x-axis
 			if (width <= 500 ) {numticks = 5;}
@@ -3202,8 +3446,8 @@ function interactivewrapper() {
 
 				$('#bxsalesbutton').click(function(){
 					heightscale.domain([
-						d3.min(data,function(d){return +d.Bronx - 75;}), 
-						d3.max(data,function(d){return +d.Bronx + 75;})
+						d3.min(data,function(d){return +d.Bronx - 40;}), 
+						d3.max(data,function(d){return +d.Bronx + 40;})
 					]);
 
 					beforeline.transition()
@@ -3258,6 +3502,206 @@ function interactivewrapper() {
 				});
 			});// End CSV load
 		}, // End drawmediansalesline
+
+		medianrentlinecontext: function() {
+			// set container dimensions
+			var $container = $('#medianrentcontext');
+			var containerwidth = $container.width();
+			var containerheight = 400;
+
+
+			//set chart dimensions and margins
+			var chartmargins = { top: 0, right: 8, bottom: 20, left: 40 };
+			var width = containerwidth - chartmargins.left - chartmargins.right;
+			var height = containerheight - chartmargins.top - chartmargins.bottom;
+
+			//create date formater
+			var dateFormat = d3.time.format("%x").parse;
+			var scaleFormat = d3.time.format("%Y");
+
+			//Set up line generator after transition
+			var linebefore = d3.svg.line()
+				.defined(function(d) { return d.y !== 0; })
+				.x(function(d) {
+					return widthscale(+d.x);
+				})
+				.y(height);
+
+			//Set up lien generator after transition
+			var line = d3.svg.line()
+				.defined(function(d) { return d.y !== 0; })
+				.x(function(d) {
+					return widthscale(+d.x);
+				})
+				.y(function(d) {
+					return heightscale(+d.y);
+				});
+
+			//create scales
+			var widthscale = d3.time.scale()
+				.range([0, width]);
+
+			var heightscale = d3.scale.linear()
+				.range([height,0]);
+
+			//create y-axis
+			var yAxis = d3.svg.axis()
+				.scale(heightscale)
+				.orient("left")
+				.ticks(10)
+				.innerTickSize(-width)
+				.outerTickSize(0)
+				.tickFormat(function(d){
+						return "$" + commaformat(d); 
+						});
+
+			//create x-axis
+			var xAxis = d3.svg.axis()
+				.scale(widthscale)
+				.orient("bottom")
+				.ticks(3)
+				.outerTickSize(0)
+				.tickFormat(function(d) {
+					return scaleFormat(d);
+				});
+
+			// create svg
+			var svg = d3.select("#medianrentcontext")
+				.append("svg")
+				.attr("width", width + chartmargins.left + chartmargins.right)
+				.attr("height", height + chartmargins.top + chartmargins. bottom)
+				.append ("g")
+				.attr("class", "chartcontainer")
+				.attr("transform", "translate(" + chartmargins.left + "," + chartmargins.top + ")");
+
+			//load data
+			d3.csv("data/rent.csv", function(data) {
+
+				data.forEach(function(d) {
+					d.Date = dateFormat(d.Date);
+				});	
+
+				dataset = d3.keys(data[0])			//Create array of header
+					.filter(function(key) {			// Filter out "Date"
+						return key != "Date";
+					})
+					.map(function(q){				//Create another array inside first array
+						return {
+							name: q,
+							price: data.map (function(d) {
+								return {
+									x: d.Date,
+									y: +d[q]
+								};
+							})
+						};
+					});
+
+				//Set scale domains
+				heightscale.domain([ 
+					d3.min(dataset[3].price,
+					function(d){
+						return(+d.y)-50;
+					}),
+					d3.max(dataset[2].price,
+					function(d){
+						return(+d.y)+50;
+					})
+				]);
+
+				widthscale.domain([
+					d3.min(dataset[2].price, function(d) {
+						return +d.x;
+					}),
+					d3.max(dataset[2].price, function(d) {
+						return +d.x;
+					})
+				]);
+				
+				// call Y-axis
+				svg.append("g")
+					.attr("class", "y-axis axis")
+					.call(yAxis);
+
+				//call X-axis
+				svg.append("g")
+					.attr("class", "x-axis axis")
+					.attr("transform", "translate(0, " + height + ")")
+					.call(xAxis);
+
+				//create group for lines paths
+				var linegroup = svg.append("g")
+					.attr("class", "linegroup");
+
+				//add line paths
+				var beforeline = linegroup.selectAll("path")
+					.data(dataset)
+					.enter()
+					.append("path")
+					.attr ("class", function(d) {
+						return d.name + "Ln" + " contextline";
+					})
+					.attr ("id", function(d) {
+						return d.name + "CxtLn2";
+					})
+					.attr("d", function(d) {
+		  			return linebefore(d.price);
+		  			})
+					.attr("fill", "none");
+				
+				var medianrentcontextwaypoint = new Waypoint({
+					element: document.getElementById('medianrent'),
+					handler: function() {
+						beforeline.transition()
+							.duration(timer)
+							.attr("d", function(d) {
+		  						return line(d.price);
+		  					});
+						d3.select("#CitywideCxtLn2").classed("contextlinehighlight", true);
+						medianrentcontextwaypoint.disable();
+					},
+					offset: '60%'
+				});					
+
+				//button actions
+				
+				$('#cityrentbutton').click(function(){
+					linegroup.selectAll("path")
+						.classed("contextlinehighlight", false);
+					d3.select("#CitywideCxtLn2").classed("contextlinehighlight", true);
+				});
+
+				$('#manrentbutton').click(function(){
+					linegroup.selectAll("path")
+						.classed("contextlinehighlight", false);
+					d3.select("#ManhattanCxtLn2").classed("contextlinehighlight", true);
+				});
+
+				$('#bkrentbutton').click(function(){
+					linegroup.selectAll("path")
+						.classed("contextlinehighlight", false);
+					d3.select("#BrooklynCxtLn2").classed("contextlinehighlight", true);
+				});
+
+				$('#bxrentbutton').click(function(){
+					linegroup.selectAll("path")
+						.classed("contextlinehighlight", false);
+					d3.select("#BronxCxtLn2").classed("contextlinehighlight", true);
+				});
+
+				$('#qnrentbutton').click(function(){
+					linegroup.selectAll("path")
+						.classed("contextlinehighlight", false);
+					d3.select("#QueensCxtLn2").classed("contextlinehighlight", true);
+				});
+
+				$('#sirentbutton').click(function(){
+					linegroup.selectAll("path")
+						.classed("contextlinehighlight", false);
+					d3.select("#StatenCxtLn2").classed("contextlinehighlight", true);
+				});
+			});// End CSV load
+		}, // End drawmedianrentline
 
 		medianrentline: function() {
 			// set container dimensions
@@ -3638,7 +4082,7 @@ function interactivewrapper() {
 	    			.call(yAxis);
 				});
 			});// End CSV load
-		}, // End drawmedianrentline
+		}, // End drawmedianrentlinecontext
 
 		crimeline: function() {
 			// set container dimensions
@@ -3810,7 +4254,7 @@ function interactivewrapper() {
 					d.Date = dateFormat(d.Date);
 				});	
 			
-				function newdataset(){dataset = d3.keys(data[0])			//Create array of header
+				dataset = d3.keys(data[0])			//Create array of header
 					.filter(function(key) {			// Filter out "Date"
 						return key != "Date";
 					})
@@ -3827,8 +4271,7 @@ function interactivewrapper() {
 					});
 
 				stack(dataset); //apply stack
-				}
-				newdataset();
+				
 				//Set scale domains
 				heightscale.domain([0, d3.max(dataset[dataset.length -1].amount,
 					function(d){
@@ -4190,8 +4633,6 @@ function interactivewrapper() {
 				$('#allcrimebutton').click(function(){
 					areagroup.selectAll("path")
 					.remove();
-
-					newdataset();
 
 					d3.select("#felonylegend")
 					.classed("hidden", false);
