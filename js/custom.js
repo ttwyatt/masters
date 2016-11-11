@@ -2934,7 +2934,7 @@ function interactivewrapper() {
 				})
 				.y(height);
 
-			//Set up lien generator after transition
+			//Set up line generator after transition
 			var line = d3.svg.line()
 				.defined(function(d) { return d.y !== 0; })
 				.x(function(d) {
@@ -3527,7 +3527,7 @@ function interactivewrapper() {
 				})
 				.y(height);
 
-			//Set up lien generator after transition
+			//Set up line generator after transition
 			var line = d3.svg.line()
 				.defined(function(d) { return d.y !== 0; })
 				.x(function(d) {
