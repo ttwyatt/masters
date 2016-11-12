@@ -4818,6 +4818,8 @@ function interactivewrapper() {
 
 					focuscircle.attr("class","Burglary calloutcircle");
 
+	      			overlayhighlight();
+
 					svg.select(".y-axis")
 					.transition()
 	    			.duration(timer)
